@@ -1,0 +1,59 @@
+create database IF NOT EXISTS DigiMed;
+USE DigiMed;
+
+CREATE TABLE IF NOT EXISTS Patient(
+NatID CHAR(14) NOT NULL PRIMARY KEY,
+FirstName varchar(50) NOT NULL,
+MiddleName varchar(50) NULL,
+LastName varchar(50) NOT NULL,
+Street varchar(250) NULL,
+Region varchar(250) NULL,
+City varchar(250) NULL,
+PhoneNumber varchar(17) NULL,
+Email varchar(150) NULL,
+Gender char NULL,
+DOB date NULL,
+BloodType VARCHAR(3) NULL,
+Height Decimal(4, 1) NULL,
+Weight Decimal(4, 1) NULL
+);
+
+CREATE TABLE IF NOT EXISTS Doctor(
+NatID CHAR(14) NOT NULL PRIMARY KEY,
+FirstName varchar(50) NOT NULL,
+MiddleName varchar(50) NULL,
+LastName varchar(50) NOT NULL,
+Specialty varchar(250) NULL,
+SubSpecialty varchar(250)
+);
+
+CREATE TABLE IF NOT EXISTS TreatedBy(
+PatientNatID CHAR(14) NOT NULL,
+DoctorNatID CHAR(14) NOT NULL,
+startDate DATE NULL,
+PRIMARY KEY (PatientNatID, DoctorNatID),
+FOREIGN KEY (PatientNatID) REFERENCES Patient(NatID) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (DoctorNatID) REFERENCES Doctor(NatID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ORG(
+OrgNo INT NOT NULL PRIMARY KEY,
+OrgName VARCHAR(150) NOT NULL,
+OpeningDetails VARCHAR(300) NOT NULL,
+Notes VARCHAR(500) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ORGLocation(
+OrgNo INT NOT NULL,
+Location VARCHAR(250) NOT NULL,
+PRIMARY KEY(OrgNo, Location),
+FOREIGN KEY (OrgNo) REFERENCES ORG(OrgNo) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS MedicalConditions(
+PatientNatID CHAR(14) NOT NULL,
+MedCondition CHAR(14) NOT NULL,
+Notes VARCHAR(500) NOT NULL,
+PRIMARY KEY(PatientNatID, MedCondition),
+FOREIGN KEY (PatientNatID) REFERENCES Patient(NatID) ON DELETE CASCADE ON UPDATE CASCADE
+);
