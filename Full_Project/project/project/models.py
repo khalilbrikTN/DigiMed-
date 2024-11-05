@@ -30,13 +30,13 @@ class Patient(models.Model):
     height = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
     weight = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
     
-    def createPatient(Patient):
+    def createPatient(ValTuple):
      sql = """
      INSERT INTO patient
      VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
      """ 
      try:
-         mycursor.execute(sql,Patient)    
+         mycursor.execute(sql,ValTuple)    
          mydb.commit()
      except Exception as e:
         return e
@@ -94,6 +94,20 @@ class Doctor(models.Model):
     last_name = models.CharField(max_length=50)
     specialty = models.CharField(max_length=250, null=True, blank=True)
     sub_specialty = models.CharField(max_length=250, null=True, blank=True)
+
+    def createDoctor(ValTuple):
+     sql = """
+     INSERT INTO doctor
+     VALUES (%s,%s,%s,%s,%s,%s)
+     """ 
+     try:
+         mycursor.execute(sql,ValTuple)    
+         mydb.commit()
+     except Exception as e:
+        return e
+     else:
+        return "Successfully created doctor"
+
 
     def retrieveDoctor(NatID):
     sql = f"""
@@ -284,13 +298,13 @@ class MedicalTests(models.Model):
     image_of_scan = models.CharField(max_length=50, null=True, blank=True)
     date_time_of_upload = models.DateTimeField(null=True, blank=True)
 
-    def createTest(Medicaltest):
+    def createTest(ValTuple):
     sql = f"""
     INSERT INTO medicaltests
     VALUES (%s,%s,%s,%s,%s,%s,%s)
     """
     try:
-        mycursor.execute(sql,Medicaltest)    
+        mycursor.execute(sql,ValTuple)    
         mydb.commit()
     except Exception as e:
         return e
@@ -385,13 +399,13 @@ class Appointment(models.Model):
     app_date_time = models.DateTimeField(null=True, blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="appointments")
 
-    def createAppointment(Appt):
+    def createAppointment(ValTuple):
     sql = """
      INSERT INTO appointments
      VALUES (%s,%s,%s,%s,%s)
      """ 
     try:
-        mycursor.execute(sql,Appt)    
+        mycursor.execute(sql,ValTuple)    
         mydb.commit()
     except Exception as e:
         return e
