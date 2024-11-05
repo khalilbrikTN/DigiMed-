@@ -1,13 +1,28 @@
 #BY : MOHAMED KHALIL BRIK
+#     Rana Taher
+#     Yasmina Mahdy
 
 
 from django.db import models
+import mysql.connector
 
-class Patient(models.Model):
+
+mydb = mysql.connector.connect(
+ host="mysql-yasminamahdy.alwaysdata.net" ,
+ user="356122",
+ password="RHus9bua7d7_*N_",
+ database="yasminamahdy_digimed"
+)
+
+mycursor = mydb.cursor()
+
+class User(models.Model):
     nat_id = models.CharField(max_length=14, primary_key=True)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50)
+
+class Patient(User):
     street = models.CharField(max_length=250, null=True, blank=True)
     region = models.CharField(max_length=250, null=True, blank=True)
     city = models.CharField(max_length=250, null=True, blank=True)
@@ -18,16 +33,124 @@ class Patient(models.Model):
     blood_type = models.CharField(max_length=3, null=True, blank=True)
     height = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
     weight = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
+    
+    def createPatient(ValTuple):
+     sql = """
+     INSERT INTO patient
+     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+     """ 
+     try:
+         mycursor.execute(sql,ValTuple)    
+         mydb.commit()
+     except Exception as e:
+        return e
+     else:
+        return "Successfully created patient"
+
+    def retrievePatient(NatID):
+    sql = f"""
+    SELECT * FROM patient
+    WHERE NatID = {NatID}
+    """
+    try:
+        mycursor.execute(sql)
+    except e as Exception:
+        return e
+    else:
+        result = mycursor.fetchall()
+        return result[0]
+
+    def updatePatient(NatID, fields, values):
+    sql = f'''
+    UPDATE patient
+    SET '''
+    for i in range (len(fields) - 1): 
+        sql += f'''{fields[i]} = {values[i]}, '''
+    sql += f'''
+    {fields[-1]} = {values[-1]}
+    WHERE NatID = {NatID} '''
+    try:
+         mycursor.execute(sql)    
+         mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return f"Successfully updated patient {NatID}"
+
+    def deletePatient(NatID):
+    sql = f"""
+    DELETE FROM patient
+    WHERE NatID = {NatID}
+    """
+    try:
+        mycursor.execute(sql)
+        mydb.commit()
+    except e as Exception:
+        return e
+    else:
+        return f"Successfully deleted patient {NatID}"
 
 
-
-class Doctor(models.Model):
-    nat_id = models.CharField(max_length=14, primary_key=True)
-    first_name = models.CharField(max_length=50)
-    middle_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50)
+class Doctor(User):
     specialty = models.CharField(max_length=250, null=True, blank=True)
     sub_specialty = models.CharField(max_length=250, null=True, blank=True)
+
+    def createDoctor(ValTuple):
+     sql = """
+     INSERT INTO doctor
+     VALUES (%s,%s,%s,%s,%s,%s)
+     """ 
+     try:
+         mycursor.execute(sql,ValTuple)    
+         mydb.commit()
+     except Exception as e:
+        return e
+     else:
+        return "Successfully created doctor"
+
+
+    def retrieveDoctor(NatID):
+    sql = f"""
+    SELECT * FROM doctor
+    WHERE NatID = {NatID}
+    """
+    try:
+        mycursor.execute(sql)
+    except e as Exception:
+        return e
+    else:
+        result = mycursor.fetchall()
+        return result
+
+    def updateDoctor(NatID, fields, values):
+    sql = f'''
+    UPDATE doctor
+    SET '''
+    for i in range (len(fields) - 1): 
+        sql += f'''{fields[i]} = {values[i]}, '''
+    sql += f'''
+    {fields[-1]} = {values[-1]}
+    WHERE NatID = {NatID} '''
+    try:
+         mycursor.execute(sql)    
+         mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return f"Successfully updated doctor {NatID}"
+
+    def deleteDoctor(NatID):
+    sql = f"""
+    DELETE FROM doctor
+    WHERE NatID = {NatID}
+    """
+    try:
+        mycursor.execute(sql)
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return f"Successfully deleted doctor {NatID}"
 
 
 class TreatedBy(models.Model):
@@ -37,6 +160,63 @@ class TreatedBy(models.Model):
 
     class Meta:
         unique_together = ('patient_nat_id', 'doctor_nat_id')
+
+    def addTreatment(treatpatient):
+    sql = """
+    INSERT INTO treatedby
+    VALUES (%s,%s,%s)
+    """
+    try:
+        mycursor.execute(sql,treatpatient)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully created treatment"
+
+    def deletetreatment(NatID,DocID):
+    sql = f"""
+    DELETE FROM treatedby
+    WHERE PatientNatID = {NatID} and DoctorNatID = {DocID}
+    """
+    try:
+        mycursor.execute(sql)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully deleted treatment"
+
+    def updatetreatment(NatID,DocID,date):
+    sql = f"""
+    UPDATE treatedby
+    SET startDate = {date}
+    WHERE PatientNatID = {NatID} and DoctorNatID = {DocID}
+    """
+    try:
+        mycursor.execute(sql)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully updated treatment"
+
+    def retrievetreatment(DocID):
+    sql = f"""
+    SELECT * FROM treatedby
+    WHERE DoctorNatID = {DocID}
+    ORDER BY DoctorNatID DESC
+    """
+    try:
+        mycursor.execute(sql)
+    except Exception as e:
+        return e
+    else:
+        result = mycursor.fetchone()
+        if len(result) != 0:
+            return result
+        else:
+            return None
 
 
 
@@ -64,6 +244,49 @@ class MedicalConditions(models.Model):
     class Meta:
         unique_together = ('patient', 'med_condition')
 
+    def addcondition(condition):
+    sql = """
+    INSERT INTO medicalconditions
+    VALUES (%s,%s,%s)
+    """
+    try:
+        mycursor.execute(sql,condition)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully created condition"
+
+    def deletecondition(NatID,Medcon,notes):
+    sql = f"""
+    DELETE FROM medicalconditions
+    WHERE PatientNatID = {NatID} and MedCondition = {Medcon}
+    and Notes = {notes}
+    """
+    try:
+        mycursor.execute(sql)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully deleted Condition"
+
+    def retrievecondition(NatID):
+    sql = f"""
+    SELECT * FROM medicalconditions
+    WHERE PatientNatID = {NatID}
+    """
+    try:
+        mycursor.execute(sql)
+    except Exception as e:
+        return e
+    else:
+        result = mycursor.fetchone()
+        if len(result) != 0:
+            return result
+        else:
+            return None
+
 
 
 class MedicalTests(models.Model):
@@ -74,6 +297,71 @@ class MedicalTests(models.Model):
     result = models.CharField(max_length=100, null=True, blank=True)
     image_of_scan = models.CharField(max_length=50, null=True, blank=True)
     date_time_of_upload = models.DateTimeField(null=True, blank=True)
+
+    def createTest(ValTuple):
+    sql = f"""
+    INSERT INTO medicaltests
+    VALUES (%s,%s,%s,%s,%s,%s,%s)
+    """
+    try:
+        mycursor.execute(sql,ValTuple)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully created test"
+
+    def deleteTest(NatID,testid):
+    sql = f"""
+    DELETE FROM medicaltests
+    WHERE PatientNatID = {NatID} and TestID = {testid}
+    """
+    try:
+        mycursor.execute(sql)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully deleted test"
+
+    def selectTest(NatID,testid,check):
+    if check:
+           sql = f"""
+    SELECT * FROM medicaltests
+    WHERE PatientNatID = {NatID}
+    """
+    else:
+         sql = f"""
+    SELECT * FROM medicaltests
+    WHERE PatientNatID = {NatID} and 
+    TestID = {testid}
+    """
+   
+    try:
+        mycursor.execute(sql)
+    except Exception as e:
+        return e
+    else:
+        result = mycursor.fetchone()
+        if len(result) != 0:
+            return result
+        else:
+            return None
+
+    def updateTest(NatID,testid,result):
+    sql = f"""
+    UPDATE medicaltests
+    SET Result = {result}
+    WHERE PatientNatID = {NatID} and TestID = {testid}
+    """
+    try:
+         mycursor.execute(sql)
+         mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return f"Successfully updated doctor {NatID}"
+
 
 
 class Prescription(models.Model):
@@ -110,6 +398,67 @@ class Appointment(models.Model):
     org = models.ForeignKey(ORG, on_delete=models.RESTRICT, null=True, blank=True, related_name="appointments")
     app_date_time = models.DateTimeField(null=True, blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="appointments")
+
+    def createAppointment(ValTuple):
+    sql = """
+     INSERT INTO appointments
+     VALUES (%s,%s,%s,%s,%s)
+     """ 
+    try:
+        mycursor.execute(sql,ValTuple)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully created appointment"
+
+    def retrieveAppointment(fields, values):
+    sql = """
+    SELECT * FROM appointments
+    WHERE """
+    for i in range (len(fields) - 1): 
+        sql += f'''{fields[i]} = {values[i]} AND '''
+    sql += f''' {fields[-1]} = {values[-1]}'''
+    try:
+        mycursor.execute(sql)
+    except Exception as e:
+        return e
+    else:
+        result = mycursor.fetchall()
+        return result
+
+    def deleteAppt(DocNatID, AppID):
+    sql = f"""
+    DELETE FROM appointments
+    WHERE DocNatID = {DocNatID} AND
+    AppID = {AppID}
+    """
+    try:
+        mycursor.execute(sql)
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return f"Successfully deleted Appointment"
+
+    def updateAppt(DocNatID, AppID, fields, values):
+    sql = f'''
+    UPDATE appointments
+    SET '''
+    for i in range (len(fields) - 1): 
+        sql += f'''{fields[i]} = {values[i]}, '''
+    sql += f'''
+    {fields[-1]} = {values[-1]}
+    WHERE DocNatID = {DocNatID} AND
+    AppID = {AppID}'''
+    print(sql)
+    try:
+         mycursor.execute(sql)    
+         mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return f"Successfully updated appointments"
 
 
 class WorksIn(models.Model):
