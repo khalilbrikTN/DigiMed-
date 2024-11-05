@@ -1,4 +1,6 @@
 #BY : MOHAMED KHALIL BRIK
+#     Rana Taher
+#     Yasmina Mahdy
 
 
 from django.db import models
@@ -14,11 +16,13 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-class Patient(models.Model):
+class User(models.Model):
     nat_id = models.CharField(max_length=14, primary_key=True)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50)
+
+class Patient(User):
     street = models.CharField(max_length=250, null=True, blank=True)
     region = models.CharField(max_length=250, null=True, blank=True)
     city = models.CharField(max_length=250, null=True, blank=True)
@@ -87,11 +91,7 @@ class Patient(models.Model):
         return f"Successfully deleted patient {NatID}"
 
 
-class Doctor(models.Model):
-    nat_id = models.CharField(max_length=14, primary_key=True)
-    first_name = models.CharField(max_length=50)
-    middle_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50)
+class Doctor(User):
     specialty = models.CharField(max_length=250, null=True, blank=True)
     sub_specialty = models.CharField(max_length=250, null=True, blank=True)
 
