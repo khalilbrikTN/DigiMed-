@@ -25,8 +25,9 @@ if _version_not_supported:
     )
 
 
-class MedicalRecordServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+class PMRMServiceStub(object):
+    """The main PMRMService handles all CRUD operations for MedicalConditions, MedicalTests, and TreatedBy tables
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -34,91 +35,224 @@ class MedicalRecordServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.CreateRecord = channel.unary_unary(
-                '/MedicalRecordService/CreateRecord',
-                request_serializer=PMRM__Service__pb2.CreateRecordRequest.SerializeToString,
-                response_deserializer=PMRM__Service__pb2.CreateRecordResponse.FromString,
+        self.CreateMedicalCondition = channel.unary_unary(
+                '/medicalrecords.PMRMService/CreateMedicalCondition',
+                request_serializer=PMRM__Service__pb2.CreateMedicalConditionRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.CreateMedicalConditionResponse.FromString,
                 _registered_method=True)
-        self.RetrieveRecord = channel.unary_unary(
-                '/MedicalRecordService/RetrieveRecord',
-                request_serializer=PMRM__Service__pb2.RetrieveRecordRequest.SerializeToString,
-                response_deserializer=PMRM__Service__pb2.RetrieveRecordResponse.FromString,
+        self.UpdateMedicalCondition = channel.unary_unary(
+                '/medicalrecords.PMRMService/UpdateMedicalCondition',
+                request_serializer=PMRM__Service__pb2.UpdateMedicalConditionRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.UpdateMedicalConditionResponse.FromString,
                 _registered_method=True)
-        self.UpdateRecord = channel.unary_unary(
-                '/MedicalRecordService/UpdateRecord',
-                request_serializer=PMRM__Service__pb2.UpdateRecordRequest.SerializeToString,
-                response_deserializer=PMRM__Service__pb2.UpdateRecordResponse.FromString,
+        self.RetrieveMedicalCondition = channel.unary_unary(
+                '/medicalrecords.PMRMService/RetrieveMedicalCondition',
+                request_serializer=PMRM__Service__pb2.RetrieveMedicalConditionRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.RetrieveMedicalConditionResponse.FromString,
                 _registered_method=True)
-        self.DeleteRecord = channel.unary_unary(
-                '/MedicalRecordService/DeleteRecord',
-                request_serializer=PMRM__Service__pb2.DeleteRecordRequest.SerializeToString,
-                response_deserializer=PMRM__Service__pb2.DeleteRecordResponse.FromString,
+        self.DeleteMedicalCondition = channel.unary_unary(
+                '/medicalrecords.PMRMService/DeleteMedicalCondition',
+                request_serializer=PMRM__Service__pb2.DeleteMedicalConditionRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.DeleteMedicalConditionResponse.FromString,
+                _registered_method=True)
+        self.CreateMedicalTest = channel.unary_unary(
+                '/medicalrecords.PMRMService/CreateMedicalTest',
+                request_serializer=PMRM__Service__pb2.CreateMedicalTestRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.CreateMedicalTestResponse.FromString,
+                _registered_method=True)
+        self.UpdateMedicalTest = channel.unary_unary(
+                '/medicalrecords.PMRMService/UpdateMedicalTest',
+                request_serializer=PMRM__Service__pb2.UpdateMedicalTestRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.UpdateMedicalTestResponse.FromString,
+                _registered_method=True)
+        self.RetrieveMedicalTest = channel.unary_unary(
+                '/medicalrecords.PMRMService/RetrieveMedicalTest',
+                request_serializer=PMRM__Service__pb2.RetrieveMedicalTestRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.RetrieveMedicalTestResponse.FromString,
+                _registered_method=True)
+        self.DeleteMedicalTest = channel.unary_unary(
+                '/medicalrecords.PMRMService/DeleteMedicalTest',
+                request_serializer=PMRM__Service__pb2.DeleteMedicalTestRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.DeleteMedicalTestResponse.FromString,
+                _registered_method=True)
+        self.CreateTreatedBy = channel.unary_unary(
+                '/medicalrecords.PMRMService/CreateTreatedBy',
+                request_serializer=PMRM__Service__pb2.CreateTreatedByRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.CreateTreatedByResponse.FromString,
+                _registered_method=True)
+        self.UpdateTreatedBy = channel.unary_unary(
+                '/medicalrecords.PMRMService/UpdateTreatedBy',
+                request_serializer=PMRM__Service__pb2.UpdateTreatedByRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.UpdateTreatedByResponse.FromString,
+                _registered_method=True)
+        self.RetrieveTreatedBy = channel.unary_unary(
+                '/medicalrecords.PMRMService/RetrieveTreatedBy',
+                request_serializer=PMRM__Service__pb2.RetrieveTreatedByRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.RetrieveTreatedByResponse.FromString,
+                _registered_method=True)
+        self.DeleteTreatedBy = channel.unary_unary(
+                '/medicalrecords.PMRMService/DeleteTreatedBy',
+                request_serializer=PMRM__Service__pb2.DeleteTreatedByRequest.SerializeToString,
+                response_deserializer=PMRM__Service__pb2.DeleteTreatedByResponse.FromString,
                 _registered_method=True)
 
 
-class MedicalRecordServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+class PMRMServiceServicer(object):
+    """The main PMRMService handles all CRUD operations for MedicalConditions, MedicalTests, and TreatedBy tables
+    """
 
-    def CreateRecord(self, request, context):
+    def CreateMedicalCondition(self, request, context):
+        """MedicalConditions table methods
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateMedicalCondition(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def RetrieveRecord(self, request, context):
+    def RetrieveMedicalCondition(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def UpdateRecord(self, request, context):
+    def DeleteMedicalCondition(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def DeleteRecord(self, request, context):
+    def CreateMedicalTest(self, request, context):
+        """MedicalTests table methods
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateMedicalTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RetrieveMedicalTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteMedicalTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateTreatedBy(self, request, context):
+        """TreatedBy table methods
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateTreatedBy(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RetrieveTreatedBy(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteTreatedBy(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_MedicalRecordServiceServicer_to_server(servicer, server):
+def add_PMRMServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CreateRecord': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateRecord,
-                    request_deserializer=PMRM__Service__pb2.CreateRecordRequest.FromString,
-                    response_serializer=PMRM__Service__pb2.CreateRecordResponse.SerializeToString,
+            'CreateMedicalCondition': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateMedicalCondition,
+                    request_deserializer=PMRM__Service__pb2.CreateMedicalConditionRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.CreateMedicalConditionResponse.SerializeToString,
             ),
-            'RetrieveRecord': grpc.unary_unary_rpc_method_handler(
-                    servicer.RetrieveRecord,
-                    request_deserializer=PMRM__Service__pb2.RetrieveRecordRequest.FromString,
-                    response_serializer=PMRM__Service__pb2.RetrieveRecordResponse.SerializeToString,
+            'UpdateMedicalCondition': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateMedicalCondition,
+                    request_deserializer=PMRM__Service__pb2.UpdateMedicalConditionRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.UpdateMedicalConditionResponse.SerializeToString,
             ),
-            'UpdateRecord': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateRecord,
-                    request_deserializer=PMRM__Service__pb2.UpdateRecordRequest.FromString,
-                    response_serializer=PMRM__Service__pb2.UpdateRecordResponse.SerializeToString,
+            'RetrieveMedicalCondition': grpc.unary_unary_rpc_method_handler(
+                    servicer.RetrieveMedicalCondition,
+                    request_deserializer=PMRM__Service__pb2.RetrieveMedicalConditionRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.RetrieveMedicalConditionResponse.SerializeToString,
             ),
-            'DeleteRecord': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteRecord,
-                    request_deserializer=PMRM__Service__pb2.DeleteRecordRequest.FromString,
-                    response_serializer=PMRM__Service__pb2.DeleteRecordResponse.SerializeToString,
+            'DeleteMedicalCondition': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteMedicalCondition,
+                    request_deserializer=PMRM__Service__pb2.DeleteMedicalConditionRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.DeleteMedicalConditionResponse.SerializeToString,
+            ),
+            'CreateMedicalTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateMedicalTest,
+                    request_deserializer=PMRM__Service__pb2.CreateMedicalTestRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.CreateMedicalTestResponse.SerializeToString,
+            ),
+            'UpdateMedicalTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateMedicalTest,
+                    request_deserializer=PMRM__Service__pb2.UpdateMedicalTestRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.UpdateMedicalTestResponse.SerializeToString,
+            ),
+            'RetrieveMedicalTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.RetrieveMedicalTest,
+                    request_deserializer=PMRM__Service__pb2.RetrieveMedicalTestRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.RetrieveMedicalTestResponse.SerializeToString,
+            ),
+            'DeleteMedicalTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteMedicalTest,
+                    request_deserializer=PMRM__Service__pb2.DeleteMedicalTestRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.DeleteMedicalTestResponse.SerializeToString,
+            ),
+            'CreateTreatedBy': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateTreatedBy,
+                    request_deserializer=PMRM__Service__pb2.CreateTreatedByRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.CreateTreatedByResponse.SerializeToString,
+            ),
+            'UpdateTreatedBy': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateTreatedBy,
+                    request_deserializer=PMRM__Service__pb2.UpdateTreatedByRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.UpdateTreatedByResponse.SerializeToString,
+            ),
+            'RetrieveTreatedBy': grpc.unary_unary_rpc_method_handler(
+                    servicer.RetrieveTreatedBy,
+                    request_deserializer=PMRM__Service__pb2.RetrieveTreatedByRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.RetrieveTreatedByResponse.SerializeToString,
+            ),
+            'DeleteTreatedBy': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteTreatedBy,
+                    request_deserializer=PMRM__Service__pb2.DeleteTreatedByRequest.FromString,
+                    response_serializer=PMRM__Service__pb2.DeleteTreatedByResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'MedicalRecordService', rpc_method_handlers)
+            'medicalrecords.PMRMService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('MedicalRecordService', rpc_method_handlers)
+    server.add_registered_method_handlers('medicalrecords.PMRMService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class MedicalRecordService(object):
-    """Missing associated documentation comment in .proto file."""
+class PMRMService(object):
+    """The main PMRMService handles all CRUD operations for MedicalConditions, MedicalTests, and TreatedBy tables
+    """
 
     @staticmethod
-    def CreateRecord(request,
+    def CreateMedicalCondition(request,
             target,
             options=(),
             channel_credentials=None,
@@ -131,9 +265,9 @@ class MedicalRecordService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/MedicalRecordService/CreateRecord',
-            PMRM__Service__pb2.CreateRecordRequest.SerializeToString,
-            PMRM__Service__pb2.CreateRecordResponse.FromString,
+            '/medicalrecords.PMRMService/CreateMedicalCondition',
+            PMRM__Service__pb2.CreateMedicalConditionRequest.SerializeToString,
+            PMRM__Service__pb2.CreateMedicalConditionResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -145,7 +279,7 @@ class MedicalRecordService(object):
             _registered_method=True)
 
     @staticmethod
-    def RetrieveRecord(request,
+    def UpdateMedicalCondition(request,
             target,
             options=(),
             channel_credentials=None,
@@ -158,9 +292,9 @@ class MedicalRecordService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/MedicalRecordService/RetrieveRecord',
-            PMRM__Service__pb2.RetrieveRecordRequest.SerializeToString,
-            PMRM__Service__pb2.RetrieveRecordResponse.FromString,
+            '/medicalrecords.PMRMService/UpdateMedicalCondition',
+            PMRM__Service__pb2.UpdateMedicalConditionRequest.SerializeToString,
+            PMRM__Service__pb2.UpdateMedicalConditionResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -172,7 +306,7 @@ class MedicalRecordService(object):
             _registered_method=True)
 
     @staticmethod
-    def UpdateRecord(request,
+    def RetrieveMedicalCondition(request,
             target,
             options=(),
             channel_credentials=None,
@@ -185,9 +319,9 @@ class MedicalRecordService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/MedicalRecordService/UpdateRecord',
-            PMRM__Service__pb2.UpdateRecordRequest.SerializeToString,
-            PMRM__Service__pb2.UpdateRecordResponse.FromString,
+            '/medicalrecords.PMRMService/RetrieveMedicalCondition',
+            PMRM__Service__pb2.RetrieveMedicalConditionRequest.SerializeToString,
+            PMRM__Service__pb2.RetrieveMedicalConditionResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -199,7 +333,7 @@ class MedicalRecordService(object):
             _registered_method=True)
 
     @staticmethod
-    def DeleteRecord(request,
+    def DeleteMedicalCondition(request,
             target,
             options=(),
             channel_credentials=None,
@@ -212,9 +346,225 @@ class MedicalRecordService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/MedicalRecordService/DeleteRecord',
-            PMRM__Service__pb2.DeleteRecordRequest.SerializeToString,
-            PMRM__Service__pb2.DeleteRecordResponse.FromString,
+            '/medicalrecords.PMRMService/DeleteMedicalCondition',
+            PMRM__Service__pb2.DeleteMedicalConditionRequest.SerializeToString,
+            PMRM__Service__pb2.DeleteMedicalConditionResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CreateMedicalTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/CreateMedicalTest',
+            PMRM__Service__pb2.CreateMedicalTestRequest.SerializeToString,
+            PMRM__Service__pb2.CreateMedicalTestResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def UpdateMedicalTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/UpdateMedicalTest',
+            PMRM__Service__pb2.UpdateMedicalTestRequest.SerializeToString,
+            PMRM__Service__pb2.UpdateMedicalTestResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RetrieveMedicalTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/RetrieveMedicalTest',
+            PMRM__Service__pb2.RetrieveMedicalTestRequest.SerializeToString,
+            PMRM__Service__pb2.RetrieveMedicalTestResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DeleteMedicalTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/DeleteMedicalTest',
+            PMRM__Service__pb2.DeleteMedicalTestRequest.SerializeToString,
+            PMRM__Service__pb2.DeleteMedicalTestResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CreateTreatedBy(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/CreateTreatedBy',
+            PMRM__Service__pb2.CreateTreatedByRequest.SerializeToString,
+            PMRM__Service__pb2.CreateTreatedByResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def UpdateTreatedBy(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/UpdateTreatedBy',
+            PMRM__Service__pb2.UpdateTreatedByRequest.SerializeToString,
+            PMRM__Service__pb2.UpdateTreatedByResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RetrieveTreatedBy(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/RetrieveTreatedBy',
+            PMRM__Service__pb2.RetrieveTreatedByRequest.SerializeToString,
+            PMRM__Service__pb2.RetrieveTreatedByResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DeleteTreatedBy(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/medicalrecords.PMRMService/DeleteTreatedBy',
+            PMRM__Service__pb2.DeleteTreatedByRequest.SerializeToString,
+            PMRM__Service__pb2.DeleteTreatedByResponse.FromString,
             options,
             channel_credentials,
             insecure,

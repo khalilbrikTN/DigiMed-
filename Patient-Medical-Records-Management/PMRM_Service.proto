@@ -8,16 +8,19 @@ service PMRMService {
     rpc CreateMedicalCondition (CreateMedicalConditionRequest) returns (CreateMedicalConditionResponse);
     rpc UpdateMedicalCondition (UpdateMedicalConditionRequest) returns (UpdateMedicalConditionResponse);
     rpc RetrieveMedicalCondition (RetrieveMedicalConditionRequest) returns (RetrieveMedicalConditionResponse);
+    rpc DeleteMedicalCondition (DeleteMedicalConditionRequest) returns (DeleteMedicalConditionResponse);
 
     // MedicalTests table methods
     rpc CreateMedicalTest (CreateMedicalTestRequest) returns (CreateMedicalTestResponse);
     rpc UpdateMedicalTest (UpdateMedicalTestRequest) returns (UpdateMedicalTestResponse);
     rpc RetrieveMedicalTest (RetrieveMedicalTestRequest) returns (RetrieveMedicalTestResponse);
+    rpc DeleteMedicalTest (DeleteMedicalTestRequest) returns (DeleteMedicalTestResponse);
 
     // TreatedBy table methods
     rpc CreateTreatedBy (CreateTreatedByRequest) returns (CreateTreatedByResponse);
     rpc UpdateTreatedBy (UpdateTreatedByRequest) returns (UpdateTreatedByResponse);
     rpc RetrieveTreatedBy (RetrieveTreatedByRequest) returns (RetrieveTreatedByResponse);
+    rpc DeleteTreatedBy (DeleteTreatedByRequest) returns (DeleteTreatedByResponse);
 }
 
 ///////////////////////
@@ -59,6 +62,16 @@ message RetrieveMedicalConditionResponse {
     string PatientNatID = 2;
     string MedCondition = 3;
     string Notes = 4;
+}
+
+message DeleteMedicalConditionRequest {
+    string table_name = 1; // Always set to "MedicalConditions"
+    string PatientNatID = 2;
+    string MedCondition = 3;
+}
+
+message DeleteMedicalConditionResponse {
+    string status = 1;
 }
 
 //////////////////
@@ -114,6 +127,16 @@ message RetrieveMedicalTestResponse {
     string Date_TimeOfUpload = 8;
 }
 
+message DeleteMedicalTestRequest {
+    string table_name = 1; // Always set to "MedicalTests"
+    string PatientNatID = 2;
+    int32 TestID = 3;
+}
+
+message DeleteMedicalTestResponse {
+    string status = 1;
+}
+
 ///////////////
 // TreatedBy //
 ///////////////
@@ -153,4 +176,14 @@ message RetrieveTreatedByResponse {
     string PatientNatID = 2;
     string DoctorNatID = 3;
     string startDate = 4;
+}
+
+message DeleteTreatedByRequest {
+    string table_name = 1; // Always set to "TreatedBy"
+    string PatientNatID = 2;
+    string DoctorNatID = 3;
+}
+
+message DeleteTreatedByResponse {
+    string status = 1;
 }
