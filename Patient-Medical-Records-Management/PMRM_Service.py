@@ -8,8 +8,8 @@ from functools import wraps
 # Initializing the Flask app
 app = Flask(__name__)
 
-# Auth class containing common admin functions
-class Auth:
+# AdminAuthorization class containing common admin functions
+class AdminAuthorization:
     def is_admin(self, user):
         return user == "admin"
 
@@ -23,7 +23,7 @@ class Auth:
         return wrapper
 
 # MedicalConditions class handling MedicalConditions-specific operations
-class MedicalConditions(Auth):
+class MedicalConditions(AdminAuthorization):
     def __init__(self, stub):
         self.stub = stub
 
@@ -73,7 +73,7 @@ class MedicalConditions(Auth):
         except grpc.RpcError as e:
             return jsonify({"error": f"Failed to update medical condition: {e.details()}", "code": e.code().name}), 500
     #need to implement isMedCod
-    @Auth.require_admin
+    @AdminAuthorization.require_admin
     def delete_medical_condition(self, patient_nat_id, med_condition, isMedCod):
         grpc_request = PMRM_Service_pb2.DeleteMedicalConditionRequest(
             table_name="MedicalConditions",
@@ -87,7 +87,7 @@ class MedicalConditions(Auth):
             return jsonify({"error": f"Failed to delete medical condition: {e.details()}", "code": e.code().name}), 500
 
 # MedicalTests class handling MedicalTests-specific operations
-class MedicalTests(Auth):
+class MedicalTests(AdminAuthorization):
     def __init__(self, stub):
         self.stub = stub
 
@@ -150,7 +150,7 @@ class MedicalTests(Auth):
         except grpc.RpcError as e:
             return jsonify({"error": f"Failed to update medical test: {e.details()}", "code": e.code().name}), 500
 
-    @Auth.require_admin
+    @AdminAuthorization.require_admin
     def delete_medical_test(self, patient_nat_id, test_id, isTest):
         grpc_request = PMRM_Service_pb2.DeleteMedicalTestRequest(
             table_name="MedicalTests",
@@ -164,7 +164,7 @@ class MedicalTests(Auth):
             return jsonify({"error": f"Failed to delete medical test: {e.details()}", "code": e.code().name}), 500
 
 # TreatedBy class handling TreatedBy-specific operations
-class TreatedBy(Auth):
+class TreatedBy(AdminAuthorization):
     def __init__(self, stub):
         self.stub = stub
 
@@ -214,7 +214,7 @@ class TreatedBy(Auth):
         except grpc.RpcError as e:
             return jsonify({"error": f"Failed to update treated-by record: {e.details()}", "code": e.code().name}), 500
 
-    @Auth.require_admin
+    @AdminAuthorization.require_admin
     def delete_treated_by(self, patient_nat_id, doctor_nat_id):
         grpc_request = PMRM_Service_pb2.DeleteTreatedByRequest(
             table_name="TreatedBy",
