@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package appointments;
+
+// BY: MOHAMED KHALIL BRIK
+
+// Request for booking an appointment
+message BookAppointmentRequest {
+    string doctor_id = 1;
+    string patient_id = 2;
+    string org_num = 3;
+    string appointment_datetime = 4; 
+}
+
+// Response for booking an appointment
+message BookAppointmentResponse {
+    string message = 1;
+}
+
+// Request for canceling an appointment
+message CancelAppointmentRequest {
+    string appointment_id = 1;
+}
+
+// Response for canceling an appointment
+message CancelAppointmentResponse {
+    string message = 1;
+}
+
+// Service definition for appointment management
+service AppointmentService {
+    // RPC method to book an appointment
+    rpc BookAppointment(BookAppointmentRequest) returns (BookAppointmentResponse);
+
+    // RPC method to cancel an appointment
+    rpc CancelAppointment(CancelAppointmentRequest) returns (CancelAppointmentResponse);
+}
