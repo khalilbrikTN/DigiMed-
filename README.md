@@ -7,3 +7,5 @@ Deployment Diagram: https://drive.google.com/file/d/1c1JSYX5tDZMgJI_oN18N-SUvz8G
 Class Diagram: https://drive.google.com/file/d/1sI83ELJi7gnxw4XNAGurVDeHJS021Hey/view?usp=sharing
 
 ERD: https://app.diagrams.net/#G14uB3ZGZ4ceFkZOE8RFXYKZ3OLMko5kMW#%7B%22pageId%22%3A%22zpvAyvCil1YLx0Encv-B%22%7D
+
+Design Specificaiton Document https://docs.google.com/document/d/1duQnGmXdBQGXEIyjQCYT1vLhByMIkrjLbxYd3Rykk9I/edit?usp=sharing
