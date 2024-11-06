@@ -287,6 +287,21 @@ class MedicalConditions(models.Model):
         else:
             return None
 
+   def UpdateCondition(NatID,condition,notes):
+    sql = f"""
+    UPDATE medicalconditions
+    SET Notes = {notes}
+    WHERE PatientNatID = {NatID} and MedCondition = {condition}
+    """
+    try:
+        mycursor.execute(sql)    
+        mydb.commit()
+    except Exception as e:
+        return e
+    else:
+        return "Successfully updated conditions"
+
+
 
 
 class MedicalTests(models.Model):
