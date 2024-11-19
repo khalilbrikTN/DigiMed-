@@ -3,16 +3,16 @@ from django.http import JsonResponse
 from dbms_service.models import User, Patient, Doctor
 import json
 
-# 1. Patient Views
+
+
+# Patient Views
 
 def create_patient_view(request):
 
 
     if request.method == 'GET':
-        return render(request, 'frontend_service/index.html')
+        return render(request, 'frontend_service/create_patient.html')
 
-
-    print('here --' ,request)
     if request.method == 'POST':
         patient_data = request.POST
         patient_data = request.POST.dict()  # Convert QueryDict to a regular dictionary
@@ -20,7 +20,6 @@ def create_patient_view(request):
 
         # Log or print the patient data for debugging
         print("Patient Data (JSON):", patient_data_json)  # This will print to the console
-        return render(request, 'frontend_service/index.html')
 
     
         # Extracting the User-specific fields (first_name, middle_name, last_name, and nat_id)
@@ -51,8 +50,8 @@ def create_patient_view(request):
             return JsonResponse({'message': 'Patient created successfully', 'patient': patient.first_name})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+        
 
-    return render(request, 'frontend_service/index.html')
 
 def retrieve_patient_view(request, nat_id):
     try:
@@ -107,50 +106,65 @@ def delete_patient_view(request, nat_id):
 
 
 
+# Doctor APIs
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 2. Doctor Views
 
 def create_doctor_view(request):
+    if request.method == 'GET':
+        # Render the doctor creation form template
+        return render(request, 'frontend_service/create_doctor.html')
+
     if request.method == 'POST':
         doctor_data = request.POST
+        doctor_data = request.POST.dict()  # Convert QueryDict to a regular dictionary
+        doctor_data_json = json.dumps(doctor_data, indent=4)  # Convert to JSON formatted string
+
+        # Log or print the doctor data for debugging
+        print("Doctor Data (JSON):", doctor_data_json)  # This will print to the console
+
+        # Extract password fields
+        password = doctor_data.get('password')
+        confirm_password = doctor_data.get('confirm_password')
+
+        # Check if passwords match
+        if password != confirm_password:
+            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+
+        # Extracting the User-specific fields (including password)
+        user_fields = {
+            'nat_id': doctor_data.get('nat_id'),
+            'first_name': doctor_data.get('first_name'),
+            'middle_name': doctor_data.get('middle_name'),
+            'last_name': doctor_data.get('last_name'),
+            'street': doctor_data.get('street'),
+            'region': doctor_data.get('region'),
+            'city': doctor_data.get('city'),
+            'phone_number': doctor_data.get('phone_number'),
+            'email': doctor_data.get('email'),
+            'gender': doctor_data.get('gender'),
+            'dob': doctor_data.get('dob'),
+            'password': password,  # Add password to user fields
+        }
+
+        # Extracting the Doctor-specific fields
+        doctor_fields = {
+            'specialty': doctor_data.get('specialty'),
+            'sub_specialty': doctor_data.get('sub_specialty'),
+            'years_of_experience': doctor_data.get('years_of_experience'),
+            'clinic_address': doctor_data.get('clinic_address'),
+        }
+
         try:
-            doctor = Doctor.objects.create_doctor(**doctor_data)
+            # Create the doctor by calling the create_doctor method
+            doctor = Doctor.create_doctor(**user_fields, **doctor_fields)
             return JsonResponse({'message': 'Doctor created successfully', 'doctor': doctor.first_name})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
-    return render(request, 'create_doctor.html')
+
+
 
 def retrieve_doctor_view(request, nat_id):
     try:
@@ -180,3 +194,10 @@ def delete_doctor_view(request, nat_id):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
+
+
+# Main Apis
+
+
+def main_view(request):
+    return render(request, 'frontend_service/main.html')

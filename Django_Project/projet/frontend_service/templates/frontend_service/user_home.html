@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DigiMed - Home</title>
+    <link rel="stylesheet" href="App.css"> 
+</head>
+<body>
+
+    <div id="root">
+        <div class="homeContainer">
+            <h2 class="welcomeText">Welcome Back, User</h2>
+            <div class="sectionDivider"></div>
+
+            <div class="upperSection">
+                <div class="profileIconContainer">
+                    <img src="src/download.png" alt="Profile" class="profileIcon">
+                </div>
+                <div class="upperButtonsContainer">
+                    <button class="widgetButton">Manage Profile</button>
+                    <button class="widgetButton">View Appointments</button>
+                </div>
+            </div>
+
+            <div class="sectionDivider"></div>
+
+            <div class="lowerSection">
+                <div class="lowerButtonsRow">
+                    <button class="lowerWidgetButton">Scheduling</button>
+                    <button class="lowerWidgetButton">Medical Records</button>
+                </div>
+
+                <div class="lowerButtonsRow">
+                    <div class="infoWidget">
+                        <h3 class="widgetTitle">Upcoming Appointments</h3>
+                        <div class="appointmentList">
+                            <div class="appointmentItem">
+                                <p class="appointmentDate"><span class="subtitle">Date:</span> Sunday, 12 June</p>
+                                <p class="appointmentTime"><span class="subtitle">Time:</span> 9:30 AM - 10:00 AM</p>
+                                <p class="appointmentDoctor"><span class="subtitle">Doctor:</span> Dr. Mostafa Youssef</p>
+                            </div>
+                            <div class="appointmentItem">
+                                <p class="appointmentDate"><span class="subtitle">Date:</span> Sunday, 12 June</p>
+                                <p class="appointmentTime"><span class="subtitle">Time:</span> 9:30 AM - 10:00 AM</p>
+                                <p class="appointmentDoctor"><span class="subtitle">Doctor:</span> Dr. Ahmed Fawzy</p>
+                            </div>
+                            <div class="appointmentItem">
+                                <p class="appointmentDate"><span class="subtitle">Date:</span> Sunday, 12 June</p>
+                                <p class="appointmentTime"><span class="subtitle">Time:</span> 9:30 AM - 10:00 AM</p>
+                                <p class="appointmentDoctor"><span class="subtitle">Doctor:</span> Dr. Mohamed Khalil</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="infoWidget">
+                        <h3 class="widgetTitle">Medication Reminders</h3>
+                        <div class="medicationList">
+                            <div class="medicationItem">
+                                <p class="medicationName"><span class="subtitle">Medicine:</span> Panadol</p>
+                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Once daily for 30 days</p>
+                            </div>
+                            <div class="medicationItem">
+                                <p class="medicationName"><span class="subtitle">Medicine:</span> Paracetamol</p>
+                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Twice daily for 15 days</p>
+                            </div>
+                            <div class="medicationItem">
+                                <p class="medicationName"><span class="subtitle">Medicine:</span> Metformin</p>
+                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Twice daily for 60 days</p>
+                            </div>
+                            <div class="medicationItem">
+                                <p class="medicationName"><span class="subtitle">Medicine:</span> Augmentin</p>
+                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Twice daily for 60 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sectionDivider"></div>
+
+            <button class="logoutButton">Log Out</button>
+        </div>
+    </div>
+
+    <script src="bundle.js"></script>
+</body>
+</html>

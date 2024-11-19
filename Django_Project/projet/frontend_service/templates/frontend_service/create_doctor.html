@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Patient Profile</title>
+    <title>Create Doctor Profile</title>
     <style>
         /* Basic reset */
         body, html {
@@ -78,12 +76,14 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Create Patient Profile</h1>
-        <form method="POST" action="{% url 'create_patient' %}">
+    <div class="container"> 
+
+        <h1>Create Doctor Profile</h1>
+        <form method="POST" action="{% url 'create_doctor' %}">
             {% csrf_token %}
             
-            <!-- User-specific fields -->
+            
+
             <div class="form-group">
                 <label for="nat_id">National ID</label>
                 <input type="text" id="nat_id" name="nat_id" required>
@@ -104,7 +104,6 @@
                 <input type="text" id="last_name" name="last_name" required>
             </div>
         
-            <!-- Patient-specific fields -->
             <div class="form-group">
                 <label for="street">Street</label>
                 <input type="text" id="street" name="street" required>
@@ -143,25 +142,42 @@
                     <option value="O">Other</option>
                 </select>
             </div>
-        
+
+
             <div class="form-group">
-                <label for="blood_type">Blood Type</label>
-                <input type="text" id="blood_type" name="blood_type" required>
+                <label for="specialty">Specialty:</label>
+                <input type="text" id="specialty" name="specialty" required>
             </div>
-        
+            
             <div class="form-group">
-                <label for="height">Height (cm)</label>
-                <input type="number" id="height" name="height" step="0.1" min="0" required>
+                <label for="sub_specialty">Sub-Specialty:</label>
+                <input type="text" id="sub_specialty" name="sub_specialty">
             </div>
-        
+            
             <div class="form-group">
-                <label for="weight">Weight (kg)</label>
-                <input type="number" id="weight" name="weight" step="0.1" min="0" required>
+                <label for="years_of_experience">Years of Experience:</label>
+                <input type="number" id="years_of_experience" name="years_of_experience">
             </div>
-        
-            <button type="submit">Create Profile</button>
+            
+            <div class="form-group">
+                <label for="clinic_address">Clinic Address:</label>
+                <textarea id="clinic_address" name="clinic_address"></textarea>
+            </div>
+            
+            <!-- Password Fields -->
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            
+
+            <button type="submit">Create Doctor</button>
         </form>
-        
     </div>
 </body>
 </html>

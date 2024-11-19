@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiMed Home</title>
+    <style>
+        /* Reset and global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: row;
+        }
+
+        /* Full screen container */
+        .main-container {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Side menu styles */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px; /* Initially hidden */
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding-top: 30px;
+            transition: 0.3s;
+        }
+
+        .side-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .side-menu a:hover {
+            background-color: #575757;
+        }
+
+        .side-menu .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Main content area */
+        .content {
+            margin-left: 250px; /* Space for the side menu */
+            padding: 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f7fa;
+        }
+
+        .content .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #4CAF50;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .button-group {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            max-width: 250px;
+            padding: 12px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #4CAF50;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer links */
+        .footer-links {
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Show side menu on button click */
+        .open-menu-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .side-menu {
+                width: 200px;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button {
+                max-width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <!-- Side menu -->
+    <div class="side-menu" id="sideMenu">
+        <span class="close-btn" onclick="closeMenu()">×</span>
+        <a href="/about">About DigiMed</a>
+        <a href="/contact">Contact Us</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/login">Login</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+        <!-- Open menu button -->
+        <button class="open-menu-btn" onclick="openMenu()">☰</button>
+
+        <div class="header">
+            <h1>Welcome to DigiMed</h1>
+            <p>Your all-in-one healthcare app for patients and professionals.</p>
+        </div>
+
+        <div class="button-group">
+            <a href="/login" class="button">Login</a>
+            <p>or</p>
+            <a href="{% url 'create_patient' %}" class="button">Sign up as Patient</a>
+            <a href="{% url 'create_doctor' %}" class="button">Sign up as Doctor</a>
+            <a href="{% url 'create_nurse' %}" class="button">Sign up as Nurse</a>
+            <a href="{% url 'create_pharmacist' %}" class="button">Sign up as Pharmacist</a>
+            
+        </div>
+
+        <div class="footer-links">
+            <a href="/about">About DigiMed</a> | 
+            <a href="/contact">Contact Us</a> | 
+            <a href="/privacy">Privacy Policy</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openMenu() {
+        document.getElementById("sideMenu").style.left = "0";
+    }
+
+    function closeMenu() {
+        document.getElementById("sideMenu").style.left = "-250px";
+    }
+</script>
+
+</body>
+</html>

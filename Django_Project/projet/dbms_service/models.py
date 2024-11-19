@@ -105,54 +105,95 @@ class Patient(User):
 class Doctor(User):
     specialty = models.CharField(max_length=250, null=True, blank=True)
     sub_specialty = models.CharField(max_length=250, null=True, blank=True)
-    
-    @classmethod
-    def create_doctor(self, **kwargs):
+    years_of_experience = models.IntegerField(null=True, blank=True)
+    clinic_address = models.CharField(max_length=500, null=True, blank=True)
 
+    def __str__(self):
+        return f"Doctor: {self.first_name} {self.last_name} (Specialty: {self.specialty})"
+
+    @classmethod
+    def create_doctor(cls, nat_id, first_name, last_name, middle_name=None, street=None, region=None,
+                      city=None, phone_number=None, email=None, gender=None, dob=None, specialty=None,
+                      sub_specialty=None, years_of_experience=None, clinic_address=None):
         try:
-            doctor = Doctor.objects.create(**kwargs)
+            # Create a base User
+            user = User.objects.create(
+                nat_id=nat_id,
+                first_name=first_name,
+                last_name=last_name,
+                middle_name=middle_name,
+                street=street,
+                region=region,
+                city=city,
+                phone_number=phone_number,
+                email=email,
+                gender=gender,
+                dob=dob,
+            )
+
+            doctor = cls.objects.create(
+                user=user,
+                specialty=specialty,
+                sub_specialty=sub_specialty,
+                years_of_experience=years_of_experience,
+                clinic_address=clinic_address,
+            )
+
             return doctor
         except Exception as e:
             return f"Error creating doctor: {e}"
-        
-    @classmethod
-    def retrieve_doctor(self, nat_id):
 
+    @classmethod
+    def retrieve_doctor(cls, nat_id):
         try:
-            doctor = Doctor.objects.get(id=nat_id)
+            doctor = cls.objects.get(nat_id=nat_id)
             return doctor
-        except Doctor.DoesNotExist:
+        except cls.DoesNotExist:
             return f"No doctor found with ID {nat_id}"
         except Exception as e:
             return f"Error retrieving doctor: {e}"
-        
-    @classmethod
-    def update_doctor(self, nat_id, **kwargs):
 
+    @classmethod
+    def update_doctor(cls, nat_id, **kwargs):
         try:
-            Doctor.objects.filter(id=nat_id).update(**kwargs)
+            doctor = cls.objects.get(nat_id=nat_id)
+            user = doctor.user
+
+            # Update User fields
+            user.first_name = kwargs.get('first_name', user.first_name)
+            user.middle_name = kwargs.get('middle_name', user.middle_name)
+            user.last_name = kwargs.get('last_name', user.last_name)
+            user.street = kwargs.get('street', user.street)
+            user.region = kwargs.get('region', user.region)
+            user.city = kwargs.get('city', user.city)
+            user.phone_number = kwargs.get('phone_number', user.phone_number)
+            user.email = kwargs.get('email', user.email)
+            user.gender = kwargs.get('gender', user.gender)
+            user.dob = kwargs.get('dob', user.dob)
+            user.save()
+
+            # Update Doctor fields
+            for field, value in kwargs.items():
+                if hasattr(doctor, field):
+                    setattr(doctor, field, value)
+            doctor.save()
+
             return f"Successfully updated doctor {nat_id}"
-        except Doctor.DoesNotExist:
+        except cls.DoesNotExist:
             return f"No doctor found with ID {nat_id}"
         except Exception as e:
             return f"Error updating doctor: {e}"
-        
-    @classmethod
-    def delete_doctor(self, nat_id):
 
+    @classmethod
+    def delete_doctor(cls, nat_id):
         try:
-            doctor = Doctor.objects.get(id=nat_id)
+            doctor = cls.objects.get(nat_id=nat_id)
             doctor.delete()
             return f"Successfully deleted doctor {nat_id}"
-        except Doctor.DoesNotExist:
+        except cls.DoesNotExist:
             return f"No doctor found with ID {nat_id}"
         except Exception as e:
             return f"Error deleting doctor: {e}"
-        
-
-
-
-
 
 
 
