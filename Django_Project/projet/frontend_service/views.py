@@ -7,6 +7,10 @@ from dbms_service.models import User, Doctor, Patient
 
 
 # Main Apis
+def user_home_view(request):
+    return render(request, 'frontend_service/user_home.html')
+
+
 def manage_view(request):
     return render(request, 'frontend_service/user_manage.html')
 
@@ -36,8 +40,7 @@ def privacy_view(request):
 
 def login_view(request):
     if request.method == "POST":
-        print('post here')
-        return render(request, 'frontend_service/user_home.html')
+        return user_home_view(request)
 
         user_id = request.POST.get("user_id")
         password = request.POST.get("password")
@@ -46,16 +49,15 @@ def login_view(request):
             user = User.objects.get(nat_id=user_id)
         except User.DoesNotExist:
             messages.error(request, "User does not exist.")
-            return redirect('login')  # Redirect back to login page if user does not exist
+            return redirect('login') 
         
 
     
-        # Check role and verify if the user is of the selected type
         if role == 'patient':
             try:
                 patient = Patient.objects.get(user=user)
-                login(request, user)  # Log in the user
-                return redirect('userpage')  # Redirect to patient dashboard
+                login(request, user)  
+                return redirect('userpage') 
             except Patient.DoesNotExist:
                 messages.error(request, "You are not a registered patient.")
                 return redirect('login')
@@ -63,8 +65,8 @@ def login_view(request):
         elif role == 'doctor':
             try:
                 doctor = Doctor.objects.get(user=user)
-                login(request, user)  # Log in the user
-                return redirect('doctor_dashboard')  # Redirect to doctor dashboard
+                login(request, user)  
+                return redirect('doctor_dashboard') 
             except Doctor.DoesNotExist:
                 messages.error(request, "You are not a registered doctor.")
                 return redirect('login')
@@ -75,5 +77,3 @@ def login_view(request):
 
     return render(request, 'frontend_service/login.html')
 
-def user_home_view(request):
-    return render(request, 'frontend_service/user_home.html')

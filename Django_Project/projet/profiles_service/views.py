@@ -20,14 +20,11 @@ def create_patient_view(request):
         return render(request, 'frontend_service/create_patient.html')
 
     if request.method == 'POST':
-        # Extract data from the POST request
-        patient_data = request.POST.dict()  # Convert QueryDict to a regular dictionary
-        patient_data_json = json.dumps(patient_data, indent=4)  # Convert to JSON formatted string
+        patient_data = request.POST.dict()  
+        patient_data_json = json.dumps(patient_data, indent=4)  
 
-        # Log or print the patient data for debugging
-        print("Patient Data (JSON):", patient_data_json)  # This will print to the console
+        print("Patient Data (JSON):", patient_data_json) 
 
-        # Extracting the User-specific fields
         user_fields = {
             'nat_id': patient_data.get('nat_id'),
             'first_name': patient_data.get('first_name'),
@@ -36,7 +33,6 @@ def create_patient_view(request):
             'password': patient_data.get('password'),
         }
 
-        # Extracting the Patient-specific fields
         patient_fields = {
             'street': patient_data.get('street'),
             'region': patient_data.get('region'),
@@ -50,26 +46,20 @@ def create_patient_view(request):
             'weight': patient_data.get('weight'),
         }
 
-        # Password validation (matching password and confirm password)
         if user_fields['password'] != patient_data.get('confirm_password'):
             messages.error(request, "Passwords do not match.")
             return redirect('create_patient')  # Redirect to the create patient page if passwords don't match
         
-        # Hash the password before saving it to the database
         user_fields['password'] = make_password(user_fields['password'])
 
         try:
-            # Create the user instance first
             user = User.objects.create(**user_fields)
 
-            # Now, create the patient instance, linking it to the user
             patient = Patient.objects.create(user=user, **patient_fields)
 
-            # Return success response
             return JsonResponse({'message': 'Patient created successfully', 'patient': patient.first_name})
         
         except Exception as e:
-            # Handle any errors (e.g., unique constraints, invalid data)
             return JsonResponse({'error': str(e)}, status=400)
         
 
@@ -88,14 +78,12 @@ def update_patient_view(request, nat_id):
     if request.method == 'POST':
         update_data = request.POST
         
-        # Extracting the User-specific fields (first_name, middle_name, last_name)
         user_fields = {
             'first_name': update_data.get('first_name'),
             'middle_name': update_data.get('middle_name'),
             'last_name': update_data.get('last_name'),
         }
         
-        # Extracting the Patient-specific fields
         patient_fields = {
             'street': update_data.get('street'),
             'region': update_data.get('region'),
@@ -130,26 +118,21 @@ def delete_patient_view(request, nat_id):
 
 def create_doctor_view(request):
     if request.method == 'GET':
-        # Render the doctor creation form template
         return render(request, 'frontend_service/create_doctor.html')
 
     if request.method == 'POST':
         doctor_data = request.POST
-        doctor_data = request.POST.dict()  # Convert QueryDict to a regular dictionary
-        doctor_data_json = json.dumps(doctor_data, indent=4)  # Convert to JSON formatted string
+        doctor_data = request.POST.dict()  
+        doctor_data_json = json.dumps(doctor_data, indent=4) 
 
-        # Log or print the doctor data for debugging
-        print("Doctor Data (JSON):", doctor_data_json)  # This will print to the console
+        print("Doctor Data (JSON):", doctor_data_json)  
 
-        # Extract password fields
         password = doctor_data.get('password')
         confirm_password = doctor_data.get('confirm_password')
 
-        # Check if passwords match
         if password != confirm_password:
             return JsonResponse({'error': 'Passwords do not match'}, status=400)
 
-        # Extracting the User-specific fields (including password)
         user_fields = {
             'nat_id': doctor_data.get('nat_id'),
             'first_name': doctor_data.get('first_name'),
@@ -162,10 +145,9 @@ def create_doctor_view(request):
             'email': doctor_data.get('email'),
             'gender': doctor_data.get('gender'),
             'dob': doctor_data.get('dob'),
-            'password': password,  # Add password to user fields
+            'password': password, 
         }
 
-        # Extracting the Doctor-specific fields
         doctor_fields = {
             'specialty': doctor_data.get('specialty'),
             'sub_specialty': doctor_data.get('sub_specialty'),
@@ -174,7 +156,6 @@ def create_doctor_view(request):
         }
 
         try:
-            # Create the doctor by calling the create_doctor method
             doctor = Doctor.create_doctor(**user_fields, **doctor_fields)
             return JsonResponse({'message': 'Doctor created successfully', 'doctor': doctor.first_name})
         except Exception as e:

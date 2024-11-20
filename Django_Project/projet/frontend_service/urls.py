@@ -1,6 +1,8 @@
 # frontend/urls.py
 from django.urls import path
-from .views import main_view, contact_view, about_view, manage_view, login_view, scheduling_view, privacy_view, user_home_view, records_view, workingHours_view, appointments_view
+from .views import main_view, contact_view 
+from .views import about_view, manage_view, login_view, scheduling_view
+from .views import privacy_view, user_home_view, records_view, workingHours_view, appointments_view
 
 
 urlpatterns = [
