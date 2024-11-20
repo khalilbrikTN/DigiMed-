@@ -174,10 +174,10 @@
     <!-- Side menu -->
     <div class="side-menu" id="sideMenu">
         <span class="close-btn" onclick="closeMenu()">×</span>
-        <a href="/about">About DigiMed</a>
-        <a href="/contact">Contact Us</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/login">Login</a>
+        <a href="{% url 'about' %}">About DigiMed</a>
+        <a href="{% url 'contact' %}">Contact Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="{% url 'login' %}">Login</a>
     </div>
 
     <!-- Main content -->
