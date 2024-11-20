@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Appointments</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .appointments-page {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .page-header {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #0078d7;
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            color: #e0e0e0;
+        }
+
+        .appointments-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .appointment-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .appointment-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .appointment-card p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        .appointment-card .subtitle {
+            font-weight: bold;
+            color: #0078d7;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="appointments-page">
+        <header class="page-header">
+            <h1>Upcoming Appointments</h1>
+            <p>Stay organized and never miss a visit!</p>
+        </header>
+
+        <main class="appointments-content">
+            <div class="appointment-card">
+                <h3>Appointment Details</h3>
+                <p class="appointment-date"><span class="subtitle">Date:</span> Sunday, 12 June</p>
+                <p class="appointment-time"><span class="subtitle">Time:</span> 9:30 AM - 10:00 AM</p>
+                <p class="appointment-doctor"><span class="subtitle">Doctor:</span> Dr. Mostafa Youssef</p>
+            </div>
+
+            <div class="appointment-card">
+                <h3>Appointment Details</h3>
+                <p class="appointment-date"><span class="subtitle">Date:</span> Sunday, 12 June</p>
+                <p class="appointment-time"><span class="subtitle">Time:</span> 10:30 AM - 11:00 AM</p>
+                <p class="appointment-doctor"><span class="subtitle">Doctor:</span> Dr. Ahmed Fawzy</p>
+            </div>
+
+            <div class="appointment-card">
+                <h3>Appointment Details</h3>
+                <p class="appointment-date"><span class="subtitle">Date:</span> Sunday, 12 June</p>
+                <p class="appointment-time"><span class="subtitle">Time:</span> 12:00 PM - 12:30 PM</p>
+                <p class="appointment-doctor"><span class="subtitle">Doctor:</span> Dr. Mohamed Khalil</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

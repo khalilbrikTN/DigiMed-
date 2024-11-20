@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
 
 
 
@@ -15,12 +16,19 @@ class User(models.Model):
     email = models.EmailField(max_length=150, null=True, blank=True)
     gender = models.CharField(max_length=1, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
+    password = models.CharField(max_length=128)  # Store hashed passwords
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+        self.save()
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
 
     def __str__(self):
         return f"{self.first_name} {self.middle_name or ''} {self.last_name}"
 
 class Patient(User):
-
     blood_type = models.CharField(max_length=3, null=True, blank=True)
     height = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
     weight = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
@@ -29,11 +37,12 @@ class Patient(User):
         return f"Patient: {self.first_name} {self.last_name}"
 
     @classmethod
-    def create_patient(cls, nat_id, first_name, last_name, middle_name=None, street=None, region=None,
-                       city=None, phone_number=None, email=None, gender=None, dob=None, blood_type=None,
-                       height=None, weight=None):
+    def create_patient(cls, nat_id, first_name, last_name, password, middle_name=None, street=None, 
+                       region=None, city=None, phone_number=None, email=None, gender=None, dob=None, 
+                       blood_type=None, height=None, weight=None):
         try:
-            user = User.objects.create(
+            # Create a Patient instance (inherits from User)
+            patient = cls.objects.create(
                 nat_id=nat_id,
                 first_name=first_name,
                 last_name=last_name,
@@ -45,18 +54,19 @@ class Patient(User):
                 email=email,
                 gender=gender,
                 dob=dob,
-            )
-
-            patient = Patient.objects.create(
-                user=user,
                 blood_type=blood_type,
                 height=height,
-                weight=weight
+                weight=weight,
             )
-            
+
+            # Set and save the hashed password
+            patient.set_password(password)
+            patient.save()
+
             return patient
         except Exception as e:
             return f"Error creating patient: {e}"
+
 
     @classmethod
     def retrieve_patient(cls, nat_id):
@@ -98,9 +108,6 @@ class Patient(User):
             return f"No patient found with ID {nat_id}"
         except Exception as e:
             return f"Error deleting patient: {e}"
-
-
-
 
 class Doctor(User):
     specialty = models.CharField(max_length=250, null=True, blank=True)
@@ -195,9 +202,6 @@ class Doctor(User):
         except Exception as e:
             return f"Error deleting doctor: {e}"
 
-
-
-
 class Appointment(models.Model):
     doctor = models.ForeignKey('Doctor', on_delete=models.RESTRICT, related_name="appointments")
     app_id = models.AutoField(primary_key=True)
@@ -285,8 +289,6 @@ class MedicalCondition(models.Model):
         except Exception as e:
             return f"Error retrieving conditions: {e}"
         
-
-
 class MedicalTest(models.Model):
     patient = models.ForeignKey('Patient', on_delete=models.CASCADE, related_name="medical_tests")
     test_id = models.AutoField(primary_key=True)
@@ -387,7 +389,6 @@ class TreatmentAssignment(models.Model):
         except Exception as e:
             return f"Error retrieving treatment assignments: {e}"
         
-
 class Prescription(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="prescriptions")
     prescription_id = models.AutoField(primary_key=True)
@@ -411,7 +412,6 @@ class Prescription(models.Model):
 
     def set_date_of_prescription(self, date):
         self.date_of_prescription = date
-
 
 class Medicine(models.Model):
     prescription = models.ForeignKey(Prescription, on_delete=models.CASCADE, related_name="medicines")
@@ -461,7 +461,6 @@ class Medicine(models.Model):
     def set_frequency_of_intake(self, frequency):
         self.frequency_of_intake = frequency
 
-
 class Referral(models.Model):
     referring_doctor = models.ForeignKey(Doctor, on_delete=models.RESTRICT, related_name="referrals_given")
     referred_doctor = models.ForeignKey(Doctor, on_delete=models.RESTRICT, related_name="referrals_received")
@@ -488,8 +487,6 @@ class Referral(models.Model):
     def set_patient(self, patient):
         self.patient = patient
 
-
-
 class ORG(models.Model):
     org_no = models.AutoField(primary_key=True)
     org_name = models.CharField(max_length=150)
@@ -514,7 +511,6 @@ class ORG(models.Model):
     def set_notes(self, notes):
         self.notes = notes
 
-
 class ORGLocation(models.Model):
     org = models.ForeignKey(ORG, on_delete=models.CASCADE, related_name="locations")
     location = models.CharField(max_length=250)
@@ -536,7 +532,6 @@ class ORGLocation(models.Model):
 
     def set_location(self, location):
         self.location = location
-
 
 class DoctorWorkingDays(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name="workplaces")

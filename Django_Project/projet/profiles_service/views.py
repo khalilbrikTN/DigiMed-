@@ -1,35 +1,41 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from dbms_service.models import User, Patient, Doctor
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 import json
+from django.contrib.auth.hashers import make_password, check_password
+
+
+
+
+
 
 
 
 # Patient Views
 
 def create_patient_view(request):
-
-
     if request.method == 'GET':
         return render(request, 'frontend_service/create_patient.html')
 
     if request.method == 'POST':
-        patient_data = request.POST
+        # Extract data from the POST request
         patient_data = request.POST.dict()  # Convert QueryDict to a regular dictionary
         patient_data_json = json.dumps(patient_data, indent=4)  # Convert to JSON formatted string
 
         # Log or print the patient data for debugging
         print("Patient Data (JSON):", patient_data_json)  # This will print to the console
 
-    
-        # Extracting the User-specific fields (first_name, middle_name, last_name, and nat_id)
+        # Extracting the User-specific fields
         user_fields = {
             'nat_id': patient_data.get('nat_id'),
             'first_name': patient_data.get('first_name'),
             'middle_name': patient_data.get('middle_name'),
             'last_name': patient_data.get('last_name'),
+            'password': patient_data.get('password'),
         }
-        
+
         # Extracting the Patient-specific fields
         patient_fields = {
             'street': patient_data.get('street'),
@@ -44,11 +50,26 @@ def create_patient_view(request):
             'weight': patient_data.get('weight'),
         }
 
+        # Password validation (matching password and confirm password)
+        if user_fields['password'] != patient_data.get('confirm_password'):
+            messages.error(request, "Passwords do not match.")
+            return redirect('create_patient')  # Redirect to the create patient page if passwords don't match
+        
+        # Hash the password before saving it to the database
+        user_fields['password'] = make_password(user_fields['password'])
+
         try:
-            # Create the patient by calling the create_patient method
-            patient = Patient.create_patient(**user_fields, **patient_fields)
+            # Create the user instance first
+            user = User.objects.create(**user_fields)
+
+            # Now, create the patient instance, linking it to the user
+            patient = Patient.objects.create(user=user, **patient_fields)
+
+            # Return success response
             return JsonResponse({'message': 'Patient created successfully', 'patient': patient.first_name})
+        
         except Exception as e:
+            # Handle any errors (e.g., unique constraints, invalid data)
             return JsonResponse({'error': str(e)}, status=400)
         
 
@@ -104,11 +125,7 @@ def delete_patient_view(request, nat_id):
         return JsonResponse({'error': str(e)}, status=400)
     
 
-
-
 # Doctor APIs
-
-
 
 
 def create_doctor_view(request):
@@ -196,8 +213,3 @@ def delete_doctor_view(request, nat_id):
 
 
 
-# Main Apis
-
-
-def main_view(request):
-    return render(request, 'frontend_service/main.html')

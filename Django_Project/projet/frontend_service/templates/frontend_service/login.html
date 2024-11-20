@@ -44,7 +44,7 @@
             margin-bottom: 20px;
         }
 
-        .input {
+        .input, .dropdown {
             width: 100%;
             padding: 10px 15px;
             margin: 10px 0;
@@ -54,7 +54,7 @@
             transition: border-color 0.3s ease;
         }
 
-        .input:focus {
+        .input:focus, .dropdown:focus {
             border-color: #4CAF50;
             outline: none;
         }
@@ -93,18 +93,38 @@
     </style>
 </head>
 <body>
-
     <div id="root">
         <div class="container">
             <h1 class="title">Welcome to DigiMed!</h1>
             <h2 class="subtitle">Login to your account.</h2>
-
-            <input class="input" placeholder="Enter your user Id" value="">
-            <input class="input" placeholder="Enter your Password" type="password" value="">
-
-            <a class="forgotPasswordText" href="/forgot-password">Forgot password?</a>
-            <button class="button">Login</button>
-
+    
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select class="dropdown" id="role" name="role" required>
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="nurse">Nurse</option>
+                        <option value="pharmacist">Pharmacist</option>
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <label for="user_id">User ID</label>
+                    <input class="input" id="user_id" name="user_id" placeholder="Enter your user ID" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input class="input" id="password" name="password" type="password" placeholder="Enter your password" required>
+                </div>
+    
+                <a class="forgotPasswordText" href="/forgot-password">Forgot password?</a>
+                
+                <button class="button" type="submit">Login</button>
+            </form>
+    
             <a class="signupText" href="{% url 'main' %}">Don’t have an account? Sign up</a>
         </div>
     </div>

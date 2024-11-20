@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_patient_view, create_doctor_view, main_view
+from .views import create_patient_view, create_doctor_view
 
 
 urlpatterns = [
