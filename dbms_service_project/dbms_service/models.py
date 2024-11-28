@@ -119,12 +119,12 @@ class Doctor(User):
         return f"Doctor: {self.first_name} {self.last_name} (Specialty: {self.specialty})"
 
     @classmethod
-    def create_doctor(cls, nat_id, first_name, last_name, middle_name=None, street=None, region=None,
+    def create_doctor(cls, nat_id, first_name, last_name, password, middle_name=None, street=None, region=None,
                       city=None, phone_number=None, email=None, gender=None, dob=None, specialty=None,
                       sub_specialty=None, years_of_experience=None, clinic_address=None):
         try:
-            # Create a base User
-            user = User.objects.create(
+            # Create a Doctor instance (inherits from User)
+            doctor = cls.objects.create(
                 nat_id=nat_id,
                 first_name=first_name,
                 last_name=last_name,
@@ -136,15 +136,15 @@ class Doctor(User):
                 email=email,
                 gender=gender,
                 dob=dob,
-            )
-
-            doctor = cls.objects.create(
-                user=user,
                 specialty=specialty,
                 sub_specialty=sub_specialty,
                 years_of_experience=years_of_experience,
                 clinic_address=clinic_address,
             )
+
+            # Set and save the hashed password
+            doctor.set_password(password)
+            doctor.save()
 
             return doctor
         except Exception as e:

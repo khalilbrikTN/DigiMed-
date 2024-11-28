@@ -3,7 +3,8 @@
 from django.urls import path, include
 from .views import (
     PatientViewSet, MedicalConditionList, MedicalConditionDetail,
-    MedicalTestList, MedicalTestDetail, PatientCreateView,
+    MedicalTestList, MedicalTestDetail, PatientCreateView, TreatedByList, 
+    TreatedByDetail
     # Include other views as needed
 )
 from rest_framework.routers import DefaultRouter
@@ -34,6 +35,16 @@ urlpatterns = [
         'medicalTests/<str:patient_nat_id>/<int:test_id>/',
         MedicalTestDetail.as_view(),
         name='medicaltest-detail'
+    ),
+    path(
+        'treatedBy/',
+        TreatedByList.as_view(),
+        name='treatedby-list'  # For POST (creating a treatment assignment)
+    ),
+    path(
+        'treatedBy/<str:patient_nat_id>/<str:doctor_nat_id>/',
+        TreatedByDetail.as_view(),
+        name='treatedby-detail'  # For GET, PUT, DELETE (specific assignment)
     ),
     # Patient creation endpoint
     path(
