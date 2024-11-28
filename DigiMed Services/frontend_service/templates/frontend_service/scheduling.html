@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .container h1 {
+            font-size: 24px;
+            color: #0078d7;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: #0078d7;
+        }
+
+        .form-group.date-time input {
+            width: calc(50% - 5px);
+            display: inline-block;
+        }
+
+        .form-group.date-time input:first-child {
+            margin-right: 10px;
+        }
+
+        .submit-button {
+            background-color: #0078d7;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            background-color: #005bb5;
+        }
+
+        .form-feedback {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book an Appointment</h1>
+        <form method="POST" action="/book-appointment/">
+            <div class="form-group">
+                <label for="doctor">Select Doctor</label>
+                <select name="doctor" id="doctor" required>
+                    <option value="" disabled selected>Choose a doctor</option>
+                    <option value="1">Dr. Ahmed Fawzy</option>
+                    <option value="2">Dr. Mostafa Youssef</option>
+                    <option value="3">Dr. Mohamed Khalil</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="org">Select Organization</label>
+                <select name="org" id="org" required>
+                    <option value="" disabled selected>Choose an organization</option>
+                    <option value="1">Cairo Medical Center</option>
+                    <option value="2">Giza Healthcare</option>
+                    <option value="3">Alexandria Health Group</option>
+                </select>
+            </div>
+
+            <div class="form-group date-time">
+                <label for="app-date">Select Date and Time</label>
+                <input type="date" id="app-date" name="app_date" required>
+                <input type="time" id="app-time" name="app_time" required>
+            </div>
+
+            <input type="hidden" name="patient_id" value="CURRENT_PATIENT_ID">
+
+            <button type="submit" class="submit-button">Book Appointment</button>
+        </form>
+
+        <div class="form-feedback">
+
+        </div>
+    </div>
+</body>
+</html>

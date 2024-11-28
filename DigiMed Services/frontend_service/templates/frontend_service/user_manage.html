@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Profile</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #0078d7;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        button,
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        .search-bar:focus {
+            border-color: #0078d7;
+        }
+
+        button {
+            background-color: #0078d7;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        .delete-button {
+            background-color: #d9534f;
+        }
+
+        .delete-button:hover {
+            background-color: #c9302c;
+        }
+
+        .logout-button {
+            background-color: #f0ad4e;
+        }
+
+        .logout-button:hover {
+            background-color: #ec971f;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .search-container {
+            margin-top: 20px;
+        }
+
+        .search-bar {
+            border-radius: 5px 0 0 5px;
+            border-right: none;
+        }
+
+        .search-container button {
+            width: auto;
+            border-radius: 0 5px 5px 0;
+            border-left: none;
+        }
+
+        .search-results {
+            margin-top: 15px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .search-results .result-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-results .result-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Profile</h1>
+
+        <!-- Edit Profile Section -->
+        <form method="POST" action="/edit-profile/">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="JohnDoe" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="johndoe@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter new password">
+            </div>
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <!-- Actions Section -->
+        <div class="action-buttons">
+            <form method="POST" action="/delete-profile/">
+                <button type="submit" class="delete-button">Delete Profile</button>
+            </form>
+            <form method="POST" action="/logout/">
+                <button type="submit" class="logout-button">Log Out</button>
+            </form>
+        </div>
+
+        <!-- Search Doctors Section -->
+        <div class="search-container">
+            <label for="search">Search for Doctors</label>
+            <div style="display: flex;">
+                <input type="text" id="search" class="search-bar" placeholder="Enter doctor's name or specialty">
+                <button type="button">Search</button>
+            </div>
+            <div class="search-results">
+                <div class="result-item">Dr. Ahmed Fawzy - Cardiologist</div>
+                <div class="result-item">Dr. Mostafa Youssef - Neurologist</div>
+                <div class="result-item">Dr. Mohamed Khalil - General Practitioner</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
