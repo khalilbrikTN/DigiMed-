@@ -85,7 +85,7 @@ class TreatedBySerializer(serializers.ModelSerializer):
         slug_field='nat_id',
         source='doctor'  # Maps to the 'doctor' ForeignKey in the model
     )
-    start_Date = serializers.DateField(required=False, allow_null=True)
+    start_date = serializers.DateField(required=False, allow_null=True)
 
     class Meta:
         model = TreatmentAssignment
@@ -95,20 +95,20 @@ class TreatedBySerializer(serializers.ModelSerializer):
 
 
 
-class TreatmentAssignmentSerializer(serializers.ModelSerializer):
-    patient = serializers.SlugRelatedField(
-        queryset=Patient.objects.all(),
-        slug_field='nat_id'
-    )
-    doctor = serializers.SlugRelatedField(
-        queryset=Doctor.objects.all(),
-        slug_field='nat_id'
-    )
+# class TreatmentAssignmentSerializer(serializers.ModelSerializer):
+#     patient = serializers.SlugRelatedField(
+#         queryset=Patient.objects.all(),
+#         slug_field='nat_id'
+#     )
+#     doctor = serializers.SlugRelatedField(
+#         queryset=Doctor.objects.all(),
+#         slug_field='nat_id'
+#     )
 
-    class Meta:
-        model = TreatmentAssignment
-        fields = '__all__'
-        validators = []
+#     class Meta:
+#         model = TreatmentAssignment
+#         fields = '__all__'
+#         validators = []
 
 class AppointmentSerializer(serializers.ModelSerializer):
     patient = serializers.SlugRelatedField(

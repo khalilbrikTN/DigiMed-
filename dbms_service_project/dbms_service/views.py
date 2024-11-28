@@ -10,7 +10,7 @@ from .models import (
 )
 from .serializers import (
     PatientSerializer, MedicalConditionSerializer, MedicalTestSerializer,TreatedBySerializer,
-    TreatmentAssignmentSerializer, AppointmentSerializer, PrescriptionSerializer,
+    AppointmentSerializer, PrescriptionSerializer,
     MedicineSerializer, ReferralSerializer, ORGSerializer, ORGLocationSerializer,
     DoctorWorkingDaysSerializer
 )

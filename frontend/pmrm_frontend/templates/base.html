@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}PMRM Frontend{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>PMRM Frontend</h1>
+        <nav>
+            <a href="{% url 'medical_conditions' %}">View Medical Conditions</a>
+            <a href="{% url 'add_medical_condition' %}">Add Medical Condition</a>
+            <!-- Add more navigation links as needed -->
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

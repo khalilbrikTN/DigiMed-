@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Add Medical Condition{% endblock %}
+
+{% block content %}
+<h2>Add Medical Condition</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="PatientNatID">Patient National ID:</label>
+    <input type="text" id="PatientNatID" name="PatientNatID" required><br><br>
+    <label for="MedCondition">Medical Condition:</label>
+    <input type="text" id="MedCondition" name="MedCondition" required><br><br>
+    <label for="Notes">Notes:</label>
+    <textarea id="Notes" name="Notes"></textarea><br><br>
+    <button type="submit">Add Condition</button>
+</form>
+{% endblock %}

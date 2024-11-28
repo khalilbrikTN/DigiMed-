@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Medical Conditions{% endblock %}
+
+{% block content %}
+<h2>Medical Conditions</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Patient National ID</th>
+            <th>Medical Condition</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.PatientNatID }}</td>
+            <td>{{ record.MedCondition }}</td>
+            <td>{{ record.Notes }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No records found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

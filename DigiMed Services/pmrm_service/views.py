@@ -7,7 +7,7 @@ import requests
 import json  # Import the json module
 
 # Base URL for Database Management Service
-DBMS_BASE_URL = "http://127.0.0.1:8000/api/dbms"
+DBMS_BASE_URL = "http://127.0.0.1:8001/api/dbms"
 
 class AdminAuthorization:
     def is_admin(self, user):
@@ -203,14 +203,14 @@ class TreatedByView(View):
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
 
-        required_fields = ["PatientNatID", "DoctorNatID", "startDate"]
+        required_fields = ["PatientNatID", "DoctorNatID", "start_date"]
         missing_fields = [field for field in required_fields if not data.get(field)]
         if missing_fields:
             return JsonResponse({"error": f"Missing required fields: {', '.join(missing_fields)}"}, status=400)
         json_payload = {
             "PatientNatID": data.get("PatientNatID"),
             "DoctorNatID": data.get("DoctorNatID"),
-            "startDate": data.get("startDate")
+            "start_date": data.get("start_date")
         }
         try:
             response = requests.post(f'{DBMS_BASE_URL}/treatedBy/', json=json_payload)
@@ -243,7 +243,7 @@ class TreatedByView(View):
             return JsonResponse({"error": "Invalid JSON data"}, status=400)
 
         json_payload = {
-            "startDate": data.get("startDate")
+            "start_date": data.get("start_date")
         }
         try:
             response = requests.put(f'{DBMS_BASE_URL}/treatedBy/{patient_nat_id}/{doctor_nat_id}/', json=json_payload)
