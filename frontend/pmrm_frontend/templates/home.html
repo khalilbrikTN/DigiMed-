@@ -7,46 +7,9 @@
 </head>
 <body>
     <h1>Welcome to the PMRM Frontend</h1>
-
-    <h2>Operations:</h2>
-
-    <!-- Link to fetch all medical conditions -->
-    <p><a href="/medical_conditions/">View All Medical Conditions (GET)</a></p>
-
-    <!-- Form to fetch a specific medical condition -->
-    <h3>Fetch Specific Medical Condition (GET)</h3>
-    <form action="/medical_conditions/" method="get">
-        <label for="patient_nat_id">Patient National ID:</label>
-        <input type="text" id="patient_nat_id" name="patient_nat_id" required>
-        <label for="med_condition">Medical Condition:</label>
-        <input type="text" id="med_condition" name="med_condition" required>
-        <button type="submit">Fetch</button>
-    </form>
-
-    <!-- Form to add a new medical condition -->
-    <h3>Add Medical Condition (POST)</h3>
-    <form action="/medical_conditions/" method="post">
-        {% csrf_token %}
-        <label for="add_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="add_patient_nat_id" name="PatientNatID" required>
-        <label for="add_med_condition">Medical Condition:</label>
-        <input type="text" id="add_med_condition" name="MedCondition" required>
-        <label for="notes">Notes:</label>
-        <input type="text" id="notes" name="Notes">
-        <button type="submit">Add</button>
-    </form>
-
-    <!-- Form to update a medical condition -->
-    <h3>Update Medical Condition (PUT)</h3>
-    <form action="/medical_conditions/" method="post">
-        {% csrf_token %}
-        <label for="update_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required>
-        <label for="update_med_condition">Medical Condition:</label>
-        <input type="text" id="update_med_condition" name="med_condition" required>
-        <label for="update_notes">Updated Notes:</label>
-        <input type="text" id="update_notes" name="notes">
-        <button type="submit">Update</button>
-    </form>
+    <p>Select a section to manage:</p>
+    <button onclick="location.href='/medical_conditions_page/'">Medical Conditions</button>
+    <button onclick="location.href='/medical_tests_page/'">Medical Tests</button>
+    <button onclick="location.href='/treated_by_page/'">Treated By</button>
 </body>
 </html>

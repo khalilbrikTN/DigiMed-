@@ -1,29 +1,61 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Conditions</title>
+</head>
+<body>
+    <!-- Medical Conditions -->
+    <h2>Medical Conditions</h2>
 
-{% block title %}Medical Conditions{% endblock %}
+    <!-- Form to fetch a specific medical condition -->
+    <h3>Fetch Specific Medical Condition (GET)</h3>
+    <form action="/medical_conditions/" method="get">
+        <label for="patient_nat_id">Patient National ID:</label>
+        <input type="text" id="patient_nat_id" name="patient_nat_id" required>
+        <label for="med_condition">Medical Condition:</label>
+        <input type="text" id="med_condition" name="med_condition" required>
+        <button type="submit">Fetch</button>
+    </form>
 
-{% block content %}
-<h2>Medical Conditions</h2>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Patient National ID</th>
-            <th>Medical Condition</th>
-            <th>Notes</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for record in records %}
-        <tr>
-            <td>{{ record.PatientNatID }}</td>
-            <td>{{ record.MedCondition }}</td>
-            <td>{{ record.Notes }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">No records found.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+    <!-- Form to add a new medical condition -->
+    <h3>Add Medical Condition (POST)</h3>
+    <form action="/medical_conditions/" method="post">
+        {% csrf_token %}
+        <label for="add_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="add_patient_nat_id" name="PatientNatID" placeholder="e.g., 12345" required>
+        <label for="add_med_condition">Medical Condition:</label>
+        <input type="text" id="add_med_condition" name="MedCondition" placeholder="e.g., Hypertension" required>
+        <label for="notes">Notes:</label>
+        <input type="text" id="notes" name="Notes" placeholder="e.g., High blood pressure">
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- Form to update a medical condition -->
+    <h3>Update Medical Condition (PUT)</h3>
+    <form action="/medical_conditions/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="put">
+        <label for="update_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="update_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
+        <label for="update_med_condition">Medical Condition:</label>
+        <input type="text" id="update_med_condition" name="med_condition" placeholder="e.g., Hypertension" required>
+        <label for="update_notes">Updated Notes:</label>
+        <input type="text" id="update_notes" name="notes" placeholder="e.g., Mild case">
+        <button type="submit">Update</button>
+    </form>
+
+    <!-- Form to delete a medical condition -->
+    <h3>Delete Medical Condition (DELETE)</h3>
+    <form action="/medical_conditions/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="delete">
+        <label for="delete_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
+        <label for="delete_med_condition">Medical Condition:</label>
+        <input type="text" id="delete_med_condition" name="med_condition" placeholder="e.g., Hypertension" required>
+        <button type="submit">Delete</button>
+    </form>
+</body>
+</html>
