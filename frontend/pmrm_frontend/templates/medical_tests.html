@@ -6,68 +6,66 @@
     <title>Medical Tests</title>
 </head>
 <body>
-      <!-- Medical Tests -->
-      <h2>Medical Tests</h2>
+    <!-- Medical Tests -->
+    <h2>Medical Tests</h2>
 
-      <!-- Fetch Medical Test -->
-      <h3>Fetch Specific Medical Test (GET)</h3>
-      <form method="get" action="/medical_tests/">
-          <label for="get_test_patient_nat_id">Patient National ID:</label>
-          <input type="text" id="get_test_patient_nat_id" name="patient_nat_id" required>
-          <label for="get_test_id">Test ID:</label>
-          <input type="text" id="get_test_id" name="test_id" required>
-          <button type="submit">Fetch</button>
-      </form>
-  
-      <!-- Add Medical Test -->
-      <h3>Add Medical Test (POST)</h3>
-      <form method="post" action="/medical_tests/">
-          {% csrf_token %}
-          <label for="test_patient_nat_id">Patient National ID:</label>
-          <input type="text" id="test_patient_nat_id" name="PatientNatID" required>
-          <label for="test_id">Test ID:</label>
-          <input type="text" id="test_id" name="TestID" required>
-          <label for="test_type">Test Type:</label>
-          <input type="text" id="test_type" name="Test_Type" required>
-          <label for="subject_of_test">Subject of Test:</label>
-          <input type="text" id="subject_of_test" name="SubjectOfTest">
-          <label for="result">Result:</label>
-          <input type="text" id="result" name="Result">
-          <label for="date_time_of_upload">Date & Time of Upload (YYYY-MM-DD):</label>
-          <input type="text" id="date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" required>
-          <label for="image_of_scan">Upload Image of Scan:</label>
-          <input type="file" id="image_of_scan" name="ImageOfScan" accept="image/*">
-          <button type="submit">Add</button>
-      </form>
-  
-      <!-- Update Medical Test -->
-      <h3>Update Medical Test (PUT)</h3>
-      <form method="post" action="/medical_tests/">
-          {% csrf_token %}
-          <input type="hidden" name="_method" value="put">
-          <label for="update_test_patient_nat_id">Patient National ID:</label>
-          <input type="text" id="update_test_patient_nat_id" name="patient_nat_id" required>
-          <label for="update_test_id">Test ID:</label>
-          <input type="text" id="update_test_id" name="test_id" required>
-          <label for="update_test_type">Test Type:</label>
-          <input type="text" id="update_test_type" name="test_type">
-          <label for="update_result">Result:</label>
-          <input type="text" id="update_result" name="result">
-          <button type="submit">Update</button>
-      </form>
-  
-      <!-- Delete Medical Test (DELETE) -->
-      <h3>Delete Medical Test (DELETE)</h3>
-      <form method="post" action="/medical_tests/">
-          {% csrf_token %}
-          <input type="hidden" name="_method" value="delete">
-          <label for="delete_test_patient_nat_id">Patient National ID:</label>
-          <input type="text" id="delete_test_patient_nat_id" name="patient_nat_id" required>
-          <label for="delete_test_id">Test ID:</label>
-          <input type="text" id="delete_test_id" name="test_id" required>
-          <button type="submit">Delete</button>
-      </form>
-    <!-- Add other forms (GET, PUT, DELETE) for Medical Tests -->
-    <!-- Include forms like before -->
+    <!-- Form to fetch a specific medical test -->
+    <h3>Fetch Specific Medical Test (GET)</h3>
+    <form action="/medical_tests/" method="get">
+        <label for="fetch_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required>
+        <label for="fetch_test_id">Test ID:</label>
+        <input type="text" id="fetch_test_id" name="test_id" required>
+        <button type="submit">Fetch</button>
+    </form>
+
+    <!-- Form to add a new medical test -->
+    <h3>Add Medical Test (POST)</h3>
+    <form action="/medical_tests/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="add_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="add_patient_nat_id" name="PatientNatID" placeholder="e.g., 12345" required>
+        <label for="add_test_id">Test ID:</label>
+        <input type="text" id="add_test_id" name="TestID" placeholder="e.g., T123" required>
+        <label for="add_test_type">Test Type:</label>
+        <input type="text" id="add_test_type" name="Test_Type" placeholder="e.g., Blood Test">
+        <label for="add_subject_of_test">Subject of Test:</label>
+        <input type="text" id="add_subject_of_test" name="SubjectOfTest" placeholder="e.g., Glucose Levels">
+        <label for="add_result">Result:</label>
+        <input type="text" id="add_result" name="Result" placeholder="e.g., Normal">
+        <label for="add_date_time_of_upload">Date & Time of Upload:</label>
+        <input type="text" id="add_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
+        <label for="add_image_of_scan">Image of Scan:</label>
+        <input type="text" id="add_image_of_scan" name="ImageOfScan" accept="image/*">
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- Form to update a medical test -->
+    <h3>Update Medical Test (PUT)</h3>
+    <form action="/medical_tests/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="put">
+        <label for="update_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="update_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
+        <label for="update_test_id">Test ID:</label>
+        <input type="text" id="update_test_id" name="test_id" placeholder="e.g., T123" required>
+        <label for="update_test_type">Updated Test Type:</label>
+        <input type="text" id="update_test_type" name="Test_Type" placeholder="e.g., Blood Test">
+        <label for="update_result">Updated Result:</label>
+        <input type="text" id="update_result" name="Result" placeholder="e.g., Normal">
+        <button type="submit">Update</button>
+    </form>
+
+    <!-- Form to delete a medical test -->
+    <h3>Delete Medical Test (DELETE)</h3>
+    <form action="/medical_tests/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="delete">
+        <label for="delete_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
+        <label for="delete_test_id">Test ID:</label>
+        <input type="text" id="delete_test_id" name="test_id" placeholder="e.g., T123" required>
+        <button type="submit">Delete</button>
+    </form>
 </body>
 </html>

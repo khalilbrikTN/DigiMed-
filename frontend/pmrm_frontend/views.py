@@ -131,7 +131,7 @@ class MedicalTestView(View):
 
         try:
             if patient_nat_id and test_id:
-                # Fetch a specific medical test
+                # Fetch specific medical test
                 url = f"{PMRM_BASE_URL}/medical_tests/{patient_nat_id}/{test_id}/"
             else:
                 # Fetch all medical tests
@@ -146,55 +146,60 @@ class MedicalTestView(View):
 
     def post(self, request):
         """
-        Handles POST requests to add a new medical test.
+        Handles POST requests to add, update, or delete medical tests based on the '_method' override.
         """
         try:
-            payload = {
-                "PatientNatID": request.POST['PatientNatID'],
-                "TestID": request.POST['TestID'],
-                "Test_Type": request.POST.get('Test_Type', ''),
-                "SubjectOfTest": request.POST.get('SubjectOfTest', ''),
-                "Result": request.POST.get('Result', ''),
-                "Date_TimeOfUpload": request.POST.get('Date_TimeOfUpload', '')
-            }
+            method_override = request.POST.get('_method', '').lower()
 
-            # Handle file upload if provided
-            files = {"ImageOfScan": request.FILES['ImageOfScan']} if 'ImageOfScan' in request.FILES else None
+            if method_override == 'put':
+                # Update medical test
+                patient_nat_id = request.POST.get('patient_nat_id')
+                test_id = request.POST.get('test_id')
+                payload = {
+                    "Test_Type": request.POST.get('Test_Type'),
+                    "SubjectOfTest": request.POST.get('SubjectOfTest'),
+                    "Result": request.POST.get('Result'),
+                    "ImageOfScan": request.POST.get('ImageOfScan'),  # Now accepts text input
+                    "Date_TimeOfUpload": request.POST.get('Date_TimeOfUpload'),
+                }
+                if not patient_nat_id or not test_id:
+                    return JsonResponse({"error": "Missing required fields for update"}, status=400)
 
-            url = f"{PMRM_BASE_URL}/medical_tests/"
-            response = requests.post(url, data=payload, files=files)
+                url = f"{PMRM_BASE_URL}/medical_tests/{patient_nat_id}/{test_id}/"
+                response = requests.put(url, json=payload)
+
+            elif method_override == 'delete':
+                # Delete medical test
+                patient_nat_id = request.POST.get('patient_nat_id')
+                test_id = request.POST.get('test_id')
+                if not patient_nat_id or not test_id:
+                    return JsonResponse({"error": "Missing required fields for deletion"}, status=400)
+
+                url = f"{PMRM_BASE_URL}/medical_tests/{patient_nat_id}/{test_id}/"
+                response = requests.delete(url)
+
+            else:
+                # Add medical test
+                payload = {
+                    "PatientNatID": request.POST.get('PatientNatID'),
+                    "TestID": request.POST.get('TestID'),
+                    "Test_Type": request.POST.get('Test_Type'),
+                    "SubjectOfTest": request.POST.get('SubjectOfTest'),
+                    "Result": request.POST.get('Result'),
+                    "ImageOfScan": request.POST.get('ImageOfScan'),  # Now accepts text input
+                    "Date_TimeOfUpload": request.POST.get('Date_TimeOfUpload'),
+                }
+                if not payload["PatientNatID"] or not payload["TestID"]:
+                    return JsonResponse({"error": "Missing required fields for addition"}, status=400)
+
+                url = f"{PMRM_BASE_URL}/medical_tests/"
+                response = requests.post(url, json=payload)
+
             response.raise_for_status()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/medical_tests_page/')
 
         except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to add medical test: {str(e)}"}, status=500)
-
-    def put(self, request, patient_nat_id, test_id):
-        """
-        Handles PUT requests to update a medical test.
-        """
-        try:
-            data = json.loads(request.body)
-            url = f"{PMRM_BASE_URL}/medical_tests/{patient_nat_id}/{test_id}/"
-            response = requests.put(url, json=data)
-            response.raise_for_status()
-            return JsonResponse(response.json(), status=response.status_code)
-        except requests.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON data"}, status=400)
-        except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to update medical test: {str(e)}"}, status=500)
-
-    def delete(self, request, patient_nat_id, test_id):
-        """
-        Handles DELETE requests to remove a medical test.
-        """
-        try:
-            url = f"{PMRM_BASE_URL}/medical_tests/{patient_nat_id}/{test_id}/"
-            response = requests.delete(url)
-            response.raise_for_status()
-            return JsonResponse(response.json(), status=response.status_code)
-        except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to delete medical test: {str(e)}"}, status=500)
+            return JsonResponse({"error": f"Failed to process the request: {str(e)}"}, status=500)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -223,46 +228,48 @@ class TreatedByView(View):
 
     def post(self, request):
         """
-        Handles POST requests to add a treated-by relationship.
+        Handles POST requests to add, update, or delete treated-by relationships based on the '_method' override.
         """
         try:
-            payload = {
-                "PatientNatID": request.POST['PatientNatID'],
-                "DoctorNatID": request.POST['DoctorNatID'],
-                "startDate": request.POST.get('startDate', '')
-            }
+            method_override = request.POST.get('_method', '').lower()
 
-            url = f"{PMRM_BASE_URL}/treated_by/"
-            response = requests.post(url, json=payload)
+            if method_override == 'put':
+                # Update treated-by relationship
+                patient_nat_id = request.POST.get('patient_nat_id')
+                doctor_nat_id = request.POST.get('doctor_nat_id')
+                start_date = request.POST.get('start_date')  # Fetch start_date from POST data
+                payload = {"startDate": start_date}
+                if not patient_nat_id or not doctor_nat_id:
+                    return JsonResponse({"error": "Missing required fields for update"}, status=400)
+
+                url = f"{PMRM_BASE_URL}/treated_by/{patient_nat_id}/{doctor_nat_id}/"
+                response = requests.put(url, json=payload)
+
+            elif method_override == 'delete':
+                # Delete treated-by relationship
+                patient_nat_id = request.POST.get('patient_nat_id')
+                doctor_nat_id = request.POST.get('doctor_nat_id')
+                if not patient_nat_id or not doctor_nat_id:
+                    return JsonResponse({"error": "Missing required fields for deletion"}, status=400)
+
+                url = f"{PMRM_BASE_URL}/treated_by/{patient_nat_id}/{doctor_nat_id}/"
+                response = requests.delete(url)
+
+            else:
+                # Add treated-by relationship
+                payload = {
+                    "PatientNatID": request.POST.get('PatientNatID'),
+                    "DoctorNatID": request.POST.get('DoctorNatID'),
+                    "start_date": request.POST.get('start_date'),
+                }
+                if not payload["PatientNatID"] or not payload["DoctorNatID"]:
+                    return JsonResponse({"error": "Missing required fields for addition"}, status=400)
+
+                url = f"{PMRM_BASE_URL}/treated_by/"
+                response = requests.post(url, json=payload)
+
             response.raise_for_status()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/treated_by_page/')
 
         except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to add treated-by relationship: {str(e)}"}, status=500)
-
-    def put(self, request, patient_nat_id, doctor_nat_id):
-        """
-        Handles PUT requests to update a treated-by relationship.
-        """
-        try:
-            data = json.loads(request.body)
-            url = f"{PMRM_BASE_URL}/treated_by/{patient_nat_id}/{doctor_nat_id}/"
-            response = requests.put(url, json=data)
-            response.raise_for_status()
-            return JsonResponse(response.json(), status=response.status_code)
-        except requests.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON data"}, status=400)
-        except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to update treated-by relationship: {str(e)}"}, status=500)
-
-    def delete(self, request, patient_nat_id, doctor_nat_id):
-        """
-        Handles DELETE requests to remove a treated-by relationship.
-        """
-        try:
-            url = f"{PMRM_BASE_URL}/treated_by/{patient_nat_id}/{doctor_nat_id}/"
-            response = requests.delete(url)
-            response.raise_for_status()
-            return JsonResponse(response.json(), status=response.status_code)
-        except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to delete treated-by relationship: {str(e)}"}, status=500)
+            return JsonResponse({"error": f"Failed to process the request: {str(e)}"}, status=500)

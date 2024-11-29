@@ -9,56 +9,53 @@
     <!-- Treated By -->
     <h2>Treated By</h2>
 
-    <!-- Fetch Treated By -->
+    <!-- Fetch Specific Treated By (GET) -->
     <h3>Fetch Specific Treated By (GET)</h3>
-    <form method="get" action="/treated_by/">
-        <label for="get_treated_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="get_treated_patient_nat_id" name="patient_nat_id" required>
+    <form action="/treated_by/" method="get">
+        <label for="get_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="get_patient_nat_id" name="patient_nat_id" required>
         <label for="get_doctor_nat_id">Doctor National ID:</label>
         <input type="text" id="get_doctor_nat_id" name="doctor_nat_id" required>
         <button type="submit">Fetch</button>
     </form>
 
-    <!-- Add Treated By -->
+    <!-- Add Treated By (POST) -->
     <h3>Add Treated By (POST)</h3>
-    <form method="post" action="/treated_by/">
+    <form action="/treated_by/" method="post">
         {% csrf_token %}
-        <label for="treated_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="treated_patient_nat_id" name="PatientNatID" required>
-        <label for="doctor_nat_id">Doctor National ID:</label>
-        <input type="text" id="doctor_nat_id" name="DoctorNatID" required>
-        <label for="start_date">Start Date (YYYY-MM-DD):</label>
-        <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" required>
+        <label for="add_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="add_patient_nat_id" name="PatientNatID" required>
+        <label for="add_doctor_nat_id">Doctor National ID:</label>
+        <input type="text" id="add_doctor_nat_id" name="DoctorNatID" required>
+        <label for="add_start_date">Start Date (YYYY-MM-DD):</label>
+        <input type="text" id="add_start_date" name="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" required>
         <button type="submit">Add</button>
     </form>
 
-    <!-- Update Treated By -->
+    <!-- Update Treated By (PUT) -->
     <h3>Update Treated By (PUT)</h3>
-    <form method="post" action="/treated_by/">
+    <form action="/treated_by/" method="post">
         {% csrf_token %}
         <input type="hidden" name="_method" value="put">
-        <label for="treated_patient_nat_id_update">Patient National ID:</label>
-        <input type="text" id="treated_patient_nat_id_update" name="patient_nat_id" required>
-        <label for="doctor_nat_id_update">Doctor National ID:</label>
-        <input type="text" id="doctor_nat_id_update" name="doctor_nat_id" required>
-        <label for="start_date_update">Updated Start Date (YYYY-MM-DD):</label>
-        <input type="text" id="start_date_update" name="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
+        <label for="update_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required>
+        <label for="update_doctor_nat_id">Doctor National ID:</label>
+        <input type="text" id="update_doctor_nat_id" name="doctor_nat_id" required>
+        <label for="update_start_date">Updated Start Date (YYYY-MM-DD):</label>
+        <input type="text" id="update_start_date" name="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
         <button type="submit">Update</button>
     </form>
 
     <!-- Delete Treated By (DELETE) -->
     <h3>Delete Treated By (DELETE)</h3>
-    <form method="post" action="/treated_by/">
+    <form action="/treated_by/" method="post">
         {% csrf_token %}
         <input type="hidden" name="_method" value="delete">
-        <label for="delete_treated_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="delete_treated_patient_nat_id" name="patient_nat_id" required>
+        <label for="delete_patient_nat_id">Patient National ID:</label>
+        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required>
         <label for="delete_doctor_nat_id">Doctor National ID:</label>
         <input type="text" id="delete_doctor_nat_id" name="doctor_nat_id" required>
         <button type="submit">Delete</button>
     </form>
-
-    <!-- Add other forms (GET, PUT, DELETE) for Treated By -->
-    <!-- Include forms like before -->
 </body>
 </html>
