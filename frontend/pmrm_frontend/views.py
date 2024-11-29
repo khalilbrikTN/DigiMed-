@@ -201,7 +201,6 @@ class MedicalTestView(View):
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to process the request: {str(e)}"}, status=500)
 
-
 @method_decorator(csrf_exempt, name='dispatch')
 class TreatedByView(View):
     def get(self, request):
@@ -237,8 +236,8 @@ class TreatedByView(View):
                 # Update treated-by relationship
                 patient_nat_id = request.POST.get('patient_nat_id')
                 doctor_nat_id = request.POST.get('doctor_nat_id')
-                start_date = request.POST.get('start_date')  # Fetch start_date from POST data
-                payload = {"startDate": start_date}
+                start_date = request.POST.get('start_date') 
+                payload = {"start_date": start_date}
                 if not patient_nat_id or not doctor_nat_id:
                     return JsonResponse({"error": "Missing required fields for update"}, status=400)
 
