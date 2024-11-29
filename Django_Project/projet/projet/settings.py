@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +26,29 @@ SECRET_KEY = 'django-insecure-33gc7#%!hn72xi&jhf@^v%75z6p_rse1km!^1=#i&frv^^x3&(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+# CORS settings to allow cross-origin requests
+#CORS_ALLOW_ALL_ORIGINS = True  # This allows requests from any domain (development)
 
+# Alternatively, use this if you want to restrict allowed origins:
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Other CORS settings
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies and other credentials
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'Authorization',
+    'X-Requested-With',
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+]
 
 # Application definition
 
@@ -40,17 +62,21 @@ INSTALLED_APPS = [
     'dbms_service',
     'profiles_service',
     'frontend_service',
+    'rest_framework',
+    'corsheaders',
+    'userAPI',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'projet.urls'
@@ -125,3 +151,24 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    ),
+}
+
+JWT_AUTH = {
+    # how long the original token is valid for
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3),
+    # allow refreshing of tokens
+    'JWT_ALLOW_REFRESH': True,
+}
