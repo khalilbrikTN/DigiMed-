@@ -6,7 +6,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-PMRM_BASE_URL = "http://127.0.0.1:8002/api/pmrm"
+PMRM_BASE_URL = "http://127.0.0.1:8000/api/pmrm"
 
 
 
@@ -42,31 +42,52 @@ class MedicalConditionView(View):
 
     def post(self, request):
         """
-        Handles POST requests to add or update medical conditions.
+        Handles POST requests to add, update, or delete medical conditions based on the '_method' override.
         """
         try:
-            # Determine if it's an add or update request
-            if 'PatientNatID' in request.POST:
-                # Add medical condition
-                payload = {
-                    "PatientNatID": request.POST['PatientNatID'],
-                    "MedCondition": request.POST['MedCondition'],
-                    "Notes": request.POST.get('Notes', '')
-                }
-                url = f"{PMRM_BASE_URL}/medical_conditions/"
-                response = requests.post(url, json=payload)
-            else:
+            # Handle method override
+            method_override = request.POST.get('_method', '').lower()
+            
+            if method_override == 'put':
                 # Update medical condition
-                payload = {
-                    "Notes": request.POST['notes']
-                }
-                patient_nat_id = request.POST['patient_nat_id']
-                med_condition = request.POST['med_condition']
+                patient_nat_id = request.POST.get('patient_nat_id')
+                med_condition = request.POST.get('med_condition')
+                notes = request.POST.get('notes', '')  # Safely get 'notes', default to empty string
+                
+                if not patient_nat_id or not med_condition:
+                    return JsonResponse({"error": "Missing required fields for update"}, status=400)
+                
+                payload = {"Notes": notes}
                 url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
                 response = requests.put(url, json=payload)
+            
+            elif method_override == 'delete':
+                # Delete medical condition
+                patient_nat_id = request.POST.get('patient_nat_id')
+                med_condition = request.POST.get('med_condition')
+                
+                if not patient_nat_id or not med_condition:
+                    return JsonResponse({"error": "Missing required fields for deletion"}, status=400)
+                
+                url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
+                response = requests.delete(url)
+            
+            else:
+                # Add medical condition (default POST behavior)
+                payload = {
+                    "PatientNatID": request.POST.get('PatientNatID'),
+                    "MedCondition": request.POST.get('MedCondition'),
+                    "Notes": request.POST.get('Notes', '')  # Safely get 'Notes', default to empty string
+                }
+                if not payload["PatientNatID"] or not payload["MedCondition"]:
+                    return JsonResponse({"error": "Missing required fields for addition"}, status=400)
+                
+                url = f"{PMRM_BASE_URL}/medical_conditions/"
+                response = requests.post(url, json=payload)
 
+            # Raise an error for non-200 responses
             response.raise_for_status()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/medical_conditions_page/')
 
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to process the request: {str(e)}"}, status=500)
