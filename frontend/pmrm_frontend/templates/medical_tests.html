@@ -15,123 +15,162 @@
         </header>
         <main class="main">
             <!-- Fetch Specific Medical Test -->
-            <section class="form-section">
-                <h2>Display a Medical Test</h2>
-                <form action="/medical_tests/" method="get" class="form">
-                    <div class="input-wrapper">
-                        <label for="fetch_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="fetch_test_id">Test ID:</label>
-                        <input type="text" id="fetch_test_id" name="test_id" required placeholder="e.g., T123">
-                    </div>
-                    <button type="submit" class="btn">Fetch</button>
-                </form>
-            </section>
+            <div id="fetch-medical-test">
+                <section class="form-section">
+                    <h2>Display a Medical Test</h2>
+                    <form id="fetch-form" action="/medical_tests/" method="get" class="form">
+                        <div class="input-wrapper">
+                            <label for="fetch_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="fetch_test_id">Test ID:</label>
+                            <input type="text" id="fetch_test_id" name="test_id" required placeholder="e.g., T123">
+                        </div>
+                        <button type="submit" id="fetch-btn" class="btn">Fetch</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Add Medical Test -->
-            <section class="form-section">
-                <h2>Add a Medical Test</h2>
-                <form action="/medical_tests/" method="post" class="form" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="input-wrapper">
-                        <label for="add_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_test_id">Test ID:</label>
-                        <input type="text" id="add_test_id" name="TestID" required placeholder="e.g., T123">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_test_type">Test Type:</label>
-                        <input type="text" id="add_test_type" name="Test_Type" placeholder="e.g., Blood Test">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_subject_of_test">Subject of Test:</label>
-                        <input type="text" id="add_subject_of_test" name="SubjectOfTest" placeholder="e.g., Glucose Levels">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_result">Result:</label>
-                        <input type="text" id="add_result" name="Result" placeholder="e.g., Normal">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_date_time_of_upload">Date & Time of Upload:</label>
-                        <input type="text" id="add_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_image_of_scan">Image of Scan (URL or Text):</label>
-                        <input type="text" id="add_image_of_scan" name="ImageOfScan" placeholder="e.g., image_url_or_text">
-                    </div>
-                    <button type="submit" class="btn">Add</button>
-                </form>
-            </section>
+            <div id="add-medical-test">
+                <section class="form-section">
+                    <h2>Add a Medical Test</h2>
+                    <form action="/medical_tests/" method="post" class="form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="input-wrapper">
+                            <label for="add_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_test_id">Test ID:</label>
+                            <input type="text" id="add_test_id" name="TestID" required placeholder="e.g., T123">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_test_type">Test Type:</label>
+                            <input type="text" id="add_test_type" name="Test_Type" placeholder="e.g., Blood Test">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_subject_of_test">Subject of Test:</label>
+                            <input type="text" id="add_subject_of_test" name="SubjectOfTest" placeholder="e.g., Glucose Levels">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_result">Result:</label>
+                            <input type="text" id="add_result" name="Result" placeholder="e.g., Normal">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_date_time_of_upload">Date & Time of Upload:</label>
+                            <input type="datetime-local" id="add_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD HH:MM:SS">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_image_of_scan">Image of Scan (URL or Text):</label>
+                            <input type="text" id="add_image_of_scan" name="ImageOfScan" placeholder="e.g., image_url_or_text">
+                        </div>
+                        <button type="submit" class="btn">Add</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Update Medical Test -->
-            <section class="form-section">
-                <h2>Edit a Medical Test</h2>
-                <form action="/medical_tests/" method="post" class="form">
-                    {% csrf_token %}
-                    <input type="hidden" name="_method" value="put">
-                    <div class="input-wrapper">
-                        <label for="update_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_test_id">Test ID:</label>
-                        <input type="text" id="update_test_id" name="test_id" required placeholder="e.g., T123">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_test_type">Updated Test Type:</label>
-                        <input type="text" id="update_test_type" name="Test_Type" placeholder="e.g., Blood Test">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_subject_of_test">Updated Subject of Test:</label>
-                        <input type="text" id="update_subject_of_test" name="SubjectOfTest" placeholder="e.g., Cholesterol Level">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_result">Updated Result:</label>
-                        <input type="text" id="update_result" name="Result" placeholder="e.g., Normal">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_image_of_scan">Updated Image of Scan (URL or Text):</label>
-                        <input type="text" id="update_image_of_scan" name="ImageOfScan" placeholder="e.g., image_url_or_text">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_date_time_of_upload">Updated Date & Time of Upload:</label>
-                        <input type="text" id="update_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD HH:MM:SS">
-                    </div>
-                    <button type="submit" class="btn">Update</button>
-                </form>
-            </section>
+            <div id="update-medical-test">
+                <section class="form-section">
+                    <h2>Edit a Medical Test</h2>
+                    <form action="/medical_tests/" method="post" class="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="put">
+                        <div class="input-wrapper">
+                            <label for="update_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_test_id">Test ID:</label>
+                            <input type="text" id="update_test_id" name="test_id" required placeholder="e.g., T123">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_test_type">Updated Test Type:</label>
+                            <input type="text" id="update_test_type" name="Test_Type" placeholder="e.g., Blood Test">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_subject_of_test">Updated Subject of Test:</label>
+                            <input type="text" id="update_subject_of_test" name="SubjectOfTest" placeholder="e.g., Cholesterol Level">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_result">Updated Result:</label>
+                            <input type="text" id="update_result" name="Result" placeholder="e.g., Normal">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_image_of_scan">Updated Image of Scan (URL or Text):</label>
+                            <input type="text" id="update_image_of_scan" name="ImageOfScan" placeholder="e.g., image_url_or_text">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_date_time_of_upload">Updated Date & Time of Upload:</label>
+                            <input type="datetime-local" id="update_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD HH:MM:SS">
+                        </div>
+                        <button type="submit" class="btn">Update</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Delete Medical Test -->
-            <section class="form-section">
-                <h2>Delete a Medical Test</h2>
-                <form action="/medical_tests/" method="post" class="form">
-                    {% csrf_token %}
-                    <input type="hidden" name="_method" value="delete">
-                    <div class="input-wrapper">
-                        <label for="delete_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="delete_test_id">Test ID:</label>
-                        <input type="text" id="delete_test_id" name="test_id" required placeholder="e.g., T123">
-                    </div>
-                    <button type="submit" class="btn">Delete</button>
-                </form>
-            </section>
+            <div id="delete-medical-test">
+                <section class="form-section">
+                    <h2>Delete a Medical Test</h2>
+                    <form action="/medical_tests/" method="post" class="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="delete">
+                        <div class="input-wrapper">
+                            <label for="delete_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="delete_test_id">Test ID:</label>
+                            <input type="text" id="delete_test_id" name="test_id" required placeholder="e.g., T123">
+                        </div>
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </section>
+            </div>
         </main>
     </div>
 
     <!-- JavaScript -->
     <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const role = "{{ role|default:''|escapejs }}".trim().toLowerCase();
+        console.log("Role from server:", role);
+
+        const addSection = document.getElementById("add-medical-test");
+        const updateSection = document.getElementById("update-medical-test");
+        const deleteSection = document.getElementById("delete-medical-test");
+
+        if (role === "patient") {
+            if (addSection) addSection.style.display = "none";
+            if (updateSection) updateSection.style.display = "none";
+            if (deleteSection) deleteSection.style.display = "none";
+        } else if (role === "doctor") {
+            if (deleteSection) deleteSection.style.display = "none";
+        }
+    });
+
+    // Corrected fetch-form event listener for Medical Tests
+    document.getElementById('fetch-form').addEventListener('submit', function (event) {
+        const patientNatID = document.getElementById('fetch_patient_nat_id').value.trim();
+        const testID = document.getElementById('fetch_test_id').value.trim();
+
+        if (patientNatID && testID) {
+            // Generate URL in the correct format for fetching
+            this.action = `/medical_tests/${patientNatID}/${testID}/`;
+        } else {
+            event.preventDefault(); // Prevent form submission if fields are empty
+            alert('Please fill in both fields.');
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
         const formSections = document.querySelectorAll('.form-section');
 
         formSections.forEach((section) => {
-            const inputs = section.querySelectorAll('input[type="text"]');
+            const inputs = section.querySelectorAll('input[type="text"], input[type="datetime-local"]');
             const wrappers = section.querySelectorAll('.input-wrapper');
 
             let hasInputValue = false; // Track if any input has a value
