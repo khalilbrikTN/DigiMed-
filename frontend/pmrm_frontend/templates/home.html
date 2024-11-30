@@ -15,18 +15,30 @@
         <main class="main">
             <p>Select a section to manage:</p>
             <div class="button-container">
-                <!-- Ensure role and nat_id are passed to the URL -->
-                <button class="btn" onclick="location.href='/medical_conditions_page/?role={{ role }}&nat_id={{ nat_id }}'">
+                <!-- Medical Conditions -->
+                <button class="btn" id="medicalConditionsBtn">
                     <span>Medical Conditions</span>
-                </button>
-                <button class="btn" onclick="location.href='/medical_tests_page/?role={{ role }}&nat_id={{ nat_id }}'">
-                    <span>Medical Tests</span>
-                </button>
-                <button class="btn" onclick="location.href='/treated_by_page/?role={{ role }}&nat_id={{ nat_id }}'">
-                    <span>Treated By</span>
                 </button>
             </div>
         </main>
     </div>
+    <script>
+        // Prepare the URL dynamically using Django context variables
+        const role = "{{ role }}";
+        const nat_id = "{{ nat_id|default:'' }}"; // Use default to handle undefined variables
+        const doctor_id = "{{ doctor_id|default:'' }}";
+
+        document.getElementById('medicalConditionsBtn').addEventListener('click', function () {
+            let url = `/medical_conditions_page/?role=${role}`;
+
+            if (role === 'patient') {
+                url += `&nat_id=${nat_id}`;
+            } else if (role === 'doctor') {
+                url += `&doctor_id=${doctor_id}`;
+            }
+
+            window.location.href = url;
+        });
+    </script>
 </body>
 </html>

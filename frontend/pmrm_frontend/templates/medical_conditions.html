@@ -10,19 +10,28 @@
 <body>
     <div class="container">
         <header class="header">
-            <!-- Back button includes role and nat_id -->
-            <button class="btn back-btn" onclick="location.href='/?role={{ role }}&nat_id={{ nat_id }}'">Back to Main Menu</button>
+            <!-- Back Button -->
+            <button class="btn back-btn" id="backToMenuBtn">
+                Back to Main Menu
+            </button>
             <h1>Manage Medical Conditions</h1>
         </header>
         <main class="main">
-            <!-- Display role and national ID -->
+            <!-- Role and IDs Display -->
             <p><strong>Role:</strong> {{ role }}</p>
-            <p><strong>National ID:</strong> {{ nat_id }}</p>
+            {% if role == 'patient' %}
+                <p><strong>National ID:</strong> {{ nat_id }}</p>
+            {% elif role == 'doctor' %}
+                <p><strong>Doctor ID:</strong> {{ doctor_id }}</p>
+            {% endif %}
 
             <!-- Fetch Specific Medical Condition -->
             <section class="form-section">
                 <h2>Show a Medical Condition</h2>
-                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="get" class="form">
+                <form action="/medical_conditions/" method="get" class="form">
+                    <input type="hidden" name="role" value="{{ role }}">
+                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
+                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
                     <div class="input-wrapper">
                         <label for="patient_nat_id">Patient National ID:</label>
                         <input type="text" id="patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
@@ -38,8 +47,11 @@
             <!-- Add Medical Condition -->
             <section class="form-section">
                 <h2>Add a Medical Condition</h2>
-                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="post" class="form">
+                <form action="/medical_conditions/" method="post" class="form">
                     {% csrf_token %}
+                    <input type="hidden" name="role" value="{{ role }}">
+                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
+                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
                     <div class="input-wrapper">
                         <label for="add_patient_nat_id">Patient National ID:</label>
                         <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
@@ -59,9 +71,12 @@
             <!-- Update Medical Condition -->
             <section class="form-section">
                 <h2>Edit a Medical Condition</h2>
-                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="post" class="form">
+                <form action="/medical_conditions/" method="post" class="form">
                     {% csrf_token %}
                     <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="role" value="{{ role }}">
+                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
+                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
                     <div class="input-wrapper">
                         <label for="update_patient_nat_id">Patient National ID:</label>
                         <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
@@ -81,9 +96,12 @@
             <!-- Delete Medical Condition -->
             <section class="form-section">
                 <h2>Delete a Medical Condition</h2>
-                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="post" class="form">
+                <form action="/medical_conditions/" method="post" class="form">
                     {% csrf_token %}
                     <input type="hidden" name="_method" value="delete">
+                    <input type="hidden" name="role" value="{{ role }}">
+                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
+                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
                     <div class="input-wrapper">
                         <label for="delete_patient_nat_id">Patient National ID:</label>
                         <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
@@ -100,58 +118,74 @@
 
     <!-- JavaScript -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const formSections = document.querySelectorAll('.form-section');
+        // Prepare the dynamic URL for the back button
+        const role = "{{ role }}";
+        const nat_id = "{{ nat_id|default:'' }}"; // Use default for undefined variables
+        const doctor_id = "{{ doctor_id|default:'' }}";
 
-        formSections.forEach((section) => {
-            const inputs = section.querySelectorAll('input[type="text"]');
-            const wrappers = section.querySelectorAll('.input-wrapper');
+        document.getElementById('backToMenuBtn').addEventListener('click', function () {
+            let url = `/?role=${role}`;
+            if (role === 'patient') {
+                url += `&nat_id=${nat_id}`;
+            } else if (role === 'doctor') {
+                url += `&doctor_id=${doctor_id}`;
+            }
+            window.location.href = url;
+        });
 
-            let hasInputValue = false; // Track if any input has a value
-            let collapseTimeout;
+        // Form section logic (preserved from the original)
+        document.addEventListener('DOMContentLoaded', () => {
+            const formSections = document.querySelectorAll('.form-section');
 
-            // Expand inputs on hover or focus
-            section.addEventListener('mouseenter', () => {
-                wrappers.forEach((wrapper) => wrapper.classList.add('active'));
-                clearTimeout(collapseTimeout); // Prevent collapse while interacting
+            formSections.forEach((section) => {
+                const inputs = section.querySelectorAll('input[type="text"]');
+                const wrappers = section.querySelectorAll('.input-wrapper');
 
-                // Scroll the section into view upon expansion
-                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            });
+                let hasInputValue = false; // Track if any input has a value
+                let collapseTimeout;
 
-            section.addEventListener('mouseleave', () => {
-                clearTimeout(collapseTimeout);
-                if (!hasInputValue) {
-                    // No input values, collapse immediately
-                    wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
-                } else {
-                    // Inputs have values, start countdown
-                    collapseTimeout = setTimeout(() => {
-                        if (!section.querySelector(':focus')) {
+                // Expand inputs on hover or focus
+                section.addEventListener('mouseenter', () => {
+                    wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                    clearTimeout(collapseTimeout); // Prevent collapse while interacting
+
+                    // Scroll the section into view upon expansion
+                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+
+                section.addEventListener('mouseleave', () => {
+                    clearTimeout(collapseTimeout);
+                    if (!hasInputValue) {
+                        // No input values, collapse immediately
+                        wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                    } else {
+                        // Inputs have values, start countdown
+                        collapseTimeout = setTimeout(() => {
+                            if (!section.querySelector(':focus')) {
+                                wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                            }
+                        }, 3000); // Countdown for collapse
+                    }
+                });
+
+                inputs.forEach((input) => {
+                    input.addEventListener('input', () => {
+                        hasInputValue = Array.from(inputs).some((i) => i.value.trim() !== '');
+                    });
+
+                    input.addEventListener('focus', () => {
+                        wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                        clearTimeout(collapseTimeout); // Reset collapse timer on interaction
+                    });
+
+                    input.addEventListener('blur', () => {
+                        if (!hasInputValue && !section.querySelector(':focus')) {
                             wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
                         }
-                    }, 3000); // Countdown for collapse
-                }
-            });
-
-            inputs.forEach((input) => {
-                input.addEventListener('input', () => {
-                    hasInputValue = Array.from(inputs).some((i) => i.value.trim() !== '');
-                });
-
-                input.addEventListener('focus', () => {
-                    wrappers.forEach((wrapper) => wrapper.classList.add('active'));
-                    clearTimeout(collapseTimeout); // Reset collapse timer on interaction
-                });
-
-                input.addEventListener('blur', () => {
-                    if (!hasInputValue && !section.querySelector(':focus')) {
-                        wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
-                    }
+                    });
                 });
             });
         });
-    });
     </script>
 </body>
 </html>

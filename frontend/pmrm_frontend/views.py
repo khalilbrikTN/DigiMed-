@@ -12,37 +12,48 @@ PMRM_BASE_URL = "http://127.0.0.1:8000/api/pmrm"
 
 from django.shortcuts import render
 
-
 def home(request):
     """
-    Render the homepage with role and nat_id parameters passed in the query string.
+    Render the homepage with role, nat_id, and doctor_id parameters passed in the query string.
     """
     role = request.GET.get('role')
     nat_id = request.GET.get('nat_id')
+    doctor_id = request.GET.get('doctor_id')
 
-    # Validate role and nat_id
-    if not role or not nat_id:
-        return render(request, 'error.html', {'message': 'Role and NatID are required to access this page.'})
+    # Validate role and required parameters
+    if not role:
+        return render(request, 'error.html', {'message': 'Role is required to access this page.'})
 
-    return render(request, 'home.html', {'role': role, 'nat_id': nat_id})
-
+    # Pass parameters to the template
+    context = {
+        'role': role,
+        'nat_id': nat_id if role == 'patient' else None,
+        'doctor_id': doctor_id if role == 'doctor' else None,
+    }
+    return render(request, 'home.html', context)
 
 
 def medical_conditions_page(request):
     """
-    Render the Medical Conditions page, passing role and nat_id from the URL.
+    Render the Medical Conditions page, passing role, nat_id, and doctor_id from the URL.
     """
     role = request.GET.get('role')
     nat_id = request.GET.get('nat_id')
+    doctor_id = request.GET.get('doctor_id')
 
-    # Validate role and nat_id are present
-    if not role or not nat_id:
-        return render(request, 'error.html', {'message': 'Role and NatID are required to access this page'})
+    # Validate role and required parameters
+    if not role:
+        return render(request, 'error.html', {'message': 'Role is required to access this page.'})
+    if role == 'patient' and not nat_id:
+        return render(request, 'error.html', {'message': 'Patient ID is required for patients.'})
+    if role == 'doctor' and not doctor_id:
+        return render(request, 'error.html', {'message': 'Doctor ID is required for doctors.'})
 
-    # Pass role and nat_id to the template
+    # Pass role, nat_id, and doctor_id to the template
     context = {
         'role': role,
         'nat_id': nat_id,
+        'doctor_id': doctor_id,
     }
     return render(request, 'medical_conditions.html', context)
 
