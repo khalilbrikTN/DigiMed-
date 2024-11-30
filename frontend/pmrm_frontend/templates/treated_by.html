@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treated By Management</title>
+    <title>Treated By</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
@@ -11,90 +11,115 @@
     <div class="container">
         <header class="header">
             <button class="btn back-btn" onclick="location.href='/'">Back to Main Menu</button>
-            <h1>Manage Treated By</h1>
+            <h1>Manage Visit History</h1>
         </header>
         <main class="main">
             <!-- Fetch Specific Treated By -->
-            <section class="form-section">
-                <h2>Display Doctor History</h2>
-                <form action="/treated_by/" method="get" class="form">
-                    <div class="input-wrapper">
-                        <label for="get_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="get_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="get_doctor_nat_id">Doctor National ID:</label>
-                        <input type="text" id="get_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
-                    </div>
-                    <button type="submit" class="btn">Fetch</button>
-                </form>
-            </section>
+            <div id="fetch-treated-by">
+                <section class="form-section">
+                    <h2>Display Visit History</h2>
+                    <form id="fetch-form" action="/treated_by/" method="get" class="form">
+                        <div class="input-wrapper">
+                            <label for="fetch_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="fetch_doctor_nat_id">Doctor National ID:</label>
+                            <input type="text" id="fetch_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
+                        </div>
+                        <button type="submit" id="fetch-btn" class="btn">Fetch</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Add Treated By -->
-            <section class="form-section">
-                <h2>Add Doctor History</h2>
-                <form action="/treated_by/" method="post" class="form">
-                    {% csrf_token %}
-                    <div class="input-wrapper">
-                        <label for="add_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_doctor_nat_id">Doctor National ID:</label>
-                        <input type="text" id="add_doctor_nat_id" name="DoctorNatID" required placeholder="e.g., 987654321">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_start_date">Start Date (YYYY-MM-DD):</label>
-                        <input type="text" id="add_start_date" name="start_date" required placeholder="e.g., 2023-01-01" pattern="\d{4}-\d{2}-\d{2}">
-                    </div>
-                    <button type="submit" class="btn">Add</button>
-                </form>
-            </section>
+            <div id="add-treated-by">
+                <section class="form-section">
+                    <h2>Add Visit History</h2>
+                    <form action="/treated_by/" method="post" class="form">
+                        {% csrf_token %}
+                        <div class="input-wrapper">
+                            <label for="add_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_doctor_nat_id">Doctor National ID:</label>
+                            <input type="text" id="add_doctor_nat_id" name="DoctorNatID" required placeholder="e.g., 987654321">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_start_date">Start Date (YYYY-MM-DD):</label>
+                            <input type="text" id="add_start_date" name="start_date" required placeholder="e.g., 2023-01-01">
+                        </div>
+                        <button type="submit" class="btn">Add</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Update Treated By -->
-            <section class="form-section">
-                <h2>Edit Doctor History</h2>
-                <form action="/treated_by/" method="post" class="form">
-                    {% csrf_token %}
-                    <input type="hidden" name="_method" value="put">
-                    <div class="input-wrapper">
-                        <label for="update_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_doctor_nat_id">Doctor National ID:</label>
-                        <input type="text" id="update_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_start_date">Updated Start Date (YYYY-MM-DD):</label>
-                        <input type="text" id="update_start_date" name="start_date" placeholder="e.g., 2023-01-01" pattern="\d{4}-\d{2}-\d{2}">
-                    </div>
-                    <button type="submit" class="btn">Update</button>
-                </form>
-            </section>
+            <div id="update-treated-by">
+                <section class="form-section">
+                    <h2>Edit Visit History</h2>
+                    <form action="/treated_by/" method="post" class="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="put">
+                        <div class="input-wrapper">
+                            <label for="update_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_doctor_nat_id">Doctor National ID:</label>
+                            <input type="text" id="update_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_start_date">Updated Start Date (YYYY-MM-DD):</label>
+                            <input type="text" id="update_start_date" name="start_date" placeholder="e.g., 2023-01-01">
+                        </div>
+                        <button type="submit" class="btn">Update</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Delete Treated By -->
-            <section class="form-section">
-                <h2>Remove Doctor History</h2>
-                <form action="/treated_by/" method="post" class="form">
-                    {% csrf_token %}
-                    <input type="hidden" name="_method" value="delete">
-                    <div class="input-wrapper">
-                        <label for="delete_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="delete_doctor_nat_id">Doctor National ID:</label>
-                        <input type="text" id="delete_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
-                    </div>
-                    <button type="submit" class="btn">Delete</button>
-                </form>
-            </section>
+            <div id="delete-treated-by">
+                <section class="form-section">
+                    <h2>Remove Visit History</h2>
+                    <form action="/treated_by/" method="post" class="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="delete">
+                        <div class="input-wrapper">
+                            <label for="delete_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="delete_doctor_nat_id">Doctor National ID:</label>
+                            <input type="text" id="delete_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
+                        </div>
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </section>
+            </div>
         </main>
     </div>
 
     <!-- JavaScript -->
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const role = "{{ role|default:''|escapejs }}".trim().toLowerCase();
+            console.log("Role from server:", role);
+
+            const addSection = document.getElementById("add-treated-by");
+            const updateSection = document.getElementById("update-treated-by");
+            const deleteSection = document.getElementById("delete-treated-by");
+
+            if (role === "patient") {
+                if (addSection) addSection.style.display = "none";
+                if (updateSection) updateSection.style.display = "none";
+                if (deleteSection) deleteSection.style.display = "none";
+            } else if (role === "doctor") {
+                if (deleteSection) deleteSection.style.display = "none";
+            }
+        });
+        
     document.addEventListener('DOMContentLoaded', () => {
         const formSections = document.querySelectorAll('.form-section');
 

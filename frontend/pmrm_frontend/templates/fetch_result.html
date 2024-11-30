@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Condition Details</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .record-card {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .record-card p {
+            margin: 10px 0;
+        }
+
+        .record-card p.doctor {
+            font-style: italic;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Medical Condition Details</h1>
+        </header>
+
+        <main>
+            {% if condition %}
+                <div class="record-card">
+                    <p><strong>Patient National ID:</strong> {{ condition.PatientNatID }}</p>
+                    <p><strong>Condition:</strong> {{ condition.MedCondition }}</p>
+                    <p><strong>Notes:</strong> {{ condition.Notes|default:"No additional notes provided" }}</p>
+                    <p class="doctor">Prescribed by: {{ random_doctor }}</p>
+                </div>
+            {% else %}
+                <p class="error">No data found for the provided information.</p>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>

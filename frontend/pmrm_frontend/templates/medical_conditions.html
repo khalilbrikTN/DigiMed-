@@ -15,86 +15,112 @@
         </header>
         <main class="main">
             <!-- Fetch Specific Medical Condition -->
-            <section class="form-section">
-                <h2>Display a Medical Condition</h2>
-                <form id="fetch-form" action="/medical_conditions/" method="get" class="form">
-                    <div class="input-wrapper">
-                        <label for="fetch_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="fetch_med_condition">Medical Condition:</label>
-                        <input type="text" id="fetch_med_condition" name="med_condition" required placeholder="e.g., Diabetes">
-                    </div>
-                    <button type="submit" id="fetch-btn" class="btn">Fetch</button>
-                </form>
-            </section>
+            <div id="fetch-medical-condition">
+                <section class="form-section">
+                    <h2>Display a Medical Condition</h2>
+                    <form id="fetch-form" action="/medical_conditions/" method="get" class="form">
+                        <div class="input-wrapper">
+                            <label for="fetch_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="fetch_med_condition">Medical Condition:</label>
+                            <input type="text" id="fetch_med_condition" name="med_condition" required placeholder="e.g., Diabetes">
+                        </div>
+                        <button type="submit" id="fetch-btn" class="btn">Fetch</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Add Medical Condition -->
-            <section class="form-section">
-                <h2>Add a Medical Condition</h2>
-                <form action="/medical_conditions/" method="post" class="form">
-                    {% csrf_token %}
-                    <div class="input-wrapper">
-                        <label for="add_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_med_condition">Medical Condition:</label>
-                        <input type="text" id="add_med_condition" name="MedCondition" required placeholder="e.g., Hypertension">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="add_notes">Notes:</label>
-                        <input type="text" id="add_notes" name="Notes" placeholder="Additional details">
-                    </div>
-                    <button type="submit" class="btn">Add</button>
-                </form>
-            </section>
+            <div id="add-medical-condition">
+                <section class="form-section">
+                    <h2>Add a Medical Condition</h2>
+                    <form action="/medical_conditions/" method="post" class="form">
+                        {% csrf_token %}
+                        <div class="input-wrapper">
+                            <label for="add_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_med_condition">Medical Condition:</label>
+                            <input type="text" id="add_med_condition" name="MedCondition" required placeholder="e.g., Hypertension">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="add_notes">Notes:</label>
+                            <input type="text" id="add_notes" name="Notes" placeholder="Additional details">
+                        </div>
+                        <button type="submit" class="btn">Add</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Update Medical Condition -->
-            <section class="form-section">
-                <h2>Edit a Medical Condition</h2>
-                <form action="/medical_conditions/" method="post" class="form">
-                    {% csrf_token %}
-                    <input type="hidden" name="_method" value="put">
-                    <div class="input-wrapper">
-                        <label for="update_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_med_condition">Medical Condition:</label>
-                        <input type="text" id="update_med_condition" name="med_condition" required placeholder="e.g., Asthma">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="update_notes">Updated Notes:</label>
-                        <input type="text" id="update_notes" name="notes" placeholder="New details or changes">
-                    </div>
-                    <button type="submit" class="btn">Update</button>
-                </form>
-            </section>
+            <div id="update-medical-condition">
+                <section class="form-section">
+                    <h2>Edit a Medical Condition</h2>
+                    <form action="/medical_conditions/" method="post" class="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="put">
+                        <div class="input-wrapper">
+                            <label for="update_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_med_condition">Medical Condition:</label>
+                            <input type="text" id="update_med_condition" name="med_condition" required placeholder="e.g., Asthma">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="update_notes">Updated Notes:</label>
+                            <input type="text" id="update_notes" name="notes" placeholder="New details or changes">
+                        </div>
+                        <button type="submit" class="btn">Update</button>
+                    </form>
+                </section>
+            </div>
 
             <!-- Delete Medical Condition -->
-            <section class="form-section">
-                <h2>Delete a Medical Condition</h2>
-                <form action="/medical_conditions/" method="post" class="form">
-                    {% csrf_token %}
-                    <input type="hidden" name="_method" value="delete">
-                    <div class="input-wrapper">
-                        <label for="delete_patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="delete_med_condition">Medical Condition:</label>
-                        <input type="text" id="delete_med_condition" name="med_condition" required placeholder="e.g., Allergy">
-                    </div>
-                    <button type="submit" class="btn">Delete</button>
-                </form>
-            </section>
+            <div id="delete-medical-condition">
+                <section class="form-section">
+                    <h2>Delete a Medical Condition</h2>
+                    <form action="/medical_conditions/" method="post" class="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="delete">
+                        <div class="input-wrapper">
+                            <label for="delete_patient_nat_id">Patient National ID:</label>
+                            <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="delete_med_condition">Medical Condition:</label>
+                            <input type="text" id="delete_med_condition" name="med_condition" required placeholder="e.g., Allergy">
+                        </div>
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </section>
+            </div>
         </main>
     </div>
+
     <!-- JavaScript -->
     <script>
-    // Ensure correct behavior for the Fetch operation
+    document.addEventListener("DOMContentLoaded", () => {
+    const role = "{{ role|default:''|escapejs }}".trim().toLowerCase();
+    console.log("Role from server:", role);
+
+    const addSection = document.getElementById("add-medical-condition");
+    const editSection = document.getElementById("update-medical-condition");
+    const deleteSection = document.getElementById("delete-medical-condition");
+
+    if (role === "patient") {
+        if (addSection) addSection.style.display = "none";
+        if (editSection) editSection.style.display = "none";
+        if (deleteSection) deleteSection.style.display = "none";
+    } else if (role === "doctor") {
+        if (deleteSection) deleteSection.style.display = "none";
+    }
+});
+
+
     document.getElementById('fetch-form').addEventListener('submit', function (event) {
         const patientNatID = document.getElementById('fetch_patient_nat_id').value.trim();
         const medCondition = document.getElementById('fetch_med_condition').value.trim();

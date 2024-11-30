@@ -30,21 +30,18 @@ def home(request):
     return render(request, 'home.html', context)
 
 def medical_conditions_page(request):
-    """
-    Renders the Medical Conditions page and passes the role and IDs.
-    """
     role = request.GET.get('role')
     nat_id = request.GET.get('nat_id', None)
     doctor_id = request.GET.get('doctor_id', None)
 
-    # Debugging: Print received parameters
-    print(f"View - Role: {role}, NatID: {nat_id}, DoctorID: {doctor_id}")
+    # Debugging
+    print(f"Role in view: {role}")
+    print(f"NatID in view: {nat_id}")
+    print(f"DoctorID in view: {doctor_id}")
 
-    # Validate role and IDs
     if not role:
         return render(request, 'error.html', {'message': 'Role is required to access this page.'})
 
-    # Pass the parameters to the template
     context = {
         'role': role,
         'nat_id': nat_id if role == 'patient' else None,
@@ -52,6 +49,47 @@ def medical_conditions_page(request):
     }
     return render(request, 'medical_conditions.html', context)
 
+
+def medical_tests_page(request):
+    role = request.GET.get('role')
+    nat_id = request.GET.get('nat_id', None)
+    doctor_id = request.GET.get('doctor_id', None)
+
+    # Debugging
+    print(f"Role in view: {role}")
+    print(f"NatID in view: {nat_id}")
+    print(f"DoctorID in view: {doctor_id}")
+
+    if not role:
+        return render(request, 'error.html', {'message': 'Role is required to access this page.'})
+
+    context = {
+        'role': role,
+        'nat_id': nat_id if role == 'patient' else None,
+        'doctor_id': doctor_id if role == 'doctor' else None,
+    }
+    return render(request, 'medical_tests.html', context)
+
+
+def treated_by_page(request):
+    role = request.GET.get('role')
+    nat_id = request.GET.get('nat_id', None)
+    doctor_id = request.GET.get('doctor_id', None)
+
+    # Debugging
+    print(f"Role in view: {role}")
+    print(f"NatID in view: {nat_id}")
+    print(f"DoctorID in view: {doctor_id}")
+
+    if not role:
+        return render(request, 'error.html', {'message': 'Role is required to access this page.'})
+
+    context = {
+        'role': role,
+        'nat_id': nat_id if role == 'patient' else None,
+        'doctor_id': doctor_id if role == 'doctor' else None,
+    }
+    return render(request, 'treated_by.html', context)
 @method_decorator(csrf_exempt, name='dispatch')
 class MedicalConditionView(View):
     def get(self, request, patient_nat_id=None, med_condition=None):
@@ -158,37 +196,32 @@ class MedicalConditionView(View):
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to delete medical condition: {str(e)}"}, status=500)
 
-
 @method_decorator(csrf_exempt, name='dispatch')
 class MedicalTestView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         """
-        Handles GET requests for fetching all or specific medical conditions.
+        Handles GET requests for fetching all or specific medical tests.
         """
-        role = request.GET.get('role')
-        nat_id = request.GET.get('nat_id', None)
-        doctor_id = request.GET.get('doctor_id', None)
-
-
-        # Fetch specific or all medical conditions
-        patient_nat_id = request.GET.get('patient_nat_id')
-        med_condition = request.GET.get('med_condition')
+        # Extracting parameters from kwargs
+        patient_nat_id = kwargs.get('patient_nat_id')
+        test_id = kwargs.get('test_id')
 
         try:
-            if patient_nat_id and med_condition:
-                # Fetch specific medical condition
-                url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
+            # Fetch specific or all medical tests based on parameters
+            if patient_nat_id and test_id:
+                # Fetch specific medical test
+                url = f"{PMRM_BASE_URL}/medical_tests/{patient_nat_id}/{test_id}/"
             else:
-                # Fetch all medical conditions
-                url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
+                # Fetch all medical tests
+                url = f"{PMRM_BASE_URL}/medical_tests/"
 
             response = requests.get(url)
             response.raise_for_status()
             return JsonResponse(response.json(), safe=False, status=response.status_code)
 
         except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to fetch medical conditions: {str(e)}"}, status=500)
-        
+            return JsonResponse({"error": f"Failed to fetch medical tests: {str(e)}"}, status=500)
+
     def post(self, request):
         """
         Handles POST requests to add, update, or delete medical tests based on the '_method' override.
@@ -245,6 +278,7 @@ class MedicalTestView(View):
 
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to process the request: {str(e)}"}, status=500)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class TreatedByView(View):
