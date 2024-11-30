@@ -1,0 +1,165 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* Header */
+.header h1 {
+    font-size: 2.5rem;
+    color: #00509e;
+    margin-bottom: 30px;
+}
+
+/* Back Button (if applicable) */
+.back-btn {
+    margin-top: -10px;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    background-color: #ff6868;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #d95454;
+}
+
+/* Main Content */
+.main p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Buttons */
+.btn {
+    position: relative;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn span {
+    position: relative;
+    z-index: 2;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 150%;
+    height: 150%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+    z-index: 1;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.4);
+}
+
+.btn:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: left;
+}
+
+.form-section h2 {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+/* Collapsible Inputs */
+.input-wrapper {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.6s ease, opacity 0.6s ease;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+    pointer-events: none;
+}
+
+.input-wrapper.active {
+    max-height: 100px; /* Adjust based on your input height */
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Input Fields */
+input[type="text"] {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease, width 0.6s ease;
+    width: 0;
+}
+
+.input-wrapper.active input[type="text"] {
+    width: 100%;
+}
+
+label {
+    font-size: 1rem;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.input-wrapper.active label {
+    opacity: 1;
+}

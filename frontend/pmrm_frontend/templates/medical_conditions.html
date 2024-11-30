@@ -4,58 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Conditions</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <!-- Medical Conditions -->
-    <h2>Medical Conditions</h2>
+    <div class="container">
+        <header class="header">
+            <button class="btn back-btn" onclick="location.href='/'">Back to Main Menu</button>
+            <h1>Manage Medical Conditions</h1>
+        </header>
+        <main class="main">
+            <!-- Fetch Specific Medical Condition -->
+            <section class="form-section">
+                <h2>Show a Medical Condition</h2>
+                <form action="/medical_conditions/" method="get" class="form">
+                    <div class="input-wrapper">
+                        <label for="patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="med_condition">Medical Condition:</label>
+                        <input type="text" id="med_condition" name="med_condition" required placeholder="e.g., Diabetes">
+                    </div>
+                    <button type="submit" class="btn">Fetch</button>
+                </form>
+            </section>
 
-    <!-- Form to fetch a specific medical condition -->
-    <h3>Fetch Specific Medical Condition (GET)</h3>
-    <form action="/medical_conditions/" method="get">
-        <label for="patient_nat_id">Patient National ID:</label>
-        <input type="text" id="patient_nat_id" name="patient_nat_id" required>
-        <label for="med_condition">Medical Condition:</label>
-        <input type="text" id="med_condition" name="med_condition" required>
-        <button type="submit">Fetch</button>
-    </form>
+            <!-- Add Medical Condition -->
+            <section class="form-section">
+                <h2>Add a Medical Condition</h2>
+                <form action="/medical_conditions/" method="post" class="form">
+                    {% csrf_token %}
+                    <div class="input-wrapper">
+                        <label for="add_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_med_condition">Medical Condition:</label>
+                        <input type="text" id="add_med_condition" name="MedCondition" required placeholder="e.g., Hypertension">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="notes">Notes:</label>
+                        <input type="text" id="notes" name="Notes" placeholder="Additional details">
+                    </div>
+                    <button type="submit" class="btn">Add</button>
+                </form>
+            </section>
 
-    <!-- Form to add a new medical condition -->
-    <h3>Add Medical Condition (POST)</h3>
-    <form action="/medical_conditions/" method="post">
-        {% csrf_token %}
-        <label for="add_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="add_patient_nat_id" name="PatientNatID" placeholder="e.g., 12345" required>
-        <label for="add_med_condition">Medical Condition:</label>
-        <input type="text" id="add_med_condition" name="MedCondition" placeholder="e.g., Hypertension" required>
-        <label for="notes">Notes:</label>
-        <input type="text" id="notes" name="Notes" placeholder="e.g., High blood pressure">
-        <button type="submit">Add</button>
-    </form>
+            <!-- Update Medical Condition -->
+            <section class="form-section">
+                <h2>Edit a Medical Condition</h2>
+                <form action="/medical_conditions/" method="post" class="form">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="put">
+                    <div class="input-wrapper">
+                        <label for="update_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_med_condition">Medical Condition:</label>
+                        <input type="text" id="update_med_condition" name="med_condition" required placeholder="e.g., Asthma">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_notes">Updated Notes:</label>
+                        <input type="text" id="update_notes" name="notes" placeholder="New details or changes">
+                    </div>
+                    <button type="submit" class="btn">Update</button>
+                </form>
+            </section>
 
-    <!-- Form to update a medical condition -->
-    <h3>Update Medical Condition (PUT)</h3>
-    <form action="/medical_conditions/" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="_method" value="put">
-        <label for="update_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="update_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
-        <label for="update_med_condition">Medical Condition:</label>
-        <input type="text" id="update_med_condition" name="med_condition" placeholder="e.g., Hypertension" required>
-        <label for="update_notes">Updated Notes:</label>
-        <input type="text" id="update_notes" name="notes" placeholder="e.g., Mild case">
-        <button type="submit">Update</button>
-    </form>
+            <!-- Delete Medical Condition -->
+            <section class="form-section">
+                <h2>Delete a Medical Condition</h2>
+                <form action="/medical_conditions/" method="post" class="form">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="delete">
+                    <div class="input-wrapper">
+                        <label for="delete_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="delete_med_condition">Medical Condition:</label>
+                        <input type="text" id="delete_med_condition" name="med_condition" required placeholder="e.g., Allergy">
+                    </div>
+                    <button type="submit" class="btn">Delete</button>
+                </form>
+            </section>
+        </main>
+    </div>
 
-    <!-- Form to delete a medical condition -->
-    <h3>Delete Medical Condition (DELETE)</h3>
-    <form action="/medical_conditions/" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="_method" value="delete">
-        <label for="delete_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
-        <label for="delete_med_condition">Medical Condition:</label>
-        <input type="text" id="delete_med_condition" name="med_condition" placeholder="e.g., Hypertension" required>
-        <button type="submit">Delete</button>
-    </form>
+    <!-- JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const formSections = document.querySelectorAll('.form-section');
+
+        formSections.forEach((section) => {
+            const inputs = section.querySelectorAll('input[type="text"]');
+            const wrappers = section.querySelectorAll('.input-wrapper');
+
+            let hasInputValue = false; // Track if any input has a value
+            let collapseTimeout;
+
+            // Expand inputs on hover or focus
+            section.addEventListener('mouseenter', () => {
+                wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                clearTimeout(collapseTimeout); // Prevent collapse while interacting
+
+                // Scroll the section into view upon expansion
+                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            section.addEventListener('mouseleave', () => {
+                clearTimeout(collapseTimeout);
+                if (!hasInputValue) {
+                    // No input values, collapse immediately
+                    wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                } else {
+                    // Inputs have values, start countdown
+                    collapseTimeout = setTimeout(() => {
+                        if (!section.querySelector(':focus')) {
+                            wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                        }
+                    }, 3000); // Countdown for collapse
+                }
+            });
+
+            inputs.forEach((input) => {
+                input.addEventListener('input', () => {
+                    hasInputValue = Array.from(inputs).some((i) => i.value.trim() !== '');
+                });
+
+                input.addEventListener('focus', () => {
+                    wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                    clearTimeout(collapseTimeout); // Reset collapse timer on interaction
+                });
+
+                input.addEventListener('blur', () => {
+                    if (!hasInputValue && !section.querySelector(':focus')) {
+                        wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>

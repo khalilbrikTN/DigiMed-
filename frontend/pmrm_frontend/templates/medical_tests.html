@@ -4,84 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Tests</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <!-- Medical Tests -->
-    <h2>Medical Tests</h2>
+    <div class="container">
+        <header class="header">
+            <button class="btn back-btn" onclick="location.href='/'">Back to Main Menu</button>
+            <h1>Manage Medical Tests</h1>
+        </header>
+        <main class="main">
+            <!-- Fetch Specific Medical Test -->
+            <section class="form-section">
+                <h2>Display a Medical Test</h2>
+                <form action="/medical_tests/" method="get" class="form">
+                    <div class="input-wrapper">
+                        <label for="fetch_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="fetch_test_id">Test ID:</label>
+                        <input type="text" id="fetch_test_id" name="test_id" required placeholder="e.g., T123">
+                    </div>
+                    <button type="submit" class="btn">Fetch</button>
+                </form>
+            </section>
 
-    <!-- Form to fetch a specific medical test -->
-    <h3>Fetch Specific Medical Test (GET)</h3>
-    <form action="/medical_tests/" method="get">
-        <label for="fetch_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required>
-        <label for="fetch_test_id">Test ID:</label>
-        <input type="text" id="fetch_test_id" name="test_id" required>
-        <button type="submit">Fetch</button>
-    </form>
+            <!-- Add Medical Test -->
+            <section class="form-section">
+                <h2>Add a Medical Test</h2>
+                <form action="/medical_tests/" method="post" class="form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="input-wrapper">
+                        <label for="add_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_test_id">Test ID:</label>
+                        <input type="text" id="add_test_id" name="TestID" required placeholder="e.g., T123">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_test_type">Test Type:</label>
+                        <input type="text" id="add_test_type" name="Test_Type" placeholder="e.g., Blood Test">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_subject_of_test">Subject of Test:</label>
+                        <input type="text" id="add_subject_of_test" name="SubjectOfTest" placeholder="e.g., Glucose Levels">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_result">Result:</label>
+                        <input type="text" id="add_result" name="Result" placeholder="e.g., Normal">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_date_time_of_upload">Date & Time of Upload:</label>
+                        <input type="text" id="add_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_image_of_scan">Image of Scan (URL or Text):</label>
+                        <input type="text" id="add_image_of_scan" name="ImageOfScan" placeholder="e.g., image_url_or_text">
+                    </div>
+                    <button type="submit" class="btn">Add</button>
+                </form>
+            </section>
 
-    <!-- Form to add a new medical test -->
-    <h3>Add Medical Test (POST)</h3>
-    <form action="/medical_tests/" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="add_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="add_patient_nat_id" name="PatientNatID" placeholder="e.g., 12345" required>
-        <label for="add_test_id">Test ID:</label>
-        <input type="text" id="add_test_id" name="TestID" placeholder="e.g., T123" required>
-        <label for="add_test_type">Test Type:</label>
-        <input type="text" id="add_test_type" name="Test_Type" placeholder="e.g., Blood Test">
-        <label for="add_subject_of_test">Subject of Test:</label>
-        <input type="text" id="add_subject_of_test" name="SubjectOfTest" placeholder="e.g., Glucose Levels">
-        <label for="add_result">Result:</label>
-        <input type="text" id="add_result" name="Result" placeholder="e.g., Normal">
-        <label for="add_date_time_of_upload">Date & Time of Upload:</label>
-        <input type="text" id="add_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
-        <label for="add_image_of_scan">Image of Scan:</label>
-        <input type="text" id="add_image_of_scan" name="ImageOfScan" accept="image/*">
-        <button type="submit">Add</button>
-    </form>
+            <!-- Update Medical Test -->
+            <section class="form-section">
+                <h2>Edit a Medical Test</h2>
+                <form action="/medical_tests/" method="post" class="form">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="put">
+                    <div class="input-wrapper">
+                        <label for="update_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_test_id">Test ID:</label>
+                        <input type="text" id="update_test_id" name="test_id" required placeholder="e.g., T123">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_test_type">Updated Test Type:</label>
+                        <input type="text" id="update_test_type" name="Test_Type" placeholder="e.g., Blood Test">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_subject_of_test">Updated Subject of Test:</label>
+                        <input type="text" id="update_subject_of_test" name="SubjectOfTest" placeholder="e.g., Cholesterol Level">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_result">Updated Result:</label>
+                        <input type="text" id="update_result" name="Result" placeholder="e.g., Normal">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_image_of_scan">Updated Image of Scan (URL or Text):</label>
+                        <input type="text" id="update_image_of_scan" name="ImageOfScan" placeholder="e.g., image_url_or_text">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_date_time_of_upload">Updated Date & Time of Upload:</label>
+                        <input type="text" id="update_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD HH:MM:SS">
+                    </div>
+                    <button type="submit" class="btn">Update</button>
+                </form>
+            </section>
 
-    <!-- Form to update a medical test -->
-    <!-- Form to update a medical test -->
-    <h3>Update Medical Test (PUT)</h3>
-    <form action="/medical_tests/" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="_method" value="put">
-        
-        <label for="update_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="update_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
-        
-        <label for="update_test_id">Test ID:</label>
-        <input type="text" id="update_test_id" name="test_id" placeholder="e.g., T123" required>
-        
-        <label for="update_test_type">Updated Test Type:</label>
-        <input type="text" id="update_test_type" name="Test_Type" placeholder="e.g., Blood Test">
-        
-        <label for="update_subject_of_test">Updated Subject of Test:</label>
-        <input type="text" id="update_subject_of_test" name="SubjectOfTest" placeholder="e.g., Cholesterol Level">
-        
-        <label for="update_result">Updated Result:</label>
-        <input type="text" id="update_result" name="Result" placeholder="e.g., Normal">
-        
-        <label for="update_image_of_scan">Updated Image of Scan (URL or Text):</label>
-        <input type="text" id="update_image_of_scan" name="ImageOfScan" placeholder="e.g., image_url_or_text">
-        
-        <label for="update_date_time_of_upload">Updated Date and Time of Upload (YYYY-MM-DD HH:MM:SS):</label>
-        <input type="text" id="update_date_time_of_upload" name="Date_TimeOfUpload" placeholder="YYYY-MM-DD HH:MM:SS">
-        
-        <button type="submit">Update</button>
-    </form>
+            <!-- Delete Medical Test -->
+            <section class="form-section">
+                <h2>Delete a Medical Test</h2>
+                <form action="/medical_tests/" method="post" class="form">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="delete">
+                    <div class="input-wrapper">
+                        <label for="delete_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="delete_test_id">Test ID:</label>
+                        <input type="text" id="delete_test_id" name="test_id" required placeholder="e.g., T123">
+                    </div>
+                    <button type="submit" class="btn">Delete</button>
+                </form>
+            </section>
+        </main>
+    </div>
 
+    <!-- JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const formSections = document.querySelectorAll('.form-section');
 
-    <!-- Form to delete a medical test -->
-    <h3>Delete Medical Test (DELETE)</h3>
-    <form action="/medical_tests/" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="_method" value="delete">
-        <label for="delete_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" placeholder="e.g., 12345" required>
-        <label for="delete_test_id">Test ID:</label>
-        <input type="text" id="delete_test_id" name="test_id" placeholder="e.g., T123" required>
-        <button type="submit">Delete</button>
-    </form>
+        formSections.forEach((section) => {
+            const inputs = section.querySelectorAll('input[type="text"]');
+            const wrappers = section.querySelectorAll('.input-wrapper');
+
+            let hasInputValue = false; // Track if any input has a value
+            let collapseTimeout;
+
+            // Expand inputs on hover or focus
+            section.addEventListener('mouseenter', () => {
+                wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                clearTimeout(collapseTimeout); // Prevent collapse while interacting
+
+                // Scroll the section into view upon expansion
+                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            section.addEventListener('mouseleave', () => {
+                clearTimeout(collapseTimeout);
+                if (!hasInputValue) {
+                    // No input values, collapse immediately
+                    wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                } else {
+                    // Inputs have values, start countdown
+                    collapseTimeout = setTimeout(() => {
+                        if (!section.querySelector(':focus')) {
+                            wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                        }
+                    }, 3000); // Countdown for collapse
+                }
+            });
+
+            inputs.forEach((input) => {
+                input.addEventListener('input', () => {
+                    hasInputValue = Array.from(inputs).some((i) => i.value.trim() !== '');
+                });
+
+                input.addEventListener('focus', () => {
+                    wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                    clearTimeout(collapseTimeout); // Reset collapse timer on interaction
+                });
+
+                input.addEventListener('blur', () => {
+                    if (!hasInputValue && !section.querySelector(':focus')) {
+                        wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>

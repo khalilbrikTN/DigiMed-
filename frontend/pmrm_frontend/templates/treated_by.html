@@ -3,59 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treated By</title>
+    <title>Treated By Management</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <!-- Treated By -->
-    <h2>Treated By</h2>
+    <div class="container">
+        <header class="header">
+            <button class="btn back-btn" onclick="location.href='/'">Back to Main Menu</button>
+            <h1>Manage Treated By</h1>
+        </header>
+        <main class="main">
+            <!-- Fetch Specific Treated By -->
+            <section class="form-section">
+                <h2>Display Doctor History</h2>
+                <form action="/treated_by/" method="get" class="form">
+                    <div class="input-wrapper">
+                        <label for="get_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="get_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="get_doctor_nat_id">Doctor National ID:</label>
+                        <input type="text" id="get_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
+                    </div>
+                    <button type="submit" class="btn">Fetch</button>
+                </form>
+            </section>
 
-    <!-- Fetch Specific Treated By (GET) -->
-    <h3>Fetch Specific Treated By (GET)</h3>
-    <form action="/treated_by/" method="get">
-        <label for="get_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="get_patient_nat_id" name="patient_nat_id" required>
-        <label for="get_doctor_nat_id">Doctor National ID:</label>
-        <input type="text" id="get_doctor_nat_id" name="doctor_nat_id" required>
-        <button type="submit">Fetch</button>
-    </form>
+            <!-- Add Treated By -->
+            <section class="form-section">
+                <h2>Add Doctor History</h2>
+                <form action="/treated_by/" method="post" class="form">
+                    {% csrf_token %}
+                    <div class="input-wrapper">
+                        <label for="add_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_doctor_nat_id">Doctor National ID:</label>
+                        <input type="text" id="add_doctor_nat_id" name="DoctorNatID" required placeholder="e.g., 987654321">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="add_start_date">Start Date (YYYY-MM-DD):</label>
+                        <input type="text" id="add_start_date" name="start_date" required placeholder="e.g., 2023-01-01" pattern="\d{4}-\d{2}-\d{2}">
+                    </div>
+                    <button type="submit" class="btn">Add</button>
+                </form>
+            </section>
 
-    <!-- Add Treated By (POST) -->
-    <h3>Add Treated By (POST)</h3>
-    <form action="/treated_by/" method="post">
-        {% csrf_token %}
-        <label for="add_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="add_patient_nat_id" name="PatientNatID" required>
-        <label for="add_doctor_nat_id">Doctor National ID:</label>
-        <input type="text" id="add_doctor_nat_id" name="DoctorNatID" required>
-        <label for="add_start_date">Start Date (YYYY-MM-DD):</label>
-        <input type="text" id="add_start_date" name="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" required>
-        <button type="submit">Add</button>
-    </form>
+            <!-- Update Treated By -->
+            <section class="form-section">
+                <h2>Edit Doctor History</h2>
+                <form action="/treated_by/" method="post" class="form">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="put">
+                    <div class="input-wrapper">
+                        <label for="update_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_doctor_nat_id">Doctor National ID:</label>
+                        <input type="text" id="update_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="update_start_date">Updated Start Date (YYYY-MM-DD):</label>
+                        <input type="text" id="update_start_date" name="start_date" placeholder="e.g., 2023-01-01" pattern="\d{4}-\d{2}-\d{2}">
+                    </div>
+                    <button type="submit" class="btn">Update</button>
+                </form>
+            </section>
 
-    <!-- Update Treated By (PUT) -->
-    <h3>Update Treated By (PUT)</h3>
-    <form action="/treated_by/" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="_method" value="put">
-        <label for="update_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="update_patient_nat_id" name="patient_nat_id" required>
-        <label for="update_doctor_nat_id">Doctor National ID:</label>
-        <input type="text" id="update_doctor_nat_id" name="doctor_nat_id" required>
-        <label for="update_start_date">Updated Start Date (YYYY-MM-DD):</label>
-        <input type="text" id="update_start_date" name="start_date" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
-        <button type="submit">Update</button>
-    </form>
+            <!-- Delete Treated By -->
+            <section class="form-section">
+                <h2>Remove Doctor History</h2>
+                <form action="/treated_by/" method="post" class="form">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="delete">
+                    <div class="input-wrapper">
+                        <label for="delete_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="delete_doctor_nat_id">Doctor National ID:</label>
+                        <input type="text" id="delete_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
+                    </div>
+                    <button type="submit" class="btn">Delete</button>
+                </form>
+            </section>
+        </main>
+    </div>
 
-    <!-- Delete Treated By (DELETE) -->
-    <h3>Delete Treated By (DELETE)</h3>
-    <form action="/treated_by/" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="_method" value="delete">
-        <label for="delete_patient_nat_id">Patient National ID:</label>
-        <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required>
-        <label for="delete_doctor_nat_id">Doctor National ID:</label>
-        <input type="text" id="delete_doctor_nat_id" name="doctor_nat_id" required>
-        <button type="submit">Delete</button>
-    </form>
+    <!-- JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const formSections = document.querySelectorAll('.form-section');
+
+        formSections.forEach((section) => {
+            const inputs = section.querySelectorAll('input[type="text"]');
+            const wrappers = section.querySelectorAll('.input-wrapper');
+
+            let hasInputValue = false; // Track if any input has a value
+            let collapseTimeout;
+
+            // Expand inputs on hover or focus
+            section.addEventListener('mouseenter', () => {
+                wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                clearTimeout(collapseTimeout); // Prevent collapse while interacting
+
+                // Scroll the section into view upon expansion
+                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            section.addEventListener('mouseleave', () => {
+                clearTimeout(collapseTimeout);
+                if (!hasInputValue) {
+                    // No input values, collapse immediately
+                    wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                } else {
+                    // Inputs have values, start countdown
+                    collapseTimeout = setTimeout(() => {
+                        if (!section.querySelector(':focus')) {
+                            wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                        }
+                    }, 3000); // Countdown for collapse
+                }
+            });
+
+            inputs.forEach((input) => {
+                input.addEventListener('input', () => {
+                    hasInputValue = Array.from(inputs).some((i) => i.value.trim() !== '');
+                });
+
+                input.addEventListener('focus', () => {
+                    wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                    clearTimeout(collapseTimeout); // Reset collapse timer on interaction
+                });
+
+                input.addEventListener('blur', () => {
+                    if (!hasInputValue && !section.querySelector(':focus')) {
+                        wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>
