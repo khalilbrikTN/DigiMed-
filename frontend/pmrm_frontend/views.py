@@ -1,16 +1,13 @@
+# pmrm_frontend/views.py
+
+from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views import View
-from django.shortcuts import render
-import requests
-import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+import requests
 
 PMRM_BASE_URL = "http://127.0.0.1:8000/api/pmrm"
-
-
-
-from django.shortcuts import render
 
 def home(request):
     """
@@ -32,7 +29,6 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
-
 def medical_conditions_page(request):
     """
     Renders the Medical Conditions page and passes the role and IDs.
@@ -42,80 +38,35 @@ def medical_conditions_page(request):
     doctor_id = request.GET.get('doctor_id', None)
 
     # Debugging: Print received parameters
-    print(f"Role: {role}, NatID: {nat_id}, DoctorID: {doctor_id}")
+    print(f"View - Role: {role}, NatID: {nat_id}, DoctorID: {doctor_id}")
 
     # Validate role and IDs
     if not role:
-        return JsonResponse({"error": "Role is required"}, status=400)
-
-    if role == "patient" and not nat_id:
-        return JsonResponse({"error": "Role and NatID are required for patients"}, status=400)
-
-    if role == "doctor" and not doctor_id:
-        return JsonResponse({"error": "Role and DoctorID are required for doctors"}, status=400)
+        return render(request, 'error.html', {'message': 'Role is required to access this page.'})
 
     # Pass the parameters to the template
-    return render(
-        request,
-        "medical_conditions.html",
-        {
-            "role": role,
-            "nat_id": nat_id,
-            "doctor_id": doctor_id,
-        }
-    )
+    context = {
+        'role': role,
+        'nat_id': nat_id if role == 'patient' else None,
+        'doctor_id': doctor_id if role == 'doctor' else None,
+    }
+    return render(request, 'medical_conditions.html', context)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class MedicalConditionView(View):
-    def validate_role(self, role, nat_id=None, doctor_id=None):
-        """
-        Validates role and corresponding IDs.
-        """
-        # Debugging: Print the received values
-        print(f"Role: {role}, NatID: {nat_id}, DoctorID: {doctor_id}")
-
-        if not role:
-            return {"error": "Role is required", "status": 400}
-
-        if role == "patient" and not nat_id:
-            return {"error": "Role and NatID are required for patients", "status": 400}
-
-        if role == "doctor" and not doctor_id:
-            return {"error": "Role and DoctorID are required for doctors", "status": 400}
-
-        # No validation issues
-        return None
-
-
-    def get(self, request):
-        """
-        Handles GET requests for fetching all or specific medical conditions.
-        """
-        role = request.GET.get('role')
-        nat_id = request.GET.get('nat_id', None)
-        doctor_id = request.GET.get('doctor_id', None)
-
-        # Validate role and IDs
-        validation_error = self.validate_role(role, nat_id, doctor_id)
-        if validation_error:
-            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
-
-        # Fetch specific or all medical conditions
-        patient_nat_id = request.GET.get('patient_nat_id')
-        med_condition = request.GET.get('med_condition')
-
+    def get(self, request, patient_nat_id=None, med_condition=None):
+        # No role checks here
         try:
             if patient_nat_id and med_condition:
                 # Fetch specific medical condition
-                url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
+                url = f"http://127.0.0.1:8000/api/pmrm/medical_conditions/{patient_nat_id}/{med_condition}/"
             else:
                 # Fetch all medical conditions
-                url = f"{PMRM_BASE_URL}/medical_conditions/"
+                url = "http://127.0.0.1:8000/api/pmrm/medical_conditions/"
 
             response = requests.get(url)
             response.raise_for_status()
             return JsonResponse(response.json(), safe=False, status=response.status_code)
-
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to fetch medical conditions: {str(e)}"}, status=500)
 
@@ -127,10 +78,6 @@ class MedicalConditionView(View):
         nat_id = request.POST.get('nat_id', None)
         doctor_id = request.POST.get('doctor_id', None)
 
-        # Validate role and IDs
-        validation_error = self.validate_role(role, nat_id, doctor_id)
-        if validation_error:
-            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
 
         try:
             # Handle method override
@@ -167,9 +114,7 @@ class MedicalConditionView(View):
         doctor_id = request.POST.get('doctor_id', None)
 
         # Validate role and IDs
-        validation_error = self.validate_role(role, nat_id, doctor_id)
-        if validation_error:
-            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
+    
 
         try:
             patient_nat_id = request.POST.get('patient_nat_id')
@@ -197,10 +142,7 @@ class MedicalConditionView(View):
         doctor_id = request.POST.get('doctor_id', None)
 
         # Validate role and IDs
-        validation_error = self.validate_role(role, nat_id, doctor_id)
-        if validation_error:
-            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
-
+    
         try:
             patient_nat_id = request.POST.get('patient_nat_id')
             med_condition = request.POST.get('med_condition')
@@ -216,30 +158,37 @@ class MedicalConditionView(View):
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to delete medical condition: {str(e)}"}, status=500)
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class MedicalTestView(View):
     def get(self, request):
         """
-        Handles GET requests for fetching all or specific medical tests.
+        Handles GET requests for fetching all or specific medical conditions.
         """
+        role = request.GET.get('role')
+        nat_id = request.GET.get('nat_id', None)
+        doctor_id = request.GET.get('doctor_id', None)
+
+
+        # Fetch specific or all medical conditions
         patient_nat_id = request.GET.get('patient_nat_id')
-        test_id = request.GET.get('test_id')
+        med_condition = request.GET.get('med_condition')
 
         try:
-            if patient_nat_id and test_id:
-                # Fetch specific medical test
-                url = f"{PMRM_BASE_URL}/medical_tests/{patient_nat_id}/{test_id}/"
+            if patient_nat_id and med_condition:
+                # Fetch specific medical condition
+                url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
             else:
-                # Fetch all medical tests
-                url = f"{PMRM_BASE_URL}/medical_tests/"
+                # Fetch all medical conditions
+                url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
 
             response = requests.get(url)
             response.raise_for_status()
             return JsonResponse(response.json(), safe=False, status=response.status_code)
 
         except requests.RequestException as e:
-            return JsonResponse({"error": f"Failed to fetch medical tests: {str(e)}"}, status=500)
-
+            return JsonResponse({"error": f"Failed to fetch medical conditions: {str(e)}"}, status=500)
+        
     def post(self, request):
         """
         Handles POST requests to add, update, or delete medical tests based on the '_method' override.

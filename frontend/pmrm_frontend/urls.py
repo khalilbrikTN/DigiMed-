@@ -23,5 +23,3 @@ urlpatterns = [
     path('medical_conditions_page/', medical_conditions_page, name='medical_conditions_page'),
 
 ]
-
-

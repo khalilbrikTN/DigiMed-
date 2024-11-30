@@ -38,6 +38,7 @@ MIDDLEWARE = [
     'pmrm_frontend.middleware.RoleBasedAccessMiddleware',
 ]
 
+
 ROOT_URLCONF = 'frontend.urls'
 
 TEMPLATES = [

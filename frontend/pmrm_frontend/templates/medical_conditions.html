@@ -10,37 +10,23 @@
 <body>
     <div class="container">
         <header class="header">
-            <!-- Back Button -->
-            <button class="btn back-btn" id="backToMenuBtn">
-                Back to Main Menu
-            </button>
+            <button class="btn back-btn" onclick="location.href='/'">Back to Main Menu</button>
             <h1>Manage Medical Conditions</h1>
         </header>
         <main class="main">
-            <!-- Role and IDs Display -->
-            <p><strong>Role:</strong> {{ role }}</p>
-            {% if role == 'patient' %}
-                <p><strong>National ID:</strong> {{ nat_id }}</p>
-            {% elif role == 'doctor' %}
-                <p><strong>Doctor ID:</strong> {{ doctor_id }}</p>
-            {% endif %}
-
             <!-- Fetch Specific Medical Condition -->
             <section class="form-section">
-                <h2>Show a Medical Condition</h2>
-                <form action="/medical_conditions/" method="get" class="form">
-                    <input type="hidden" name="role" value="{{ role }}">
-                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
-                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
+                <h2>Display a Medical Condition</h2>
+                <form id="fetch-form" action="/medical_conditions/" method="get" class="form">
                     <div class="input-wrapper">
-                        <label for="patient_nat_id">Patient National ID:</label>
-                        <input type="text" id="patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
+                        <label for="fetch_patient_nat_id">Patient National ID:</label>
+                        <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
                     </div>
                     <div class="input-wrapper">
-                        <label for="med_condition">Medical Condition:</label>
-                        <input type="text" id="med_condition" name="med_condition" required placeholder="e.g., Diabetes">
+                        <label for="fetch_med_condition">Medical Condition:</label>
+                        <input type="text" id="fetch_med_condition" name="med_condition" required placeholder="e.g., Diabetes">
                     </div>
-                    <button type="submit" class="btn">Fetch</button>
+                    <button type="submit" id="fetch-btn" class="btn">Fetch</button>
                 </form>
             </section>
 
@@ -49,9 +35,6 @@
                 <h2>Add a Medical Condition</h2>
                 <form action="/medical_conditions/" method="post" class="form">
                     {% csrf_token %}
-                    <input type="hidden" name="role" value="{{ role }}">
-                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
-                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
                     <div class="input-wrapper">
                         <label for="add_patient_nat_id">Patient National ID:</label>
                         <input type="text" id="add_patient_nat_id" name="PatientNatID" required placeholder="e.g., 123456789">
@@ -61,8 +44,8 @@
                         <input type="text" id="add_med_condition" name="MedCondition" required placeholder="e.g., Hypertension">
                     </div>
                     <div class="input-wrapper">
-                        <label for="notes">Notes:</label>
-                        <input type="text" id="notes" name="Notes" placeholder="Additional details">
+                        <label for="add_notes">Notes:</label>
+                        <input type="text" id="add_notes" name="Notes" placeholder="Additional details">
                     </div>
                     <button type="submit" class="btn">Add</button>
                 </form>
@@ -74,9 +57,6 @@
                 <form action="/medical_conditions/" method="post" class="form">
                     {% csrf_token %}
                     <input type="hidden" name="_method" value="put">
-                    <input type="hidden" name="role" value="{{ role }}">
-                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
-                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
                     <div class="input-wrapper">
                         <label for="update_patient_nat_id">Patient National ID:</label>
                         <input type="text" id="update_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
@@ -99,9 +79,6 @@
                 <form action="/medical_conditions/" method="post" class="form">
                     {% csrf_token %}
                     <input type="hidden" name="_method" value="delete">
-                    <input type="hidden" name="role" value="{{ role }}">
-                    <input type="hidden" name="nat_id" value="{{ nat_id }}">
-                    <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
                     <div class="input-wrapper">
                         <label for="delete_patient_nat_id">Patient National ID:</label>
                         <input type="text" id="delete_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
@@ -115,77 +92,70 @@
             </section>
         </main>
     </div>
-
     <!-- JavaScript -->
     <script>
-        // Prepare the dynamic URL for the back button
-        const role = "{{ role }}";
-        const nat_id = "{{ nat_id|default:'' }}"; // Use default for undefined variables
-        const doctor_id = "{{ doctor_id|default:'' }}";
+    // Ensure correct behavior for the Fetch operation
+    document.getElementById('fetch-form').addEventListener('submit', function (event) {
+        const patientNatID = document.getElementById('fetch_patient_nat_id').value.trim();
+        const medCondition = document.getElementById('fetch_med_condition').value.trim();
 
-        document.getElementById('backToMenuBtn').addEventListener('click', function () {
-            let url = `/?role=${role}`;
-            if (role === 'patient') {
-                url += `&nat_id=${nat_id}`;
-            } else if (role === 'doctor') {
-                url += `&doctor_id=${doctor_id}`;
-            }
-            window.location.href = url;
-        });
+        if (patientNatID && medCondition) {
+            // Generate URL in the correct format for fetching
+            this.action = `/medical_conditions/${patientNatID}/${medCondition}/`;
+        } else {
+            event.preventDefault(); // Prevent form submission if fields are empty
+            alert('Please fill in both fields.');
+        }
+    });
 
-        // Form section logic (preserved from the original)
-        document.addEventListener('DOMContentLoaded', () => {
-            const formSections = document.querySelectorAll('.form-section');
+    document.addEventListener('DOMContentLoaded', () => {
+        const formSections = document.querySelectorAll('.form-section');
 
-            formSections.forEach((section) => {
-                const inputs = section.querySelectorAll('input[type="text"]');
-                const wrappers = section.querySelectorAll('.input-wrapper');
+        formSections.forEach((section) => {
+            const inputs = section.querySelectorAll('input[type="text"]');
+            const wrappers = section.querySelectorAll('.input-wrapper');
 
-                let hasInputValue = false; // Track if any input has a value
-                let collapseTimeout;
+            let hasInputValue = false; // Track if any input has a value
+            let collapseTimeout;
 
-                // Expand inputs on hover or focus
-                section.addEventListener('mouseenter', () => {
-                    wrappers.forEach((wrapper) => wrapper.classList.add('active'));
-                    clearTimeout(collapseTimeout); // Prevent collapse while interacting
+            // Expand inputs on hover or focus
+            section.addEventListener('mouseenter', () => {
+                wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                clearTimeout(collapseTimeout); // Prevent collapse while interacting
+                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
 
-                    // Scroll the section into view upon expansion
-                    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                });
-
-                section.addEventListener('mouseleave', () => {
-                    clearTimeout(collapseTimeout);
-                    if (!hasInputValue) {
-                        // No input values, collapse immediately
-                        wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
-                    } else {
-                        // Inputs have values, start countdown
-                        collapseTimeout = setTimeout(() => {
-                            if (!section.querySelector(':focus')) {
-                                wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
-                            }
-                        }, 3000); // Countdown for collapse
-                    }
-                });
-
-                inputs.forEach((input) => {
-                    input.addEventListener('input', () => {
-                        hasInputValue = Array.from(inputs).some((i) => i.value.trim() !== '');
-                    });
-
-                    input.addEventListener('focus', () => {
-                        wrappers.forEach((wrapper) => wrapper.classList.add('active'));
-                        clearTimeout(collapseTimeout); // Reset collapse timer on interaction
-                    });
-
-                    input.addEventListener('blur', () => {
-                        if (!hasInputValue && !section.querySelector(':focus')) {
+            section.addEventListener('mouseleave', () => {
+                clearTimeout(collapseTimeout);
+                if (!hasInputValue) {
+                    wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                } else {
+                    collapseTimeout = setTimeout(() => {
+                        if (!section.querySelector(':focus')) {
                             wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
                         }
-                    });
+                    }, 3000); // Countdown for collapse
+                }
+            });
+
+            inputs.forEach((input) => {
+                input.addEventListener('input', () => {
+                    hasInputValue = Array.from(inputs).some((i) => i.value.trim() !== '');
+                });
+
+                input.addEventListener('focus', () => {
+                    wrappers.forEach((wrapper) => wrapper.classList.add('active'));
+                    clearTimeout(collapseTimeout); // Reset collapse timer on interaction
+                });
+
+                input.addEventListener('blur', () => {
+                    if (!hasInputValue && !section.querySelector(':focus')) {
+                        wrappers.forEach((wrapper) => wrapper.classList.remove('active'));
+                    }
                 });
             });
         });
+    });
     </script>
 </body>
 </html>
