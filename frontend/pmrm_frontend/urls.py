@@ -1,6 +1,6 @@
 from django.urls import path
 from django.shortcuts import render
-from .views import MedicalConditionView, home, MedicalTestView, TreatedByView
+from .views import MedicalConditionView, home, MedicalTestView, TreatedByView, medical_conditions_page
 
 urlpatterns = [
     # Medical Conditions URLs
@@ -19,6 +19,9 @@ urlpatterns = [
     path('medical_conditions_page/', lambda request: render(request, 'medical_conditions.html'), name='medical_conditions_page'),
     path('medical_tests_page/', lambda request: render(request, 'medical_tests.html'), name='medical_tests_page'),
     path('treated_by_page/', lambda request: render(request, 'treated_by.html'), name='treated_by_page'),
+
+    path('medical_conditions_page/', medical_conditions_page, name='medical_conditions_page'),
+
 ]
 
 

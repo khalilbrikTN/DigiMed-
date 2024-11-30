@@ -35,6 +35,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pmrm_frontend.middleware.RoleBasedAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'frontend.urls'

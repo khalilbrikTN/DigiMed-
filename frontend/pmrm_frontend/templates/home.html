@@ -15,13 +15,14 @@
         <main class="main">
             <p>Select a section to manage:</p>
             <div class="button-container">
-                <button class="btn" onclick="location.href='/medical_conditions_page/'">
+                <!-- Ensure role and nat_id are passed to the URL -->
+                <button class="btn" onclick="location.href='/medical_conditions_page/?role={{ role }}&nat_id={{ nat_id }}'">
                     <span>Medical Conditions</span>
                 </button>
-                <button class="btn" onclick="location.href='/medical_tests_page/'">
+                <button class="btn" onclick="location.href='/medical_tests_page/?role={{ role }}&nat_id={{ nat_id }}'">
                     <span>Medical Tests</span>
                 </button>
-                <button class="btn" onclick="location.href='/treated_by_page/'">
+                <button class="btn" onclick="location.href='/treated_by_page/?role={{ role }}&nat_id={{ nat_id }}'">
                     <span>Treated By</span>
                 </button>
             </div>

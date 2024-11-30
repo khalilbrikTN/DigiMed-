@@ -10,14 +10,19 @@
 <body>
     <div class="container">
         <header class="header">
-            <button class="btn back-btn" onclick="location.href='/'">Back to Main Menu</button>
+            <!-- Back button includes role and nat_id -->
+            <button class="btn back-btn" onclick="location.href='/?role={{ role }}&nat_id={{ nat_id }}'">Back to Main Menu</button>
             <h1>Manage Medical Conditions</h1>
         </header>
         <main class="main">
+            <!-- Display role and national ID -->
+            <p><strong>Role:</strong> {{ role }}</p>
+            <p><strong>National ID:</strong> {{ nat_id }}</p>
+
             <!-- Fetch Specific Medical Condition -->
             <section class="form-section">
                 <h2>Show a Medical Condition</h2>
-                <form action="/medical_conditions/" method="get" class="form">
+                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="get" class="form">
                     <div class="input-wrapper">
                         <label for="patient_nat_id">Patient National ID:</label>
                         <input type="text" id="patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
@@ -33,7 +38,7 @@
             <!-- Add Medical Condition -->
             <section class="form-section">
                 <h2>Add a Medical Condition</h2>
-                <form action="/medical_conditions/" method="post" class="form">
+                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="post" class="form">
                     {% csrf_token %}
                     <div class="input-wrapper">
                         <label for="add_patient_nat_id">Patient National ID:</label>
@@ -54,7 +59,7 @@
             <!-- Update Medical Condition -->
             <section class="form-section">
                 <h2>Edit a Medical Condition</h2>
-                <form action="/medical_conditions/" method="post" class="form">
+                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="post" class="form">
                     {% csrf_token %}
                     <input type="hidden" name="_method" value="put">
                     <div class="input-wrapper">
@@ -76,7 +81,7 @@
             <!-- Delete Medical Condition -->
             <section class="form-section">
                 <h2>Delete a Medical Condition</h2>
-                <form action="/medical_conditions/" method="post" class="form">
+                <form action="/medical_conditions/?role={{ role }}&nat_id={{ nat_id }}" method="post" class="form">
                     {% csrf_token %}
                     <input type="hidden" name="_method" value="delete">
                     <div class="input-wrapper">
