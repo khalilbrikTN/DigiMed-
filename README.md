@@ -8,3 +8,4 @@ Architecture Notes :
 
 pmrm: Port 8000
 dbms: Port 8001
+frontend: Port 8002
