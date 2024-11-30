@@ -4,7 +4,7 @@ from django.urls import path, include
 from .views import (
     PatientViewSet, MedicalConditionList, MedicalConditionDetail,
     MedicalTestList, MedicalTestDetail, PatientCreateView, TreatedByList, 
-    TreatedByDetail
+    TreatedByDetail, AppointmentsDetail, AppointmentsList,
     # Include other views as needed
 )
 from rest_framework.routers import DefaultRouter
@@ -52,5 +52,18 @@ urlpatterns = [
         PatientCreateView.as_view(),
         name='patient-create'
     ),
-    # Add other custom endpoints
+
+# Add other custom endpoints
+    # Add Appointment creation endpoint
+
+path(
+        'appointments/',
+        AppointmentsList.as_view(),
+        name='Appointments-list'  # For POST (creating a treatment assignment)
+    ),
+    path(
+        'Appointments/<str:patient_nat_id>/<str:doctor_nat_id>/<str:app_id>',
+        AppointmentsDetail.as_view(),
+        name='Appointment-detail'
+    ),# For GET, PUT, DELETE (specific assignment)
 ]

@@ -184,3 +184,51 @@ class PatientCreateView(APIView):
             )
         
 
+class AppointmentsList(APIView):
+    def post(self, request):
+        serializer = AppointmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data, status=status.HTTP_201_CREATED
+            )
+        else:
+            print("Serializer errors (Appointments POST):", serializer.errors)
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+class AppointmentsDetail(APIView):
+    def get_object(self, patient, doctor, app_id):
+        patient = get_object_or_404(Patient, nat_id=patient)
+        doctor = get_object_or_404(Doctor, nat_id=doctor)
+        return get_object_or_404(
+            Appointment,
+            patient=patient,
+            doctor=doctor,
+            app_id=app_id
+        )
+
+    def get(self, request, patient, doctor, app_id):
+        appointment = self.get_object(patient, doctor, app_id)
+        serializer = AppointmentSerializer(appointment)
+        return Response(serializer.data)
+
+    def put(self, request, patient, doctor, app_id):
+        appointment = self.get_object(patient, doctor, app_id)
+        serializer = AppointmentSerializer(
+            appointment, data=request.data, partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            print("Serializer errors (Appointment PUT):", serializer.errors)
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+    def delete(self, request, patient, doctor, app_id):
+        medical_test = self.get_object(patient, doctor, app_id)
+        medical_test.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

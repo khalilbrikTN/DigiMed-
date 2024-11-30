@@ -205,7 +205,6 @@ class Doctor(User):
 class Appointment(models.Model):
     doctor = models.ForeignKey('Doctor', on_delete=models.RESTRICT, related_name="appointments")
     app_id = models.AutoField(primary_key=True)
-    org = models.ForeignKey('ORG', on_delete=models.RESTRICT, null=True, blank=True, related_name="appointments")
     app_date_time = models.DateTimeField(null=True, blank=True)
     patient = models.ForeignKey('Patient', on_delete=models.CASCADE, related_name="appointments")
 
