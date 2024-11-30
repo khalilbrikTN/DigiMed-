@@ -2,7 +2,7 @@
 from django.urls import path
 from .views import main_view, contact_view 
 from .views import about_view, manage_view, login_view, scheduling_view
-from .views import privacy_view, user_home_view, records_view, workingHours_view, appointments_view
+from .views import privacy_view, user_home_view, records_view, workingHours_view, appointments_view, book_appointments_view
 
 
 urlpatterns = [
@@ -19,6 +19,7 @@ urlpatterns = [
     path('records/', records_view, name='records'),
     path('doctorHours/', workingHours_view, name='doctorHours'),
     path('appointments/', appointments_view, name='appointments'),
+    path('book-appointment/', book_appointments_view, name='book-appointment'),
     path('scheduling/', scheduling_view, name='scheduling'),
     path('manage/', manage_view, name='manage'),
 

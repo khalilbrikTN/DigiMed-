@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1b48edb9-c8a0-402a-a863-f3e865cf2227" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/appointements.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/appointements.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/contact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/create_doctor.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/create_doctor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/create_patient.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/create_patient.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/privacy.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/privacy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/scheduling.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/scheduling.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/user_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/templates/frontend_service/user_home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Django_Project/projet/frontend_service/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Django_Project/projet/frontend_service/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2pXvSkQ9P9bb6W7DHq4LJBIuMw5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/University/7.Fall 2024/Software/Project/DigiMed-"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\University\7.Fall 2024\Software\Project\DigiMed-\Django_Project\projet" />
+      <recent name="D:\University\7.Fall 2024\Software\Project\DigiMed-\DigiMed Services" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-d68999036c7f-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.14475.56" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1b48edb9-c8a0-402a-a863-f3e865cf2227" name="Changes" comment="" />
+      <created>1732925236551</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732925236551</updated>
+    </task>
+    <servers />
+  </component>
+</project>

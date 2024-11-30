@@ -103,11 +103,13 @@
             color: red;
         }
     </style>
+
+
 </head>
 <body>
     <div class="container">
         <h1>Book an Appointment</h1>
-        <form method="POST" action="/book-appointment/">
+        <form method="GET" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="doctor">Select Doctor</label>
                 <select name="doctor" id="doctor" required>
@@ -138,6 +140,31 @@
 
             <button type="submit" class="submit-button">Book Appointment</button>
         </form>
+
+        <script type="text/javascript">
+
+        function validateForm() {
+            var doctor = document.getElementById("doctor").value;
+            var appDate = document.getElementById("app-date").value;
+
+            // Validate form fields (you can add more validation if needed)
+            if (doctor === "" || appDate === "") {
+                alert("Please fill in all the required fields.");
+                return false; // Prevent form submission if validation fails
+            }
+
+            // If the validation passes, show success message
+            var successMessage = document.getElementById("success-message");
+            successMessage.style.display = "block";  // Show the success message
+            successMessage.innerHTML = "Your appointment has been successfully booked!";  // Set the success message text
+
+            // Prevent actual form submission (simulate success message display)
+            return false;
+        }
+    </script>
+
+        <div id="success-message" style="display:none; color: #0078d7; margin-top: 20px; text-align: center;">
+        </div>
 
         <div class="form-feedback">
 

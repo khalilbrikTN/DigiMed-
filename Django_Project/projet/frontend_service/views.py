@@ -24,6 +24,9 @@ def scheduling_view(request):
 def appointments_view(request):
     return render(request, 'frontend_service/appointements.html')
 
+def book_appointments_view(request):
+    return render(request, 'frontend_service/book-appointments.html')
+
 def workingHours_view(request):
     return render(request, 'frontend_service/doctorhours.html')
 
