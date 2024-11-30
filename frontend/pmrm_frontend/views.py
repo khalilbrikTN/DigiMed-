@@ -35,48 +35,74 @@ def home(request):
 
 def medical_conditions_page(request):
     """
-    Render the Medical Conditions page, passing role, nat_id, and doctor_id from the URL.
+    Renders the Medical Conditions page and passes the role and IDs.
     """
     role = request.GET.get('role')
-    nat_id = request.GET.get('nat_id')
-    doctor_id = request.GET.get('doctor_id')
+    nat_id = request.GET.get('nat_id', None)
+    doctor_id = request.GET.get('doctor_id', None)
 
-    # Validate role and required parameters
+    # Debugging: Print received parameters
+    print(f"Role: {role}, NatID: {nat_id}, DoctorID: {doctor_id}")
+
+    # Validate role and IDs
     if not role:
-        return render(request, 'error.html', {'message': 'Role is required to access this page.'})
-    if role == 'patient' and not nat_id:
-        return render(request, 'error.html', {'message': 'Patient ID is required for patients.'})
-    if role == 'doctor' and not doctor_id:
-        return render(request, 'error.html', {'message': 'Doctor ID is required for doctors.'})
+        return JsonResponse({"error": "Role is required"}, status=400)
 
-    # Pass role, nat_id, and doctor_id to the template
-    context = {
-        'role': role,
-        'nat_id': nat_id,
-        'doctor_id': doctor_id,
-    }
-    return render(request, 'medical_conditions.html', context)
+    if role == "patient" and not nat_id:
+        return JsonResponse({"error": "Role and NatID are required for patients"}, status=400)
+
+    if role == "doctor" and not doctor_id:
+        return JsonResponse({"error": "Role and DoctorID are required for doctors"}, status=400)
+
+    # Pass the parameters to the template
+    return render(
+        request,
+        "medical_conditions.html",
+        {
+            "role": role,
+            "nat_id": nat_id,
+            "doctor_id": doctor_id,
+        }
+    )
 
 @method_decorator(csrf_exempt, name='dispatch')
 class MedicalConditionView(View):
+    def validate_role(self, role, nat_id=None, doctor_id=None):
+        """
+        Validates role and corresponding IDs.
+        """
+        # Debugging: Print the received values
+        print(f"Role: {role}, NatID: {nat_id}, DoctorID: {doctor_id}")
+
+        if not role:
+            return {"error": "Role is required", "status": 400}
+
+        if role == "patient" and not nat_id:
+            return {"error": "Role and NatID are required for patients", "status": 400}
+
+        if role == "doctor" and not doctor_id:
+            return {"error": "Role and DoctorID are required for doctors", "status": 400}
+
+        # No validation issues
+        return None
+
+
     def get(self, request):
         """
         Handles GET requests for fetching all or specific medical conditions.
-        Role-based access:
-        - Patients can only view their own records.
-        - Doctors can view records of any patient.
-        - Admins can view all records without restriction.
         """
-        user_role = request.user_role  # Extracted from middleware
-        user_nat_id = request.user_nat_id  # Extracted from middleware
-        doctor_id = request.doctor_id  # Extracted from middleware (optional for doctors)
+        role = request.GET.get('role')
+        nat_id = request.GET.get('nat_id', None)
+        doctor_id = request.GET.get('doctor_id', None)
 
+        # Validate role and IDs
+        validation_error = self.validate_role(role, nat_id, doctor_id)
+        if validation_error:
+            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
+
+        # Fetch specific or all medical conditions
         patient_nat_id = request.GET.get('patient_nat_id')
         med_condition = request.GET.get('med_condition')
-
-        # Role-based access control
-        if user_role == 'patient' and patient_nat_id != user_nat_id:
-            return JsonResponse({'error': 'Access denied: Patients can only access their own records'}, status=403)
 
         try:
             if patient_nat_id and med_condition:
@@ -95,97 +121,98 @@ class MedicalConditionView(View):
 
     def post(self, request):
         """
-        Handles POST requests to add or update medical conditions.
-        Role-based access:
-        - Patients cannot add or update records.
-        - Doctors can add or update records for their assigned patients.
-        - Admins can add or update any record.
+        Handles POST requests to add, update, or delete medical conditions based on the '_method' override.
         """
-        user_role = request.user_role  # Extracted from middleware
-        user_nat_id = request.user_nat_id  # Extracted from middleware
-        doctor_id = request.doctor_id  # Extracted from middleware (optional for doctors)
+        role = request.POST.get('role')
+        nat_id = request.POST.get('nat_id', None)
+        doctor_id = request.POST.get('doctor_id', None)
+
+        # Validate role and IDs
+        validation_error = self.validate_role(role, nat_id, doctor_id)
+        if validation_error:
+            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
 
         try:
+            # Handle method override
             method_override = request.POST.get('_method', '').lower()
-
+            
             if method_override == 'put':
-                # Update medical condition
-                patient_nat_id = request.POST.get('patient_nat_id')
-                med_condition = request.POST.get('med_condition')
-                notes = request.POST.get('notes', '')  # Default to empty string
+                return self.put(request)
+            elif method_override == 'delete':
+                return self.delete(request)
 
-                if not patient_nat_id or not med_condition:
-                    return JsonResponse({"error": "Missing required fields for update"}, status=400)
+            # Add medical condition (default POST behavior)
+            payload = {
+                "PatientNatID": request.POST.get('PatientNatID'),
+                "MedCondition": request.POST.get('MedCondition'),
+                "Notes": request.POST.get('Notes', '')  # Safely get 'Notes', default to empty string
+            }
+            if not payload["PatientNatID"] or not payload["MedCondition"]:
+                return JsonResponse({"error": "Missing required fields for addition"}, status=400)
 
-                # Role-based access validation
-                if user_role == 'patient':
-                    return JsonResponse({'error': 'Access denied: Patients cannot update records'}, status=403)
-
-                if user_role == 'doctor' and patient_nat_id:
-                    # Validate doctor-patient relationship
-                    relationship_url = f"{PMRM_BASE_URL}/treated_by/{patient_nat_id}/{doctor_id}/"
-                    try:
-                        relationship_response = requests.get(relationship_url)
-                        if relationship_response.status_code != 200:
-                            return JsonResponse({'error': 'Access denied: Doctor not assigned to this patient'}, status=403)
-                    except requests.RequestException:
-                        return JsonResponse({'error': 'Failed to validate doctor-patient relationship'}, status=500)
-
-                # Proceed with update
-                payload = {"Notes": notes}
-                url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
-                response = requests.put(url, json=payload)
-
-            else:
-                # Add medical condition
-                patient_nat_id = request.POST.get('PatientNatID')
-                med_condition = request.POST.get('MedCondition')
-                notes = request.POST.get('Notes', '')  # Default to empty string
-
-                if not patient_nat_id or not med_condition:
-                    return JsonResponse({"error": "Missing required fields for addition"}, status=400)
-
-                # Role-based access validation
-                if user_role == 'patient':
-                    return JsonResponse({'error': 'Access denied: Patients cannot add records'}, status=403)
-
-                if user_role == 'doctor' and patient_nat_id:
-                    # Validate doctor-patient relationship
-                    relationship_url = f"{PMRM_BASE_URL}/treated_by/{patient_nat_id}/{doctor_id}/"
-                    try:
-                        relationship_response = requests.get(relationship_url)
-                        if relationship_response.status_code != 200:
-                            return JsonResponse({'error': 'Access denied: Doctor not assigned to this patient'}, status=403)
-                    except requests.RequestException:
-                        return JsonResponse({'error': 'Failed to validate doctor-patient relationship'}, status=500)
-
-                # Proceed with addition
-                payload = {"PatientNatID": patient_nat_id, "MedCondition": med_condition, "Notes": notes}
-                url = f"{PMRM_BASE_URL}/medical_conditions/"
-                response = requests.post(url, json=payload)
-
+            url = f"{PMRM_BASE_URL}/medical_conditions/"
+            response = requests.post(url, json=payload)
             response.raise_for_status()
-            return HttpResponseRedirect('/medical_conditions_page/')
+            return JsonResponse(response.json(), status=response.status_code)
 
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to process the request: {str(e)}"}, status=500)
 
-    def delete(self, request, patient_nat_id, med_condition):
+    def put(self, request):
         """
-        Handles DELETE requests to delete medical conditions.
-        Role-based access:
-        - Only admins can delete records.
+        Update a specific medical condition.
         """
-        user_role = request.user_role  # Extracted from middleware
+        role = request.POST.get('role')
+        nat_id = request.POST.get('nat_id', None)
+        doctor_id = request.POST.get('doctor_id', None)
 
-        if user_role != 'admin':
-            return JsonResponse({'error': 'Access denied: Only admins can delete records'}, status=403)
+        # Validate role and IDs
+        validation_error = self.validate_role(role, nat_id, doctor_id)
+        if validation_error:
+            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
 
         try:
+            patient_nat_id = request.POST.get('patient_nat_id')
+            med_condition = request.POST.get('med_condition')
+            notes = request.POST.get('notes', '')
+
+            if not patient_nat_id or not med_condition:
+                return JsonResponse({"error": "Missing required fields for update"}, status=400)
+
+            payload = {"Notes": notes}
+            url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
+            response = requests.put(url, json=payload)
+            response.raise_for_status()
+            return JsonResponse({"message": "Updated successfully"}, status=response.status_code)
+
+        except requests.RequestException as e:
+            return JsonResponse({"error": f"Failed to update medical condition: {str(e)}"}, status=500)
+
+    def delete(self, request):
+        """
+        Delete a specific medical condition.
+        """
+        role = request.POST.get('role')
+        nat_id = request.POST.get('nat_id', None)
+        doctor_id = request.POST.get('doctor_id', None)
+
+        # Validate role and IDs
+        validation_error = self.validate_role(role, nat_id, doctor_id)
+        if validation_error:
+            return JsonResponse({"error": validation_error["error"]}, status=validation_error["status"])
+
+        try:
+            patient_nat_id = request.POST.get('patient_nat_id')
+            med_condition = request.POST.get('med_condition')
+
+            if not patient_nat_id or not med_condition:
+                return JsonResponse({"error": "Missing required fields for deletion"}, status=400)
+
             url = f"{PMRM_BASE_URL}/medical_conditions/{patient_nat_id}/{med_condition}/"
             response = requests.delete(url)
             response.raise_for_status()
-            return JsonResponse(response.json(), status=response.status_code)
+            return JsonResponse({"message": "Deleted successfully"}, status=response.status_code)
+
         except requests.RequestException as e:
             return JsonResponse({"error": f"Failed to delete medical condition: {str(e)}"}, status=500)
 
