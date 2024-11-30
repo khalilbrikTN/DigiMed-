@@ -1,15 +1,19 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 import json
 from dbms_service.models import User, Doctor, Patient
+from django.urls import reverse
 
 
 
 # Main Apis
-def user_home_view(request):
-    return render(request, 'frontend_service/user_home.html')
+def user_home_view(request, user_id):
+    patient = get_object_or_404(Patient, nat_id=user_id)
 
+    context = {'name' : patient.first_name }
+ 
+    return render(request, 'frontend_service/user_home.html', context)
 
 def manage_view(request):
     return render(request, 'frontend_service/user_manage.html')
@@ -39,41 +43,27 @@ def privacy_view(request):
     return render(request, 'frontend_service/privacy.html')
 
 def login_view(request):
+    context = {}
     if request.method == "POST":
-        return user_home_view(request)
-
         user_id = request.POST.get("user_id")
         password = request.POST.get("password")
         role = request.POST.get("role")
-        try:
-            user = User.objects.get(nat_id=user_id)
-        except User.DoesNotExist:
-            messages.error(request, "User does not exist.")
-            return redirect('login') 
-        
 
-    
-        if role == 'patient':
-            try:
-                patient = Patient.objects.get(user=user)
-                login(request, user)  
-                return redirect('userpage') 
-            except Patient.DoesNotExist:
-                messages.error(request, "You are not a registered patient.")
-                return redirect('login')
-        
-        elif role == 'doctor':
-            try:
-                doctor = Doctor.objects.get(user=user)
-                login(request, user)  
-                return redirect('doctor_dashboard') 
-            except Doctor.DoesNotExist:
-                messages.error(request, "You are not a registered doctor.")
-                return redirect('login')
-        
+        context['user_id'] = user_id
+        context['role'] = role
+
+        if role == "doctor":
+            response = Doctor.login_doctor(nat_id=user_id, password=password)
+        elif role == "patient":
+            response = Patient.login_patient(nat_id=user_id, password=password)
+            print(response)
         else:
-            messages.error(request, "Invalid role selected.")
-            return redirect('login')
+            return render(request, "frontend_service/login.html", {"error": "Invalid role selected"})
 
-    return render(request, 'frontend_service/login.html')
+        if 'error' in response:
+            return render(request, "frontend_service/login.html", {"error": response['error']})
+        else:
+            return  redirect(reverse('userPage', kwargs={'user_id': user_id}))
+
+    return render(request, "frontend_service/login.html")
 

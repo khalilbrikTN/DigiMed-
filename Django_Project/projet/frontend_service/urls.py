@@ -11,7 +11,11 @@ urlpatterns = [
     path('contact/', contact_view, name='contact'),
     path('privacy/', privacy_view, name='privacy'),
     path('login/', login_view, name='login'),
-    path('userpage/', user_home_view, name='userPage'),
+
+    path('userpage/<str:user_id>/', user_home_view, name='userPage'),
+
+
+
     path('records/', records_view, name='records'),
     path('doctorHours/', workingHours_view, name='doctorHours'),
     path('appointments/', appointments_view, name='appointments'),

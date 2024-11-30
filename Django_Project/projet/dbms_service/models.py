@@ -16,7 +16,7 @@ class User(models.Model):
     email = models.EmailField(max_length=150, null=True, blank=True)
     gender = models.CharField(max_length=1, null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
-    password = models.CharField(max_length=128)  # Store hashed passwords
+    password = models.CharField(max_length=128, null=True, blank=True)
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password)
@@ -108,6 +108,24 @@ class Patient(User):
             return f"No patient found with ID {nat_id}"
         except Exception as e:
             return f"Error deleting patient: {e}"
+
+    @classmethod
+    def login_patient(cls, nat_id, password):
+        try:
+            patient = cls.objects.get(nat_id=nat_id)
+
+            if patient.check_password(password):
+                return {
+                    'message': f"Welcome, {patient.first_name} {patient.last_name}!",
+                    'patient_id': patient.nat_id,
+                }
+            else:
+                return {'error': 'Invalid password'}
+        except cls.DoesNotExist:
+            return {'error': f"No patient found with ID {nat_id}"}
+        except Exception as e:
+            return {'error': str(e)}
+        
 
 class Doctor(User):
     specialty = models.CharField(max_length=250, null=True, blank=True)
@@ -202,6 +220,24 @@ class Doctor(User):
         except Exception as e:
             return f"Error deleting doctor: {e}"
 
+    @classmethod
+    def login_doctor(cls, nat_id, password):
+        try:
+            doctor = cls.objects.get(nat_id=nat_id)
+
+            if doctor.check_password(password):
+                return {
+                    'message': f"Welcome, Dr. {doctor.first_name} {doctor.last_name}!",
+                    'doctor_id': doctor.nat_id,
+                    'specialty': doctor.specialty,
+                }
+            else:
+                return {'error': 'Invalid password'}
+        except cls.DoesNotExist:
+            return {'error': f"No doctor found with ID {nat_id}"}
+        except Exception as e:
+            return {'error': str(e)}
+        
 class Appointment(models.Model):
     doctor = models.ForeignKey('Doctor', on_delete=models.RESTRICT, related_name="appointments")
     app_id = models.AutoField(primary_key=True)
