@@ -9,11 +9,24 @@ from django.urls import reverse
 
 # Main Apis
 def user_home_view(request, user_id):
-    patient = get_object_or_404(Patient, nat_id=user_id)
+    role = request.GET.get('role')  # Extract role from the request
+    name = "Unknown"
 
-    context = {'name' : patient.first_name }
- 
+    if role == "patient":
+        patient = get_object_or_404(Patient, nat_id=user_id)
+        name = patient.first_name
+    elif role == "doctor":
+        doctor = get_object_or_404(Doctor, id=user_id)
+        name = doctor.first_name
+
+    # Pass context to the template
+    context = {
+        'name': name,
+        'role': role,
+        'user_id': user_id,
+    }
     return render(request, 'frontend_service/user_home.html', context)
+
 
 def manage_view(request):
     return render(request, 'frontend_service/user_manage.html')
@@ -63,7 +76,6 @@ def login_view(request):
         if 'error' in response:
             return render(request, "frontend_service/login.html", {"error": response['error']})
         else:
-            return  redirect(reverse('userPage', kwargs={'user_id': user_id}))
+            return redirect(reverse('userPage', kwargs={'user_id': user_id}) + f"?role={role}")
 
     return render(request, "frontend_service/login.html")
-

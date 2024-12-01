@@ -34,7 +34,7 @@
 
         .welcomeText {
             font-size: 24px;
-            color: #4CAF50;
+            color: #0078d7;
             margin-bottom: 15px;
         }
 
@@ -57,7 +57,7 @@
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #4CAF50;
+            border: 3px solid #0078d7;
         }
 
         .upperButtonsContainer,
@@ -69,10 +69,9 @@
         }
 
         .widgetButton,
-        .lowerWidgetButton,
-        .logoutButton {
+        .lowerWidgetButton {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #0078d7;
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -82,9 +81,8 @@
         }
 
         .widgetButton:hover,
-        .lowerWidgetButton:hover,
-        .logoutButton:hover {
-            background-color: #45a049;
+        .lowerWidgetButton:hover {
+            background-color: #005bb5;
         }
 
         .infoWidget {
@@ -112,16 +110,10 @@
             background-color: #ffffff;
         }
 
-        .appointmentItem,
         .medicationItem {
             margin-bottom: 10px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
-        }
-
-        .appointmentItem:last-child,
-        .medicationItem:last-child {
-            border-bottom: none;
         }
 
         .subtitle {
@@ -131,8 +123,20 @@
 
         .logoutButton {
             margin-top: 20px;
-            width: 100%;
+            width: 100%; /* Matches the width of the homeContainer */
+            max-width: 800px; /* Matches the max-width of the homeContainer */
             font-weight: bold;
+            background-color: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logoutButton:hover {
+            background-color: #005bb5;
         }
 
         @media (max-width: 600px) {
@@ -150,17 +154,17 @@
 <body>
     <div id="root">
         <div class="homeContainer">
-            <h2 class="welcomeText">Welcome Back, {{ name }} </h2>
+            <h2 class="welcomeText">Welcome Back, {{ name }}</h2>
             <div class="sectionDivider"></div>
 
             <div class="upperSection">
                 <div class="profileIconContainer">
-                    <img src="https://media.licdn.com/dms/image/D4D03AQE7fW1Rz602uQ/profile-displayphoto-shrink_400_400/0/1672327671722?e=2147483647&v=beta&t=01a3rKb_GL3Y1uJvgRp6ySgdyKBjzzmNhx4KCdFsIh0" alt="Profile" class="profileIcon">
+                    <img src="https://via.placeholder.com/100" alt="Profile" class="profileIcon">
                 </div>
                 <div class="upperButtonsContainer">
                     <a href="{% url 'manage' %}" class="widgetButton">Manage Profile</a>
                     <a href="{% url 'appointments' %}" class="widgetButton">View Appointments</a>
-                </div> 
+                </div>
             </div>
 
             <div class="sectionDivider"></div>
@@ -168,27 +172,18 @@
             <div class="lowerSection">
                 <div class="lowerButtonsRow">
                     <a href="{% url 'scheduling' %}" class="lowerWidgetButton">Scheduling</a>
-                    <a href="{% url 'records' %}" class="lowerWidgetButton">Medical Records</a>
+                    <a href="#" id="medicalRecordsButton" class="lowerWidgetButton">Medical Records</a>
                 </div>
-                    <div class="infoWidget">
-                        <h3 class="widgetTitle">Medication Reminders</h3>
-                        <div class="medicationList">
-                            <div class="medicationItem">
-                                <p class="medicationName"><span class="subtitle">Medicine:</span> Panadol</p>
-                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Once daily for 30 days</p>
-                            </div>
-                            <div class="medicationItem">
-                                <p class="medicationName"><span class="subtitle">Medicine:</span> Paracetamol</p>
-                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Twice daily for 15 days</p>
-                            </div>
-                            <div class="medicationItem">
-                                <p class="medicationName"><span class="subtitle">Medicine:</span> Metformin</p>
-                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Twice daily for 60 days</p>
-                            </div>
-                            <div class="medicationItem">
-                                <p class="medicationName"><span class="subtitle">Medicine:</span> Augmentin</p>
-                                <p class="medicationDetails"><span class="subtitle">Frequency:</span> Twice daily for 60 days</p>
-                            </div>
+                <div class="infoWidget">
+                    <h3 class="widgetTitle">Medication Reminders</h3>
+                    <div class="medicationList">
+                        <div class="medicationItem">
+                            <p class="medicationName"><span class="subtitle">Medicine:</span> Panadol</p>
+                            <p class="medicationDetails"><span class="subtitle">Frequency:</span> Once daily for 30 days</p>
+                        </div>
+                        <div class="medicationItem">
+                            <p class="medicationName"><span class="subtitle">Medicine:</span> Paracetamol</p>
+                            <p class="medicationDetails"><span class="subtitle">Frequency:</span> Twice daily for 15 days</p>
                         </div>
                     </div>
                 </div>
@@ -196,7 +191,38 @@
 
             <div class="sectionDivider"></div>
 
-            <a href="logout.html" class="logoutButton">Log Out</a>
+            <button class="logoutButton" onclick="history.back()">Logout</button>
         </div>
     </div>
+        <!-- JavaScript for dynamically generating Medical Records URL -->
+    <script>
+    // Extract role and user_id from Django context variables
+    const role = "{{ role|escapejs }}";
+    const user_id = "{{ user_id|escapejs }}";
+
+    // Generate the Medical Records URL dynamically based on the role
+    const medicalRecordsUrl = (() => {
+        if (role === 'patient') {
+            return `http://127.0.0.1:8002/?role=${role}&nat_id=${user_id}`;
+        } else if (role === 'doctor') {
+            return `http://127.0.0.1:8002/?role=${role}&doctor_id=${user_id}`;
+        }
+        return '#'; // Fallback in case of an unexpected role
+    })();
+
+    // Update the Medical Records button's href
+    const medicalRecordsButton = document.getElementById('medicalRecordsButton');
+    if (medicalRecordsButton) {
+        medicalRecordsButton.setAttribute('href', medicalRecordsUrl);
+    }
+
+    // Optional: Prevent navigation if href is invalid
+    medicalRecordsButton.addEventListener('click', function (event) {
+        if (!this.href || this.href === '#') {
+            event.preventDefault();
+            alert('The Medical Records URL could not be generated.');
+        }
+    });
+
+    </script>
 </body>

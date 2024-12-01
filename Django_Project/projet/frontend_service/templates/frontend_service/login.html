@@ -15,16 +15,16 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            display: flex; /* Enables flexbox on body */
+            justify-content: center; /* Centers horizontally */
+            align-items: center; /* Centers vertically */
+            min-height: 100vh; /* Ensures the body takes up the full viewport height */
             color: #333;
         }
 
         .container {
             max-width: 400px;
-            width: 90%;
+            width: 90%; /* Makes it responsive */
             background-color: #ffffff;
             padding: 30px;
             border-radius: 10px;
@@ -34,7 +34,7 @@
 
         .title {
             font-size: 28px;
-            color: #4CAF50;
+            color: #0078d7;
             margin-bottom: 10px;
         }
 
@@ -45,7 +45,7 @@
         }
 
         .input, .dropdown {
-            width: 100%;
+            width: 100%; /* Takes up full container width */
             padding: 10px 15px;
             margin: 10px 0;
             font-size: 16px;
@@ -55,14 +55,14 @@
         }
 
         .input:focus, .dropdown:focus {
-            border-color: #4CAF50;
+            border-color: #0078d7;
             outline: none;
         }
 
         .button {
-            width: 100%;
+            width: 100%; /* Takes up full container width */
             padding: 12px 20px;
-            background-color: #4CAF50;
+            background-color: #0078d7;
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -74,7 +74,7 @@
         }
 
         .button:hover {
-            background-color: #45a049;
+            background-color: #005bb5;
         }
 
         .forgotPasswordText,
@@ -82,7 +82,7 @@
             display: block;
             margin-top: 10px;
             font-size: 14px;
-            color: #4CAF50;
+            color: #0078d7;
             text-decoration: none;
         }
 
