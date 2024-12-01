@@ -21,6 +21,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
         }
 
         .container {
@@ -102,12 +103,36 @@
         .error {
             color: red;
         }
+
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #005bb5;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Book an Appointment</h1>
-        <form method="POST" action="/book-appointment/">
+        <form method="GET" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="doctor">Select Doctor</label>
                 <select name="doctor" id="doctor" required>
@@ -139,9 +164,33 @@
             <button type="submit" class="submit-button">Book Appointment</button>
         </form>
 
-        <div class="form-feedback">
+        <script type="text/javascript">
+            function validateForm() {
+                var doctor = document.getElementById("doctor").value;
+                var appDate = document.getElementById("app-date").value;
 
+                // Validate form fields
+                if (doctor === "" || appDate === "") {
+                    alert("Please fill in all the required fields.");
+                    return false; // Prevent form submission if validation fails
+                }
+
+                // Show success message
+                var successMessage = document.getElementById("success-message");
+                successMessage.style.display = "block";
+                successMessage.innerHTML = "Your appointment has been successfully booked!";
+
+                // Prevent actual form submission (simulate success message display)
+                return false;
+            }
+        </script>
+
+        <div id="success-message" style="display:none; color: #0078d7; margin-top: 20px; text-align: center;">
         </div>
+
+        <div class="form-feedback"></div>
     </div>
+
+    <button class="btn back-btn" onclick="history.back()">&#8592;</button>
 </body>
 </html>

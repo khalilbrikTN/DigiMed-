@@ -20,6 +20,8 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
+            position: relative;
         }
 
         .container {
@@ -131,6 +133,30 @@
         .search-results .result-item:last-child {
             border-bottom: none;
         }
+
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #005bb5;
+        }
     </style>
 </head>
 <body>
@@ -178,5 +204,7 @@
             </div>
         </div>
     </div>
+
+    <button class="btn back-btn" onclick="history.back()">&#8592;</button>
 </body>
 </html>

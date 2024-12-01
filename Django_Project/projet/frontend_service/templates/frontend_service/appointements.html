@@ -16,16 +16,18 @@
             background-color: #f8f9fa;
             color: #333;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            position: relative;
         }
 
         .appointments-page {
             width: 90%;
             max-width: 800px;
             text-align: center;
+            margin-top: 20px;
         }
 
         .page-header {
@@ -82,6 +84,25 @@
             transform: translateY(-5px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #005bb5;
+        }
     </style>
 </head>
 <body>
@@ -95,7 +116,7 @@
             <div class="appointment-card">
                 <h3>Appointment Details</h3>
                 <p class="appointment-date"><span class="subtitle">Date:</span> Sunday, 12 December</p>
-                <p class="appointment-time"><span class="subtitle">Time:</span> 12:12 PM - 2:00 PM</p>
+                <p class="appointment-time"><span class="subtitle">Time:</span> 12:12 PM - 12:42 PM</p>
                 <p class="appointment-doctor"><span class="subtitle">Doctor:</span> Dr. Mostafa Youssef</p>
             </div>
 
@@ -114,5 +135,7 @@
             </div>
         </main>
     </div>
+
+    <button class="btn back-btn" onclick="history.back()">&#8592;</button>
 </body>
 </html>
