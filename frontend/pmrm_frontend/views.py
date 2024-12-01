@@ -240,7 +240,7 @@ class MedicalTestView(View):
             response.raise_for_status()
             data = response.json()
 
-            return render(request, 'medical_tests.html', {'medical_tests': [data]})
+            return render(request, 'display_medical_tests.html', {'medical_tests': [data]})
 
         except requests.RequestException as e:
              return render(request, 'operation_status.html', {
@@ -342,7 +342,7 @@ class TreatedByView(View):
             response = requests.get(url)
             response.raise_for_status()
             data = response.json()
-            return render(request, 'treated_by.html', {'treated_by': [data]})
+            return render(request, 'display_treated_by.html', {'treated_by': [data]})
         except requests.RequestException as e:
             return render(request, 'operation_status.html', {
                         'status': 'error',

@@ -6,11 +6,19 @@
     <title>PMRM Frontend</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .centered-button-container {
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            margin-top: 20px;
+        }
+
+    </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>Records Managment</h1>
+            <h1>Records Management</h1>
         </header>
         <main class="main">
             <p></p>
@@ -23,6 +31,9 @@
                 <button class="btn" id="treatedByBtn">Visits History</button>
             </div>
         </main>
+    </div>
+    <div class="centered-button-container">
+        <button class="btn back-btn" onclick="history.back()">Back</button>
     </div>
     <script>
         // Prepare the URL dynamically using Django context variables

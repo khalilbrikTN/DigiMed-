@@ -59,6 +59,12 @@
             text-align: center;
         }
 
+        .centered-button-container {
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            margin-top: 20px;
+        }
+
         /* Center alignment for no-data message */
         .no-data {
             text-align: center;
@@ -109,7 +115,7 @@
                 </div>
             {% endif %}
         </main>
-        <div style="margin-top: 20px;">
+        <div class="centered-button-container">
             <button class="btn back-btn" onclick="history.back()">Back</button>
         </div>
     </div>
