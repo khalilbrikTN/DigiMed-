@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "0d505792-4b69-4eb9-9b50-b918da37b756",
+		"name": "PMRM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37010824"
+	},
+	"item": [
+		{
+			"name": "Add Medical Condition",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"PatientNatID\": \"12345\",\r\n  \"MedCondition\": \"Software\",\r\n  \"Notes\": \"Patient cold.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_conditions/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_conditions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Medical Condition",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_conditions/12345/Software/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_conditions",
+						"12345",
+						"Software",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Medical Condition",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Notes\": \"sucess.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_conditions/12345/Software/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_conditions",
+						"12345",
+						"Software",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Medical Condition",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_conditions/12345/Software/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_conditions",
+						"12345",
+						"Software",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Medical Test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PatientNatID\": \"12345\",\r\n    \"Test_Type\": \" ahmed\",\r\n    \"SubjectOfTest\": \"Hemoglobin\",\r\n    \"Result\": \"Normal\",\r\n    \"Date_TimeOfUpload\": \"2024-11-28T10:00:00\",\r\n    \"TestID\": \"9\",\r\n    \"ImageOfScan\": \"000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_tests/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_tests",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Medical Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_tests/12345/33/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_tests",
+						"12345",
+						"33",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Medical Test",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PatientNatID\": \"12345\",\r\n    \"TestID\": 14,\r\n    \"Test_Type\": \"Blood\",\r\n    \"SubjectOfTest\": \"d\",\r\n    \"Result\": \"Not \",\r\n    \"ImageOfScan\": \"000\",\r\n    \"Date_TimeOfUpload\": \"2024-11-28T10:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_tests/12345/14/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_tests",
+						"12345",
+						"14",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Medical Test",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/medical_tests/12345/4/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"medical_tests",
+						"12345",
+						"4",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Doctor History",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PatientNatID\": \"12345\",\r\n    \"DoctorNatID\": \"54321\",\r\n    \"start_date\": \"2024-12-28\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/treated_by/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"treated_by",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Doctor History",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/treated_by/12345/54321/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"treated_by",
+						"12345",
+						"54321",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Doctor History",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PatientNatID\": \"12345\",\r\n    \"DoctorNatID\": \"54321\",\r\n    \"start_date\": \"2024-11-17\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/treated_by/12345/54321/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"treated_by",
+						"12345",
+						"54321",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Doctor History",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/pmrm/treated_by/12345/54321/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"pmrm",
+						"treated_by",
+						"12345",
+						"54321",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
