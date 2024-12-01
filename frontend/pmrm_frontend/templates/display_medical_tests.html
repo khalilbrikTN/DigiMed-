@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetched Medical Conditions</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Additional Inline CSS for Specific Styling */
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00509e;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .styled-table thead {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #f1f5ff;
+            cursor: pointer;
+        }
+
+        .styled-table th {
+            text-align: center;
+        }
+
+        .styled-table td {
+            text-align: center;
+        }
+
+        /* Center alignment for no-data message */
+        .no-data {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+    </style>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Medical Tests</h1>
+        </header>
+        <main class="main">
+            {% if medical_tests %}
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Patient National ID</th>
+                                <th>Test ID</th>
+                                <th>Test Type</th>
+                                <th>Subject of Test</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in medical_tests %}
+                                <tr>
+                                    <td>{{ test.PatientNatID }}</td>
+                                    <td>{{ test.TestID }}</td>
+                                    <td>{{ test.Test_Type }}</td>
+                                    <td>{{ test.SubjectOfTest }}</td>
+                                    <td>{{ test.Result }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No medical tests found.</p>
+            {% endif %}
+        </main>
+    </div>
+    <div style="margin-top: 20px;">
+        <button class="btn back-btn" onclick="history.back()">Back</button>
+    </div>
+</body>
+</html>

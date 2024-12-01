@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit History</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00509e;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .styled-table thead {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #f1f5ff;
+            cursor: pointer;
+        }
+
+        .styled-table th {
+            text-align: center;
+        }
+
+        .styled-table td {
+            text-align: center;
+        }
+
+        .no-data {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Visit History</h1>
+        </header>
+        <main class="main">
+            {% if treated_by %}
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Patient National ID</th>
+                                <th>Doctor National ID</th>
+                                <th>Start Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in treated_by %}
+                                <tr>
+                                    <td>{{ record.PatientNatID }}</td>
+                                    <td>{{ record.DoctorNatID }}</td>
+                                    <td>{{ record.start_date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No visit history found.</p>
+            {% endif %}
+        </main>
+    </div>
+    <div style="margin-top: 20px;">
+        <button class="btn back-btn" onclick="history.back()">Back</button>
+    </div>
+</body>
+</html>

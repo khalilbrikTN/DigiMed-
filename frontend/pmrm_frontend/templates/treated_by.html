@@ -6,19 +6,74 @@
     <title>Treated By</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+
+        .messages .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .messages .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .back-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <button class="btn back-btn" onclick="location.href='/'">Back to Main Menu</button>
             <h1>Manage Visit History</h1>
         </header>
         <main class="main">
+            <!-- Display messages -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
             <!-- Fetch Specific Treated By -->
             <div id="fetch-treated-by">
                 <section class="form-section">
                     <h2>Display Visit History</h2>
-                    <form id="fetch-form" action="/treated_by/" method="get" class="form">
+                    <form id="fetch-form-treated-by" action="/treated_by/" method="get" class="form">
                         <div class="input-wrapper">
                             <label for="fetch_patient_nat_id">Patient National ID:</label>
                             <input type="text" id="fetch_patient_nat_id" name="patient_nat_id" required placeholder="e.g., 123456789">
@@ -27,11 +82,11 @@
                             <label for="fetch_doctor_nat_id">Doctor National ID:</label>
                             <input type="text" id="fetch_doctor_nat_id" name="doctor_nat_id" required placeholder="e.g., 987654321">
                         </div>
-                        <button type="submit" id="fetch-btn" class="btn">Fetch</button>
+                        <button type="submit" id="fetch-btn-treated-by" class="btn">Fetch</button>
                     </form>
                 </section>
             </div>
-
+            
             <!-- Add Treated By -->
             <div id="add-treated-by">
                 <section class="form-section">
@@ -48,7 +103,7 @@
                         </div>
                         <div class="input-wrapper">
                             <label for="add_start_date">Start Date (YYYY-MM-DD):</label>
-                            <input type="text" id="add_start_date" name="start_date" required placeholder="e.g., 2023-01-01">
+                            <input type="date" id="add_start_date" name="start_date" required>
                         </div>
                         <button type="submit" class="btn">Add</button>
                     </form>
@@ -72,7 +127,7 @@
                         </div>
                         <div class="input-wrapper">
                             <label for="update_start_date">Updated Start Date (YYYY-MM-DD):</label>
-                            <input type="text" id="update_start_date" name="start_date" placeholder="e.g., 2023-01-01">
+                            <input type="date" id="update_start_date" name="start_date">
                         </div>
                         <button type="submit" class="btn">Update</button>
                     </form>
@@ -99,8 +154,10 @@
                 </section>
             </div>
         </main>
+        <div style="margin-top: 20px;">
+            <button class="btn back-btn" onclick="history.back()">Back</button>
+        </div>
     </div>
-
     <!-- JavaScript -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -119,7 +176,7 @@
                 if (deleteSection) deleteSection.style.display = "none";
             }
         });
-        
+
     document.addEventListener('DOMContentLoaded', () => {
         const formSections = document.querySelectorAll('.form-section');
 

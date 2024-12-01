@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operation Status</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .status-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-container.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-container.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-message {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-container {{ status }}">
+        <h1>{{ message }}</h1>
+        <button class="btn back-btn" onclick="history.back()">Back</button>
+    </div>
+</body>
+</html>

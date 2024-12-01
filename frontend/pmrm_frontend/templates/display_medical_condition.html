@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetched Medical Conditions</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Additional Inline CSS for Specific Styling */
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00509e;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .styled-table thead {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #f1f5ff;
+            cursor: pointer;
+        }
+
+        .styled-table th {
+            text-align: center;
+        }
+
+        .styled-table td {
+            text-align: center;
+        }
+
+        /* Center alignment for no-data message */
+        .no-data {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Your Medical Conditions</h1>
+        </header>
+        <main class="main">
+            {% if medical_conditions %}
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Patient National ID</th>
+                                <th>Medical Condition</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if medical_conditions.PatientNatID %}
+                                <tr>
+                                    <td>{{ medical_conditions.PatientNatID }}</td>
+                                    <td>{{ medical_conditions.MedCondition }}</td>
+                                    <td>{{ medical_conditions.Notes }}</td>
+                                </tr>
+                            {% else %}
+                                {% for condition in medical_conditions %}
+                                    <tr>
+                                        <td>{{ condition.PatientNatID }}</td>
+                                        <td>{{ condition.MedCondition }}</td>
+                                        <td>{{ condition.Notes }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="no-data">
+                    <p>No medical conditions found.</p>
+                </div>
+            {% endif %}
+        </main>
+        <div style="margin-top: 20px;">
+            <button class="btn back-btn" onclick="history.back()">Back</button>
+        </div>
+    </div>
+</body>
+</html>
