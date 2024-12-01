@@ -9,3 +9,5 @@ Class Diagram: https://drive.google.com/file/d/1sI83ELJi7gnxw4XNAGurVDeHJS021Hey
 ERD: https://app.diagrams.net/#G14uB3ZGZ4ceFkZOE8RFXYKZ3OLMko5kMW#%7B%22pageId%22%3A%22zpvAyvCil1YLx0Encv-B%22%7D  
 
 Jira: https://digi-med.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog?atlOrigin=eyJwIjoiaiIsImkiOiIwMmFmNzNkNDA3N2E0MGZlOWMzZDMwYjE0Zjk1MzY3YiJ9&cloudId=3a9f1d6b-2b12-4e35-9fb5-b390e18a6c95
+
+SRS: https://docs.google.com/document/d/1fTKJMXiEJAw4mrBF9E65y_HXFK2U9peurB-yiUpWCEw/edit?usp=sharing 
