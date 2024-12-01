@@ -8,7 +8,7 @@ Class Diagram: https://drive.google.com/file/d/1sI83ELJi7gnxw4XNAGurVDeHJS021Hey
 
 Sequence Diagram: https://drive.google.com/file/d/1c1JSYX5tDZMgJI_oN18N-SUvz8G1-dry/view?usp=sharing 
 
-ERD: https://app.diagrams.net/#G14uB3ZGZ4ceFkZOE8RFXYKZ3OLMko5kMW#%7B%22pageId%22%3A%22zpvAyvCil1YLx0Encv-B%22%7D  
+ERD: https://drive.google.com/file/d/14uB3ZGZ4ceFkZOE8RFXYKZ3OLMko5kMW/view?usp=sharing 
 
 Jira: https://digi-med.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog?atlOrigin=eyJwIjoiaiIsImkiOiIwMmFmNzNkNDA3N2E0MGZlOWMzZDMwYjE0Zjk1MzY3YiJ9&cloudId=3a9f1d6b-2b12-4e35-9fb5-b390e18a6c95
 
